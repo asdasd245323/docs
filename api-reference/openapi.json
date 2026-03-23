@@ -2240,6 +2240,167 @@
           }
         }
       }
+    },
+    "/projects/{project}/subscriptionChanges": {
+      "get": {
+        "summary": "List all subscription changes",
+        "operationId": "subscriptionChangesList",
+        "tags": [
+          "Subscription Changes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "subscription",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of subscription changes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionChangeList"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a subscription change",
+        "operationId": "subscriptionChangesCreate",
+        "tags": [
+          "Subscription Changes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubscriptionChange"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the newly created subscription change.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionChange"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/subscriptionChanges/{subscriptionChange}": {
+      "get": {
+        "summary": "Retrieve a subscription change",
+        "operationId": "subscriptionChangesRetrieve",
+        "tags": [
+          "Subscription Changes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/subscriptionChange"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the subscription change if it exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionChange"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a subscription change",
+        "operationId": "subscriptionChangesDelete",
+        "tags": [
+          "Subscription Changes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/subscriptionChange"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the subscription change after a successful deletion.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionChange"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2360,6 +2521,16 @@
         "required": true,
         "description": "The unique identifier for the subscription add-on.",
         "example": "sad_0SNlurA049MEWV2UNWPbDfW5B40U",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "subscriptionChange": {
+        "name": "subscriptionChange",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the subscription change.",
+        "example": "sch_0SNlurA049MEWV3bE0SMtbIEJApp",
         "schema": {
           "type": "string"
         }
@@ -4253,6 +4424,136 @@
           "subscription": {
             "type": "string",
             "description": "Unique identifier of the subscription the add-on applies to."
+          }
+        }
+      },
+      "SubscriptionRequestedChange": {
+        "type": "object",
+        "properties": {
+          "plan": {
+            "type": "string",
+            "nullable": true
+          },
+          "sim": {
+            "type": "string",
+            "nullable": true
+          },
+          "when": {
+            "type": "string",
+            "enum": [
+              "now",
+              "renewal"
+            ],
+            "default": "renewal"
+          }
+        }
+      },
+      "SubscriptionChange": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "subscriptionChange"
+            ],
+            "description": "Type of object is always `subscriptionChange`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the subscription change."
+          },
+          "appliedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "failureCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "plan": {
+            "$ref": "#/components/schemas/Plan"
+          },
+          "requestedChange": {
+            "$ref": "#/components/schemas/SubscriptionRequestedChange"
+          },
+          "scheduledAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "sim": {
+            "$ref": "#/components/schemas/Sim"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "initiated",
+              "applied",
+              "failed",
+              "deleted"
+            ]
+          },
+          "subscription": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SubscriptionChangeList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubscriptionChange"
+            }
+          },
+          "moreItemsAfter": {
+            "type": "string",
+            "nullable": true
+          },
+          "moreItemsBefore": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateSubscriptionChange": {
+        "type": "object",
+        "required": [
+          "subscription"
+        ],
+        "properties": {
+          "plan": {
+            "type": "string",
+            "nullable": true
+          },
+          "sim": {
+            "type": "string",
+            "nullable": true
+          },
+          "subscription": {
+            "type": "string"
+          },
+          "when": {
+            "type": "string",
+            "enum": [
+              "now",
+              "renewal"
+            ],
+            "default": "renewal"
           }
         }
       }

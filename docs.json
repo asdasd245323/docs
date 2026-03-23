@@ -138,6 +138,15 @@
                   "api/gig-core-api/subscription-add-ons/retrieve-a-subscription-add-on",
                   "api/gig-core-api/subscription-add-ons/end-a-subscription-add-on"
                 ]
+              },
+              {
+                "group": "Subscription Changes",
+                "pages": [
+                  "api/gig-core-api/subscription-changes/list-all-subscription-changes",
+                  "api/gig-core-api/subscription-changes/create-a-subscription-change",
+                  "api/gig-core-api/subscription-changes/retrieve-a-subscription-change",
+                  "api/gig-core-api/subscription-changes/delete-a-subscription-change"
+                ]
               }
             ]
           },
