@@ -11,21 +11,80 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Reference",
         "groups": [
           {
             "group": "Getting started",
+            "pages": ["index", "quickstart", "development"]
+          },
+          {
+            "group": "Explore the API",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "api/introduction",
+              "api/authentication",
+              "api/compatibility",
+              "api/error-codes",
+              "api/error-handling",
+              "api/idempotent-requests",
+              "api/open-api",
+              "api/pagination",
+              "api/rate-limiting"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Devices",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "api/gig-core-api/devices/list",
+              "api/gig-core-api/devices/create",
+              "api/gig-core-api/devices/retrieve",
+              "api/gig-core-api/devices/delete",
+              "api/gig-core-api/devices/update",
+              "api/gig-core-api/devices/search",
+              "api/gig-core-api/devices/device-model-brands",
+              "api/gig-core-api/devices/device-model-retrieve",
+              "api/gig-core-api/devices/device-model-search",
+              "api/gig-core-api/devices/device-model-list"
+            ]
+          },
+          {
+            "group": "Network Availabilities",
+            "pages": ["api/gig-core-api/network-availabilities"]
+          },
+          {
+            "group": "Plans",
+            "pages": [
+              "api/gig-core-api/plans/list",
+              "api/gig-core-api/plans/retrieve",
+              "api/gig-core-api/plans/update",
+              "api/gig-core-api/plans/archive",
+              "api/gig-core-api/plans/publish",
+              "api/gig-core-api/plans/search",
+              "api/gig-core-api/plans/list-documents",
+              "api/gig-core-api/plans/retrieve-document"
+            ]
+          },
+          {
+            "group": "Add-ons",
+            "pages": [
+              "api/gig-core-api/add-ons/add-ons",
+              "api/gig-core-api/add-ons/retrieve",
+              "api/gig-core-api/add-ons/update",
+              "api/gig-core-api/add-ons/archive",
+              "api/gig-core-api/add-ons/publish"
+            ]
+          },
+          {
+            "group": "Portings",
+            "pages": [
+              "api/gig-core-api/portings/list",
+              "api/gig-core-api/portings/create",
+              "api/gig-core-api/portings/retrieve",
+              "api/gig-core-api/portings/delete",
+              "api/gig-core-api/portings/update",
+              "api/gig-core-api/portings/cancel",
+              "api/gig-core-api/portings/search",
+              "api/gig-core-api/portings/list-providers",
+              "api/gig-core-api/portings/retrieve-provider"
             ]
           },
           {
@@ -52,9 +111,7 @@
         "groups": [
           {
             "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
+            "pages": ["api-reference/introduction"]
           },
           {
             "group": "Endpoint examples",
@@ -64,6 +121,53 @@
               "api-reference/endpoint/delete",
               "api-reference/endpoint/webhook"
             ]
+          }
+        ]
+      },
+      {
+        "tab": "Guides",
+        "groups": [
+          { "group": "Subcription", "pages": ["guides/create-subscription"] },
+          {
+            "group": "Billing",
+            "pages": [
+              "guides/billing/billing-users",
+              "guides/billing/delinquency-management",
+              "guides/billing/plan-upgrades",
+              "guides/billing/vouchers-and-discounts"
+            ]
+          },
+          {
+            "group": "Connect",
+            "pages": [
+              {
+                "group": "Connect sessions",
+                "pages": [
+                  "guides/connect/about",
+                  "guides/connect/create-sessions",
+                  "guides/connect/disable-hosted-login",
+                  "guides/connect/example-purchasing-managing",
+                  "guides/connect/intent-cancel-subscription",
+                  "guides/connect/intent-change-subscription",
+                  "guides/connect/intent-checkout-addon",
+                  "guides/connect/intent-checkout-new-subscription",
+                  "guides/connect/intent-complete-porting",
+                  "guides/connect/intent-confirm-payment",
+                  "guides/connect/intent-resume-subscription",
+                  "guides/connect/intent-update-payment-method",
+                  "guides/connect/intent-update-user-address",
+                  "guides/connect/intent-update-user-full-name",
+                  "guides/connect/intent-view-esim-installation",
+                  "guides/connect/intent-view-subscription",
+                  "guides/connect/intent-view-subscriptions",
+                  "guides/connect/linking-back-to-app"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Core",
+            "pages": ["guides/core/activate-physical-sims"]
           }
         ]
       }
@@ -87,6 +191,7 @@
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
   },
+  "openapi": "api-reference/openapi.json",
   "navbar": {
     "links": [
       {
@@ -102,15 +207,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {

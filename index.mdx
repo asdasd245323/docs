@@ -1,97 +1,95 @@
 ---
 title: "Introduction"
-description: "Welcome to the new home for your documentation"
+description: "Gigs is the easiest way to offer wireless subscriptions for smartphones and wearables. Our API allows you to manage mobile plans for your customers with ease."
 ---
 
-## Setting up
-
-Get your documentation site up and running in minutes.
-
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="API Reference" icon="terminal" href="/api-reference/introduction" horizontal>
+    Browse all endpoints
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Guides" icon="code" href="/quickstart" horizontal>
+    Learn how to integrate Gigs
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## Getting started
 
-Everything you need to create world-class documentation.
+To get started, create a new application in your developer settings, then read about how to make requests for the resources you need to access using our HTTP API.
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+[Get your API key →](/quickstart)
 
-## Need inspiration?
+## Concepts
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<CardGroup cols={3}>
+  <Card title="Authentication" icon="leaf">
+    Learn how to authenticate your API requests.
+
+    <br />
+    <br />
+    [Read more →](/api-reference/introduction#authentication)
+  </Card>
+  <Card title="Pagination" icon="terminal">
+    Understand how to work with paginated resources.
+
+    <br />
+    <br />
+    [Read more →](/api-reference/introduction)
+  </Card>
+  <Card title="Error Codes" icon="code">
+    Read about the different type of unexpected errors returned by the API
+
+    <br />
+    <br />
+    [Read more →](/api-reference/introduction)
+  </Card>
+</CardGroup>
+
+## API Resources
+
+<CardGroup cols={3}>
+  <Card title="Add-ons" icon="pen-to-square">
+    Learn more about how to work with Addons, which are additional services that can be added to a subscription.
+  </Card>
+  <Card title="Devices" icon="terminal">
+    Learn more about how to create and manage Devices.
+  </Card>
+  <Card title="Network Availability" icon="map">
+    Learn more about how to work with Network Availability, which provide the signal strength for a given location.
+  </Card>
+  <Card title="Plans" icon="stars">
+    Learn more about Plans, provider, subscription allowances and price for a given subscription.
+  </Card>
+  <Card title="Porting" icon="terminal">
+    Learn more about how to manage requests to port-in a phone number from another provider.
+  </Card>
+  <Card title="Port Out" icon="terminal">
+    Learn more about how to manage requests to port-out a phone number to another provider.
+  </Card>
+  <Card title="Projects" icon="map">
+    Learn more about how to manage Projects, an abstraction to organize your resources.
+  </Card>
+  <Card title="SIM Cards" icon="code">
+    Learn more about how to list, search for and retrieve SIM cards within a given project.
+  </Card>
+  <Card title="Subscriptions" icon="leaf">
+    Learn more about how to list, create and manage subscriptions in order to manage connectivity on a provider network.
+  </Card>
+  <Card title="Subscription Add-ons" icon="pen-to-square">
+    Learn more about how to manage Addons on a given subscription.
+  </Card>
+  <Card title="Subscription Changes" icon="recycle">
+    Learn more about how to manage planned changes starting with existing subscription.
+  </Card>
+  <Card title="Usage" icon="code">
+    Learn more about how to fetch usage data for a given subscription.
+  </Card>
+  <Card title="Usage Balances" icon="image">
+    Learn more about how to retrieve Usage Balances, which track consumption against allowances for a given subscription.
+  </Card>
+  <Card title="Users" icon="map">
+    Learn more about how to create, manage and search for users within a project.
+  </Card>
+  <Card title="User Addresses" icon="terminal">
+    Learn more about how to create and manage user addresses.
+  </Card>
+</CardGroup>

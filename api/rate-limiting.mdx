@@ -1,0 +1,21 @@
+---
+title: "Rate limiting"
+---
+
+The Gigs API is designed to accommodate the vast majority of integration patterns without imposing rate limits. We reserve rate limiting for extreme cases where request volume threatens the stability of the platform for all customers. In practice, most integrations will never encounter rate limiting. If you're building a typical integration that creates and manages subscriptions you're unlikely to hit any limits during normal operation.
+
+## When rate limiting applies
+
+Rate limiting may be applied when we detect request patterns that could impact platform health, such as:
+
+- Unusually high request volume in a short period
+- Runaway scripts or retry loops
+- Bulk operations without appropriate pacing
+
+If your requests are rate limited, you’ll receive a 429 Too Many Requests HTTP response with type set to tooManyRequests. Limits typically reset within one minute. We recommend implementing a retry mechanism with exponential backoff and random jitter to handle such responses.
+
+## Current limitations
+
+We don't currently provide specific rate limit thresholds or headers indicating remaining quota and reset times. This is on our roadmap.
+
+If you're planning a bulk operation or anticipate unusual traffic patterns, [contact us](mailto:support@gigs.com) in advance. We're happy to work with you to ensure your integration runs smoothly.

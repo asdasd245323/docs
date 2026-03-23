@@ -1,0 +1,21 @@
+---
+title: "Idempotent requests"
+---
+
+Gigs API endpoints support [idempotence](https://en.wikipedia.org/wiki/Idempotence) to allow requests to be retried without fear of the same operation occurring multiple times. When creating or updating resources, provide an `Idempotency-Key` header with the request. Then if anything goes wrong, you can safely resend the same request without risk of duplication.
+
+Idempotency keys should be unique, client-generated values of at most 255 characters. You can use any kind of string as an idempotency key, though we recommend using something with sufficiently high entropy to avoid collisions (e.g. UUIDv4).
+
+```bash Idempotency key example - cURL
+curl --url "https://api.gigs.com/projects/${GIGS_PROJECT}/users" \
+  --header "Idempotency-Key: some-unique-generated-value" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --data '{"email": "art.vandelay@example.com"}'
+```
+
+Idempotency works by storing the resulting status code and body of the first successful request made for a given idempotency key. Subsequent requests with the same key return the same result for up to 24 hours.
+
+Only successful (HTTP codes lower than `400`) requests are stored. Failed requests may be retried with the same idempotency key. Note that in the case of `500` errors, while we strive to keep internal failures free of side-effects, we cannot always guarantee safe retries in the case of a potentially unknown error.
+
+All `POST` and `DELETE` requests accept idempotency keys. There is no need to send idempotency keys for `GET`, `PUT`, or `PATCH` requests as these are idempotent by definition. Sending a key with such a request has no effect, but is not an error.

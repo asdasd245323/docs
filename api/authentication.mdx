@@ -1,0 +1,51 @@
+---
+title: "Authentication"
+---
+
+Authentication against the Gigs API is done using simple static API keys. Your
+organization can have one or more projects (e.g. `production`, `test`,
+`experiment`) and each will come with its own set of unique API keys.
+
+Please contact us to set up projects in your organization: [support@gigs.com](mailto:support@gigs.com).
+
+## Getting an API key
+
+API keys can be managed in the [developers section of the Gigs Dashboard](https://dashboard.gigs.com/developers).
+We highly recommend rotating API keys regularly and creating them with an expiration date.
+
+<Warning>
+  **Security**
+
+  An API key provides full access to all the data in a project.
+  Please keep your API key secret at all times, don't hardcode it in code
+  repositories and don't share it with others.
+</Warning>
+
+## Using an API key
+
+Your API key is used as `Bearer` token in the `Authorization` header of your request, for example:
+
+```shell Authentication example - cURL
+curl --request "GET" \
+  --url "https://api.gigs.com/projects/${GIGS_PROJECT}/sims" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+## Error handling
+
+If the token is missing, expired, or if there's anything else wrong with the
+authentication or authorization of the request, you will receive a 401 HTTP response.
+
+For example, here's the response you'd get if you lost a character while copy-pasting your
+token:
+
+```json
+{
+  "object": "error",
+  "message": "Invalid authorization token",
+  "type": "unauthenticated"
+}
+```
+
+Check our section on [error handling](/api/error-handling) for more information.

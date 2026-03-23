@@ -1,0 +1,92 @@
+---
+title: "Subscription Plan Upgrades"
+description: "Plan upgrades move subscriptions to plans with higher limits or better features, giving users access to additional functionality as requested."
+---
+
+Plan upgrades are either immediate or scheduled. Immediate upgrades take effect as soon as payment is completed, while scheduled upgrades take effect at the next renewal period.
+When the Billing API is enabled, upgrades automatically generate invoices to charge users for the new plan.
+
+## Immediate plan upgrades
+
+Immediate upgrades generate an invoice for the price difference between plans, without any prorations. You collect the payment from users, having full control of the collection process.
+The user has access to full allowance of the new plan as soon as the invoice is paid.
+
+### Create a subscription change for immediate upgrade
+
+Create a [subscription change](/api/projects/${GIGS_PROJECT}/subscriptionChanges) with `"when": "now"` and the new plan ID.
+
+```bash Creating a subscription change for an immediate upgrade
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptionChanges" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+    "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+    "when": "now"
+  }'
+```
+
+An invoice is generated immediately. The subscription change remains in `initiated` status until the invoice is paid.
+
+### Collect the invoice payment
+
+After receiving a successful response on subscription change creation, the invoice is already available. Get the invoice by [listing invoices](/api/projects/${GIGS_PROJECT}/invoices) filtered by the subscription change.
+
+```bash Getting the invoice for a subscription change
+curl --request GET \
+  --url "/api/projects/${GIGS_PROJECT}/invoices?subscriptionChange=sch_0SNlurA049MEWV3bE0SMtbIEJApp" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+Alternatively, subscribe to the `invoice.finalized` [event](/events/schemas/com.gigs.invoice.finalized), which is triggered as soon as the subscription change is created.
+
+Payment collection is fully under your control. Process the payment using your preferred method.
+
+### Pay the invoice
+
+After confirming successful payment, you need to mark the invoice as [paid](/api/projects/${GIGS_PROJECT}/invoices/inv_0SNlurA049MEWV1QTRqvd18YuG25/pay).
+
+```bash Marking an invoice as paid
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/invoices/inv_0SNlurA049MEWV1QTRqvd18YuG25/pay" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+This results in the subscription change being `applied`, giving the user access to the new plan. Failing to mark the invoice as paid leaves the immediate subscription change in `initiated` status indefinitely.
+
+## Scheduled plan upgrades
+
+Scheduled upgrades take effect at the next renewal period. The renewal invoice reflects the new plan price.
+
+### Create a subscription change for scheduled upgrade
+
+Create a [subscription change](/api/projects/${GIGS_PROJECT}/subscriptionChanges) and specify the new plan to schedule the upgrade.
+
+```bash Scheduling a subscription change for a plan upgrade
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptionChanges" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+    "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+    "when": "renewal"
+  }'
+```
+
+The subscription change remains in `pending` status until renewal.
+
+## Scheduled plan upgrades with advanced invoicing
+
+When invoicing users in advance and scheduling a subscription change, the billing behavior depends on the timing and existing invoice status:
+
+- **Scheduling the subscription change before the invoicing window:** The upcoming period invoice is created with the new plan price.
+- **Scheduling the subscription change with an unpaid invoice for the upcoming period:** The invoice with the original plan price is voided, and a new invoice is generated for the full upgraded plan price.
+- **Scheduling the subscription change with an existing paid invoice:** A new invoice is created for the price difference between the current and upgraded plans. The subscription change stays in `initiated` status until the invoice is paid. The upgrade will only take effect at the next renewal if this payment is complete.
+
+This ensures users are charged correctly for the plan upgrade and that your invoicing remains consistent.

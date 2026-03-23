@@ -1,0 +1,54 @@
+---
+title: "Pagination"
+---
+
+All core API resources provide a list endpoint to fetch resource items in bulk.
+For example you can [list plans](/api/latest/core/plans), [list subscriptions](/api/latest/core/subscriptions), or [list users](/api/latest/core/users).
+All list endpoints share a common interface with three list related HTTP query
+parameters: `after`, `before`, and `limit`, as well as a common JSON response
+format.
+
+### Parameters
+
+<ParamField query="after" type="string">
+  A cursor for use in pagination. The `after` parameter takes an object ID that defines the position in the list, only items immediately following the item with that ID will be returned.
+</ParamField>
+
+<ParamField query="before" type="string">
+  A cursor for use in pagination. The `before` parameter takes an object ID that defines the position in the list, only items immediately preceding the item with that ID will be returned.
+</ParamField>
+
+<ParamField query="limit" type="integer" default="10">
+  The limit of items to be returned in the list, between 0 and 200.
+</ParamField>
+
+Gigs provides a cursor-based pagination approach via the `after` / `before`
+parameters. Either parameter takes an existing item ID and will return items
+after / before the given item ID. The parameters are mutually exclusive, only
+one of them may be used at the same time. All list responses include
+`moreItemsAfter` and `moreItemsBefore` attributes which indicate whether more
+items are available after or before the current batch of items and which ID to
+use in the parameters.
+
+```json
+{
+  "object": "list",
+  "items": [
+    {...},
+    {...},
+    {...},
+    {...},
+    {
+      "object": "sim",
+      "id": "01G7PFYGYN8WC45QG5GVF8V07V",
+      "iccid": "89424242426525615846",
+      "provider": "test",
+      "status": "inactive",
+      "type": "eSIM",
+      "createdAt": "2022-07-11T11:22:40Z"
+    }
+  ],
+  "moreItemsAfter": "01G7PFYGYN8WC45QG5GVF8V07V",
+  "moreItemsBefore": null
+}
+```

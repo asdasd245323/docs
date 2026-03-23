@@ -1,0 +1,102 @@
+---
+title: "Vouchers and Discounts"
+description: "Vouchers and discounts allow you to offer promotions and reduce subscription costs for your users."
+---
+
+## Overview
+
+You can use vouchers to apply discounts to new subscriptions. The voucher needs to be created beforehand and can be applied to one or more subscriptions that need the same discount.
+
+Vouchers can be configured to discount the first invoice, every invoice or all invoices created within a certain time period by configuring their recurrence.
+
+When a voucher is applied to a subscription, the resulting discount will be available in the subscription billing details.
+
+In order to use vouchers, [Billing Users](/guides/billing/billing-users) has to be enabled.
+
+## Validity
+
+Once a voucher is created, it can be used as a blueprint that applies the specified discount to all invoices for a subscription.
+
+If the voucher has a limited recurrence, invoices of a subscription will only use the voucher for the duration of the specified recurrence window. For example, if a voucher is specified to be valid for three months, once the voucher is used for a subscription, all invoices created within those three months will have a discount, regardless of the plan period.
+
+Once the recurrence window is exhausted, invoices won’t have a voucher applied to them anymore and thus will have the full amount.
+
+## Using Vouchers to apply Discounts
+
+### Creating a new Voucher
+
+In order to apply a discount for a new subscription, a voucher needs to be created first. The voucher can be used once or for every subscription requiring the same discount. When creating a voucher, you can specify either a fixed discount amount or a percentage discount.
+
+The recurrence indicates the discount validity. It can be either `once` for the first invoice, `forever` for every invoice or `repeating` for all invoices created during a certain time range.
+
+```bash Creating a Voucher
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/vouchers" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "name": "Monthly Basic",
+    "priceDiscountPercentage": 10,
+    "recurrence":{
+        "type": "repeating",
+        "durationInMonths": 3
+    }
+  }'
+```
+
+The [returned voucher's ID](/api/billing/schemas/voucher) can then be used during subscription or quote creation.
+
+### Using a Voucher
+
+A voucher can be used to apply discounts to either quotes or subscriptions.
+
+#### For a new Quote
+
+In order to apply a discount to a quote, a voucher ID needs to be specified during quote creation. Note that creating a quote with a voucher does not increase the redemption count of a voucher.
+
+```bash Creating a Quote with a Voucher
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/quotes" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+    "voucher": "vou_0SNlurA049MEWV0h2jfjkdiOdplN"
+  }'
+```
+
+#### For a new Subscription
+
+To use a discount for a new subscription, a voucher ID needs to be specified in the billing details when creating the subscription.
+
+```bash Creating a Subscription with a Voucher
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptions" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+    "billing": {
+      "discount": {
+        "voucher": "vou_0SNlurA049MEWV0h2jfjkdiOdplN"
+      }
+    }
+  }'
+```
+
+### Retiring a Voucher
+
+A voucher can be retired so that it can no longer be used when creating a subscription. Retiring a voucher does not have any effect on any subscriptions that are already using it. The response will contain the updated voucher with a `retiredReason` set and its status updated.
+
+```bash Retiring a Voucher
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/vouchers/vou_0SNlurA049MEWV0h2jfjkdiOdplN/retire" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json"
+```

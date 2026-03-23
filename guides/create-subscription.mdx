@@ -1,0 +1,289 @@
+---
+title: "Create a subscription"
+description: "In the following guide, we will walk through how you can get up and running quickly, integrating the Core Gigs API into your own product."
+---
+
+By the time we're finished, you will have used our API to create a new Gigs subscription. Let's get started!
+
+## Prerequisites
+
+In order to complete this guide, you'll need to have a valid API key, and contacted us to create an organization with your first [project](/core/projects#list-all-projects) and [plan](/core/plans#list-all-plans). If you're missing any of these, please reach out to [support@gigs.com](mailto:support@gigs.com) for assistance.
+
+## Overview
+
+We will be walking through the process of creating a new [user](/core/users#list-all-users) and associated [address](/core/user-addresses#list-all-user-addresses). Then using this new user, along with an `eSIM` compatible plan associated to your project we will be able to setup a new [subscription](/core/subscriptions#list-all-subscriptions).
+
+### Creating a User
+
+We can create a user by sending a `POST` request to the `/users` [endpoint](/core/users#create-a-user). In this walkthrough, we'll do this using `cURL`:
+
+```bash Creating a user
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/users" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "email": "jerry@example.com",
+    "fullName": "Jerry Seinfeld"
+  }'
+```
+
+#### Request info
+
+In the above example, `${GIGS_PROJECT}` is the unique identifier for the project the user will be associated with. `${GIGS_TOKEN}` is the API key for [authorizing](/api/authentication) your request.
+
+If the request is successful, you should receive a response like this:
+
+```json A successful response
+{
+  "object": "user",
+  "id": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+  "birthday": null,
+  "email": "jerry@example.com",
+  "emailVerified": false,
+  "fullName": "Jerry Seinfeld",
+  "preferredLocale": "en-US",
+  "createdAt": "2021-12-07T09:31:39Z"
+}
+```
+
+Be sure to hold on to the user `id`, as we'll need it going forward.
+
+<Note>
+**Creating a user - troubleshooting**
+
+If you've run into issues creating your user, you can [review our docs](/core/users#create-a-user) or reach out to [support@gigs.com](mailto:support@gigs.com) for assistance.
+</Note>
+
+### Selecting a Plan
+
+Now that we've created a user, we need to select a plan.
+
+To find one, we can list the plans for our project by making an API request to the `/plans` [endpoint](/core/plans#list-all-plans). Because we are interested in creating a subscription for an `eSIM`, we can filter the plans by `simType`, returning only those with `eSIM` compatibility:
+
+```bash Listing eSIM plans
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/plans?simType=eSIM" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+You should receive a successful response back from the API listing the `eSIM`-compatible plans in your project:
+
+```json eSIM-compatible plans
+{
+  "object": "list",
+  "items": [
+    {
+      "object": "plan",
+      "id": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+      "name": "Gigs Global",
+      "description": "A data plan you will love! Operates in most countries of the world.",
+      "allowances": {
+        "dataBytes": 10000000000,
+        "voiceSeconds": 30000,
+        "smsMessages": 100
+      },
+      "price": {...},
+      "provider": "p9",
+      "requirements": {"address": "present"},
+      "simTypes": ["eSIM"],
+      "status": "active"
+    }
+  ]
+}
+```
+
+While we have shortened the above response body for brevity, you can choose whichever plan you'd like from the list. In this case, we'll save the id of the first plan we received (`"pln_0SNlurA049MEWV3V0q7gjQbM4EVo"`). You can view the full response from `GET /plans` by navigating to the following API documentation: [list all plans](/core/plans#list-all-plans).
+
+Note that different providers might have distinct requirements. In the example above, the plan response indicates that only a user address is needed. In other cases, different information might be requested, such as device details or user name.
+
+<Info>
+**Selecting a plan**
+
+Should the `/plans` return no data, ensure that you are requesting data for the right `project`. This endpoint supports additional query parameters such as `status` and [pagination](/api/pagination) for an improved query experience. A full list of supported query parameters is presented in the following [documentation](/core/plans#list-all-plans).
+</Info>
+
+### Creating a User Address
+
+As explained above, a user address is not required in all cases. It is only required when the plan associated to the user's subscription needs it. From the above plan response, we can see that an address is required for `eSIM` plan `"pln_0SNlurA049MEWV3V0q7gjQbM4EVo"`. An address can be created for the new user with a `POST` to the `/users/{USER_ID}/addresses` [endpoint](/core/user-addresses#create-a-user-address). Where `USER_ID` is the id returned by the previous user create request: `"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"`
+
+```bash Creating a user address
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/users/${USER_ID}/addresses" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "line1": "129 West 81st Street",
+    "line2": "Apartment 5",
+    "city": "New York City",
+    "state": "NY",
+    "postalCode": "10024",
+    "country": "US"
+  }'
+```
+
+After creating the user address it will be returned in the response:
+
+```json User address response
+{
+  "object": "userAddress",
+  "id": "adr_0SNlurA049MEWV5ELDmnaqVXgTFT",
+  "city": "New York City",
+  "country": "US",
+  "line1": "129 West 81st Street",
+  "line2": "Apartment 5",
+  "postalCode": "10024",
+  "state": "NY",
+  "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+  "createdAt": "2021-01-21T19:38:34Z"
+}
+```
+
+### Creating a Subscription
+
+Now that we have a user, an address and a plan we can go ahead and create the subscription. We will do this with a `POST` to the `/subscriptions` API [endpoint](/core/subscriptions#create-a-subscription). Using the values obtained in the above examples:
+
+- `${USER_ID}` => `"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"`
+- `${ADDRESS_ID}` => `"adr_0SNlurA049MEWV5ELDmnaqVXgTFT"`
+- `${PLAN_ID}` => `"pln_0SNlurA049MEWV3V0q7gjQbM4EVo"`
+
+we can define a new request. As we are creating an `eSIM` subscription, we can pass `"auto"` in the `sim` property, as the SIM details will be provisioned for us during the subscription creation process. If we were trying to create a subscription with a physical SIM (`pSIM`), we would need to pass the specific [SIMS's](/core/sims#list-all-sims) details through in the subscription create request.
+
+To attempt to reuse a user's last used SIM when creating a subscription, pass `"preferLastUsed"` instead of `"auto"`.
+
+#### Reusing a SIM with `preferLastUsed`
+
+Setting `sim` to `"preferLastUsed"` reuses the user's most recently used SIM from an ended subscription. A SIM is eligible if:
+
+- The subscription ended within the last 90 days.
+- SIM status is `inactive`.
+- SIM provider matches the plan's provider.
+- SIM type (`eSIM` or `pSIM`) is compatible with the plan.
+- SIM has not been used by another user.
+- SIM is not in an active subscription or pending subscription change.
+
+Falls back to `"auto"` if no eligible SIM is found, though this fallback only applies to eSIM-capable plans. For plans requiring a physical SIM, subscription creation will fail if no eligible SIM is found.
+
+```bash Creating a subscription
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptions" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+    "sim": "auto",
+    "userAddress": "adr_0SNlurA049MEWV5ELDmnaqVXgTFT",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  }'
+```
+
+If the request was successful, you should receive a JSON response containing an subscription id, as well as references to related objects such as plan and user:
+
+```json Successful subscription response
+{
+  "object": "subscription",
+  "id": "sub_0U1WP6391FmqGW0gb3T3TGbsb8rW",
+  "currentPeriod": {...},
+  "phoneNumber": "+25411865216434",
+  "plan": {...},
+  "porting": null,
+  "sim": null,
+  "status": "pending",
+  "user": {...},
+  "userAddress": "adr_0SNlurA049MEWV5ELDmnaqVXgTFT",
+  "createdAt": "2021-01-21T19:32:13Z",
+  "activatedAt": null,
+  "canceledAt": null,
+  "endedAt": null,
+  "firstUsageAt": null
+}
+```
+
+A complete description of the successful response can be found in our [documentation](/core/subscriptions#create-a-subscription). Note that the in the above response the `sim` is `null` and the subscription has the `status` of `pending`.
+
+Depending on the network provider, it may take several minutes before the SIM is fully provisioned. In order to notify users as quickly as possible when their `eSIM` subscription is ready you should configure a webhook endpoint in the [developers section of the Gigs Dashboard](https://dashboard.gigs.com/developers), and consume the `com.gigs.subscription.activated` event.
+
+Note that activation times can vary from several minutes to several hours, and that subscriptions may not activate for even longer when [porting a number](/core/portings#create-a-porting).
+
+For more information on how to set up webhook endpoints, check our [events and webhooks guide](/docs/core/events/events-webhooks).
+
+Once the `sim` has been fully provisioned, the `status` of the `subscription` will change from `pending` to `active` and the `sim` object in the `subscription` response will be populated:
+
+```json GET subscription response
+{
+  "object": "subscription",
+  "id": "sub_0U1WP6391FmqGW0gb3T3TGbsb8rW",
+  "currentPeriod": {...},
+  "phoneNumber": "+25411865216434",
+  "plan": {...},
+  "porting": null,
+  "sim": {
+    "object": "sim",
+    "id": "sim_0U1WQria1FmqGW0nNQDxZqvrX7Nr",
+    "type": "eSIM",
+    "iccid": "89883070000007537119",
+    "provider": "p9",
+    "status": "active",
+    "createdAt": "2021-01-21T19:38:34Z"
+  },
+  "status": "active",
+  "user": {...},
+  "userAddress": "adr_0SNlurA049MEWV5ELDmnaqVXgTFT",
+  "createdAt": "2021-01-21T19:32:13Z",
+  "activatedAt": "2021-01-21T19:38:34Z",
+  "canceledAt": null,
+  "expiredAt": null
+}
+```
+
+A fully provisioned SIM will also have a `status` of `active`.
+
+### Activating an eSIM
+
+After the subscription setup is complete, the eSIM can be installed and activated on the device. There are three possible activation methods:
+
+- Using a QR-Code.
+- Manually entering the activation code.
+- Using the [Apple Universal Link for eSIM install](https://developer.apple.com/documentation/ios-ipados-release-notes/ios-ipados-17_5-release-notes/#eSIM) (only available on iOS devices with iOS 17.5 or later).
+
+This sensitive information is available under a separate [SIM credentials endpoint](/core/sims#retrieve-the-sim-credentials), by passing the SIM id returned above (`sim_0U1WQria1FmqGW0nNQDxZqvrX7Nr`). The response includes a `qrCodeUrl`, with an URL pointing to a hosted QR-Code that can be scanned by mobile devices to activate an `eSIM`. Alternatively, the `activationCode` provides the code that can be either manually entered within the device settings, or used to build the Apple Universal Link.
+
+With the Apple Universal Link, the user can simply click on the link to install the eSIM on their device, without having to enter the activation code manually or scan the QR-Code. The link can be built by appending the `activationCode` to a predefined URL as follows: `https://esimsetup.apple.com/esim_qrcode_provisioning?carddata=<activationCode>`. Be aware that the link can only be used once, so make sure no one but the user opens it.
+
+```bash Retrieve SIM credentials
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/sims/${SIM_ID}/credentials" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+```json SIM credentials response
+{
+  "object": "simCredentials",
+  "activationCode": "LPA:1$smdp.gigs.com$TEST-OUKOP-8JW6Y8B",
+  "qrCodeUrl": "https://files.gigs.com/qrcode/dev/6tu8ZcW5IBi.png",
+  "sim": "sim_0U1WQria1FmqGW0nNQDxZqvrX7Nr"
+}
+```
+
+In this case, we'll opt to open the `qrCodeUrl` in our browser (any device is possible) to render the QR code and open the camera app on our iOS device. When we scan the QR Code, we'll be prompted to add a Data Plan. Follow the instructions within iOS. Shortly after the data plan has been added, you should be able to see that network connectivity has been established.
+
+<Warning>
+**Activation Code Security**
+
+An eSIM can only be activated once, after which the code will no longer be accepted. In order to make the activation process as seamless as possible, there is no authentication in place for the `qrCodeUrl`. This means that you *must* treat this url with the utmost care. Inadvertently exposing this could result in the wrong person/device claiming the code and preventing your user from activating the card they purchased.
+</Warning>
+
+## Final Thoughts
+
+Great work! With just a few API calls, we were able to quickly create a subscription for an `eSIM` plan and establish connectivity for our user!
+
+If you want to see how users can port-in their existing numbers into their new subscription, check out our [porting guide](/porting/how-porting-in-works).
+
+#### We'd love your feedback!
+
+Thanks for making it this far and we hope this has given you a feel for how easy it is to get started offering connectivity within your own apps/services. Did you get stuck? Feel like something was confusing? [Let us know!](mailto:support@gigs.com)

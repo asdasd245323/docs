@@ -1,0 +1,164 @@
+---
+title: "Billing Users"
+description: "Gigs Billing is a flexible billing engine that you can use to bill your users."
+---
+
+When billing is enabled, subscriptions are managed through invoices. These invoices contain the final price to charge, including any taxes and fees, and can be collected using your own payment integration. You have full control over how you handle the collection process.
+
+### When to use Billing
+
+We designed Gigs Billing to allow you to:
+
+- Use our billing engine to manage your own payments
+- Stay compliant with U.S. tax regulations
+- Use Gigs Connect with your preferred payment provider
+
+## How Billing works
+
+When a subscription is created or renewed, an invoice is generated for the user. For new subscriptions, the invoice must be paid to activate the subscription, while for renewals, payment ensures continued service. You can subscribe to the `invoice.finalized` [event](/events/schemas/com.gigs.invoice.finalized) to trigger payment processing with your payment provider and notify us upon completion.
+
+### Quotes
+
+[Quotes](/billing/quotes) represent the amount a user will likely pay for a subscription period, including any taxes and fees.
+
+### Invoices
+
+[Invoices](/billing/invoices) represent the amount a user must pay for a subscription period, including any taxes and fees. They are automatically generated for billed subscriptions and can have one of the following statuses:
+
+| Status | Description | Possible Actions |
+| --- | --- | --- |
+| `draft` | The invoice is still being generated. | No action required. |
+| `finalized` | The invoice is awaiting payment. | Change its status to `paid`. |
+| `paid` | The invoice payment was collected. | No further action. |
+| `voided` | The invoice was canceled. | No further action. |
+
+### Credit Notes
+
+[Credit Notes](/billing/credit-notes) represent adjustments to a paid invoice. They are commonly used to represent refunds or credits, allowing you to reduce your taxes owed, and reflect them on invoice PDFs. While credit notes can cover the full amount of an invoice, certain taxes and fees may remain non-refundable and still need to be remitted to tax authorities.
+
+| Status | Description | Possible Actions |
+| --- | --- | --- |
+| `issued` | The credit note was created. | Change its status to `voided`. |
+| `voided` | The credit note was canceled. | No further action. |
+
+<Note>
+Credit notes are created with `creditTo: outOfBand` by default. 
+In exceptional cases like subscription restore, they use `creditTo: userBalance` and are handled automatically by Gigs without requiring any action from you.
+</Note>
+
+### Creating billed subscriptions
+
+Billing is configured at the time your project is created. Once enabled, creating a new subscription will automatically generate an invoice. The subscription will remain in the `initiated` status until the invoice is paid.
+
+#### Creating a subscription
+
+```bash Creating a billed subscription
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptions" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+    "sim": "auto",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  }'
+```
+
+Subscriptions don't contain references to their invoices, but you can easily find them by [listing invoices](/billing/invoices#list-all-invoices) filtered by subscription. To find the first invoice for a subscription, you can also filter by `reason` using the value `subscriptionCreation`. The first invoice is always created synchronously and you can assume it is available after receiving a successful response from the `subscriptions` endpoint.
+
+#### Finding the first invoice for a subscription
+
+```bash Finding an invoice
+curl --request GET \
+  --url "/api/projects/${GIGS_PROJECT}/invoices?subscription=sub_0SNlurA049MEWV2gSfSxi00xlPIi&reason=subscriptionCreation" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+### Previewing taxes and fees
+
+Before creating a subscription, you can [create a Quote](/billing/quotes#create-a-quote) to preview the total cost of a plan or add-on, including taxes and fees. This way you don't have to create a subscription to see the final price on the invoice.
+
+Depending on plan configuration in your project, you may be required to provide user's address to calculate the taxes. Consult the `address` field in `requirements` property of the [plan resource](/core/plans#the-plan-resource).
+
+#### Creating a Quote for a plan
+
+```bash Creating a quote
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/quotes" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+    "address": "adr_0SuxrVXR1PC5fj4Hrzy5TJp8BBlr"
+  }'
+```
+
+### Collecting payments for invoices
+
+The collection of payments for invoices is fully under your control. This is an asynchronous process that depends on the way you are handling them. Generally, for new subscriptions it's common to collect the initial payment when the subscription is created, while for renewals you would likely do it in response to our `invoice.finalized` [event](/events/schemas/com.gigs.invoice.finalized).
+
+You can distinguish between invoices for new subscriptions and renewals by checking the `reason` property.
+
+After confirming that the payment was successful, you need to mark the invoice as paid in Gigs. This action will trigger the activation process for new subscriptions or prevent the subscription from being ended on the next renewal.
+
+#### Marking an invoice as paid
+
+```bash Marking invoice as paid
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/invoices/inv_0SNlurA049MEWV1QTRqvd18YuG25/pay" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+<Info>
+When your integration does not require payment confirmation, you can configure invoices at the project level to automatically transition to `paid` when they are finalized. If the amount due on an invoice is zero (for example, because of a full discount or a free plan), the invoice automatically transitions to `paid` as well.
+</Info>
+
+### Failing to collect funds
+
+When an invoice is `finalized`, it is your responsibility to ensure that the payment is collected and the invoice is marked as `paid`. The consequences of not marking it as `paid` depend on the type of the invoice:
+
+- **For new subscriptions,** not marking the first invoice as `paid` results in the subscription remaining in the `initiated` status indefinitely, or until it is explicitly `ended`.
+- **For subscription renewals,** not marking the renewal invoice as `paid` will eventually prevent the subscription to renew according the behavior defined by your delinquency settings.
+
+By default, invoices for subscription renewals are issued after the subscription renews, but you can configure invoices to be issued several days before the renewal date instead.
+
+See our [Delinquency Management guide](/billing/delinquency-management) for comprehensive information on invoicing windows, grace and overdue periods, and restriction strategies.
+
+### Crediting existing invoices
+
+You can adjust the amount of a paid invoice by creating a Credit Note. We support both full and partial Credit Notes, but the sum of all Credit Notes issued for an invoice cannot exceed the original amount.
+
+- **For full Credit Notes,** specify only the invoice ID.
+- **For partial Credit Notes,** specify the individual line items, fees, and taxes you want to credit by their IDs.
+
+Once issued, the Credit Note will automatically adjust your tax calculations in the background to reflect the reduced revenue.
+
+#### Creating a partial credit note
+
+```bash Creating a credit note
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/creditNotes" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "invoice": "inv_0SNlurA049MEWV1QTRqvd18YuG25",
+    "lineItems": [
+      {
+        "invoiceLineItem": "lin_0SNlurA049MEWV11QUKZGDMxJmKe",
+        "amount": 100,
+        "taxes": [
+          {
+            "invoiceTax": "itx_0SNlurA049MEWV5Mw7cjrxFUo2Y3",
+            "amount": 10
+          }
+        ]
+      }
+    ]
+  }'
+```

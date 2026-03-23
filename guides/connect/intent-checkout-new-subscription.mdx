@@ -1,0 +1,41 @@
+---
+title: "Intent: checkoutNewSubscription"
+description: "How do I let a user purchase a new plan?"
+---
+
+This will open Connect in the checkout flow with a subscription already selected. The user's exact entry point depends on the combination of the selected plan and the provided payload. For instance, if you pass a SIM ID in the payload, Connect will skip the SIM selection screen. Upon successful purchase, if a `callbackUrl` was provided, users will be redirected back to it when clicking the **Continue** button.
+
+![checkoutNewSubscription.jpg](https://i.gigscdn.net/docs/v1/connect-session-checkoutNewSubscription.jpg)
+
+The request expects a `checkoutNewSubscription` object that can define the `plan` to buy a subscription for, a `sim`, and a `device`.
+
+### Creating a Connect Session with checkoutNewSubscription intent
+
+```bash
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/connectSessions" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --data '{
+    "callbackUrl": "https://example.com",
+    "intent": {
+      "type": "checkoutNewSubscription",
+      "checkoutNewSubscription": {
+        "plan": "pln_0U32ZjA60Z7P8Y5vLtmvXaIMEiPr",
+        "sim": "sim_0U32TCTS0Z7P8Y4gBoN1duXbdi2m"
+      }
+    },
+    "user": "usr_0U2ViuFW0Z7P8Y2S1L76mfADMT6m"
+  }'
+```
+
+<Note>
+**Important Considerations:**
+- It is currently **not possible to pass in `auto`** as a value for the `sim` field to default to a new eSIM. The field also does not default to `auto`, so if you leave it out, Connect will open on the SIM selection page.
+- Please make sure to pass a plan that is `active` to ensure the user can progress with the checkout.
+</Note>
+
+## Where to go from here
+
+- Read the [Connect Sessions API Documentation](/api/projects/${GIGS_PROJECT}/connectSessions)
+- Reach out to [support@gigs.com](mailto:support@gigs.com) for assistance

@@ -1,0 +1,118 @@
+---
+title: "Creating Connect Sessions"
+description: "Creating a Connect Session allows your users to bypass login and go straight to the checkout or a specific state in Connect."
+---
+
+## Prerequisites
+
+In order to use Connect Sessions, you will need:
+
+- A valid API key ([learn how to create one](/api/authentication))
+- A project with Connect enabled ([reach out to support](mailto:support@gigs.com) for assistance)
+
+## Creating a Connect Session
+
+To create a connect session, send a `POST` request to the `/api/projects/${GIGS_PROJECT}/connectSessions` endpoint. A request to create a Connect Session could look like this:
+
+### Creating a Connect Session with checkoutNewSubscription intent
+
+```bash
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/connectSessions" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --data '{
+    "callbackUrl": "https://example.com",
+    "intent": {
+      "type": "checkoutNewSubscription",
+      "checkoutNewSubscription": {
+        "plan": "pln_0U32ZjA60Z7P8Y5vLtmvXaIMEiPr"
+      }
+    },
+    "user": "usr_0U2ViuFW0Z7P8Y2S1L76mfADMT6m"
+  }'
+```
+
+This will create an *authenticated* Connect Session with the *intent* to checkout a new subscription for the given plan and user:
+
+### JSON response of checkoutNewSubscription Connect Session
+
+```json
+{
+  "object": "connectSession",
+  "id": "csn_0U2UMLEo0Z7P8Y37BOdNohpMnq0Y",
+  "callbackUrl": "https://example.com",
+  "intent": {
+    "type": "checkoutNewSubscription",
+    "checkoutNewSubscription": { "plan": "pln_0U2qJyIT0Z7P8Y1M6uFNjOiO5sws" }
+  },
+  "url": "https://connect.gigs.com/checkout/entry?session=csn_0SNlurA049MEWV1GWxpaE5D0t2D7&token=lzODbEyaUQjVRAmalD4pdaq5Nkn1Lw0qTL6Rdsh7PwLVES6N7ImWxnCYbJA99AXp",
+  "user": "usr_0SNlurA049MEWV1BAAmWZULA4tm8"
+}
+```
+
+You can now redirect your user to the `url` provided in the response, which will launch Connect. As this is an *authenticated* Connect Session, the user will bypass the Connect login flow and directly enter the checkout process with the given plan selected.
+
+## Customizing Appearance
+
+By default, Connect Sessions use the `light` theme. The `dark` theme is also available for certain intents like [completePorting](/guides/connect/intent-complete-porting) and [viewEsimInstallation](/guides/connect/intent-view-esim-installation), but must be enabled for your project. To activate it, please contact your CS representative.
+
+If your application supports `light` and `dark` mode, or adapts to the user’s device theme, you can keep the experience consistent by specifying which theme the Connect Session should use. 
+
+### Creating a Connect Session with a dark theme
+
+```bash
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/connectSessions" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --data '{
+    "callbackUrl": "https://example.com",
+    "intent": {
+      "type": "completePorting",
+      "completePorting": {
+        "subscription": "sub_0U32VAxJ0Z7P8Y40mBAnOP9LPhEr"
+      }
+    },
+    "appearance": {
+      "theme": "dark"
+    },
+    "user": "usr_0U2ViuFW0Z7P8Y2S1L76mfADMT6m"
+  }'
+```
+
+## Best practices
+
+When using Connect Session, we recommend to stick to the following best practices:
+
+- **Make sure to use a created Connect Session as soon as possible** Connect Sessions have a limited lifetime, so you should use the session as soon as possible after creation to prevent errors.
+- **Start Connect Sessions just before they're needed.** Following the previous advice, it's best to create Connect Sessions only when you're about to use them.
+- **Do not store or expose the `url` field.** For authenticated sessions, this field has an encrypted session token attached to it. It can be used to log in as the user and should be treated like a password. **Do not store or expose it in any way.**
+- **Avoid updating Connect Sessions when possible.** Although there is a PATCH endpoint available for modifying Connect Sessions, note that the url field is generated only when a Connect Session is first created or when it is updated with user information. Changing other details, like the callbackUrl, will result in the `url` field being empty in the response.
+
+## Using Connect Sessions with Native Apps
+
+When integrating Connect Sessions into native mobile applications:
+
+- **Use a native webview.** For the most stable experience, use a native webview component like `WKWebView` on iOS or `WebView` on Android.
+- **Connect cannot be embedded as an iFrame.** Due to security restrictions, Connect & Connect Sessions cannot be embedded within iFrames.
+- **Let Connect handle the user flow.** Once a Connect Session is launched, your app should hand over control of the user flow to Connect.
+- **Use callback URLs for navigation.** Provide a `callbackUrl` that your app can handle. Connect will redirect to this URL with a `status` parameter indicating the outcome of the session.
+
+For native apps, your `callbackUrl` should be a deep link (e.g., `myapp://connect-callback`) that your app is configured to handle. Learn more about [linking back to your app](/guides/connect/linking-back-to-app).
+
+## Authenticating Sessions
+
+To create an *authenticated* Connect Session, specify either of these fields:
+
+- `user`: The ID of an existing user.
+- `userDetails`: The details of a user to be created when accessing the connect session. (Verify the email does not yet exist.)
+
+## Where to go from here
+
+- Read the detailed guides for each intent:
+  - [checkoutNewSubscription](/guides/connect/intent-checkout-new-subscription)
+  - [viewSubscription](/guides/connect/intent-view-subscription)
+  - [updateUserAddress](/guides/connect/intent-update-user-address)
+  - ...and more in the sidebar.
+- Read the [Connect Sessions API Documentation](/api/projects/${GIGS_PROJECT}/connectSessions).

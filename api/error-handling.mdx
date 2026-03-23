@@ -1,0 +1,95 @@
+---
+title: "Error handling"
+---
+
+We follow common HTTP status code conventions for error handling.
+
+| Status Code Block | Description |
+| --- | --- |
+| `2xx` | The request was successful. |
+| `4xx` | A client error occurred. |
+| `5xx` | A server error occurred. |
+
+## Principles
+
+The following principles guide our thinking regarding request validation, error handling and are designed to help you effectively use our API.
+
+### Hierarchy of Failure
+
+Because a request can contain multiple errors, we will handle the errors in order based on their location within the request as well as their severity. We will analyze the request in the following order:
+
+1. Headers
+2. URL Path
+3. Query parameters/POST body
+
+This means that, if a request were to be sent without the required authentication header, as well as violate the expected syntax of a query parameter, you would receive a `401` status code and not a `400`. You would receive a response detailing the invalid syntax only _after_ you had fixed the more pressing authentication issue. This way you can work through the errors in the API as you would through code: one step at a time.
+
+### Strictness encourages clarity
+
+You will encounter errors whenever an expected convention is not followed. Instead of trying to heal ambiguous or mostly correct requests, we will instead fail with a helpful error message to help you get back on track.
+
+Here's an illustrative example. Imagine you're trying to filter a list of subscriptions by the `user` query parameter, but failed to supply a value:
+
+`GET /projects/{project}/subscriptions?user=`
+
+There are many possible approaches here: do we ignore the parameter altogether? Or do we apply the filter, but return unexpected or potentially zero results? We've chosen a different approach altogether: we raise an error. You clearly expressed your desire to filter, but something went wrong, leading to the value being empty. Being strict about what we will accept means there is less ambiguity about what went wrong.
+
+More generally, an error will be raised whenever the request does not conform to the API specification. Examples are:
+
+- the parameter is unknown
+- the parameter value
+  - has the wrong type (e.g. a string is expected, but a number is received)
+  - doesn't match the expected format (e.g. a malformed e-mail address)
+  - the value is not part of the documented enum.
+
+### Errors deserve explanation
+
+Part of our strict approach requires that we communicate, in the most specific way possible, why something didn't work. In the upcoming sections, we'll detail how we handle different types of errors, but know that we will always provide the error type, a machine-readable code and a clear message describing the reason for the error, as well as relevant links to the documentation.
+
+## Error formats
+
+For every failed request, we will include an error object in the response that contains:
+
+- `type`: The type of the error returned.
+- `code`: An optional machine-readable description of the error. Present for errors that could be handled programmatically.
+- `message`: A human-readable description of the error.
+- `hint`: An optional explanation how to resolve the error.
+- `documentation`: An optional list of URLs to additional documentation resources.
+
+Example:
+
+```json
+{
+  "object": "error",
+  "type": "invalid",
+  "code": "invalidIccid",
+  "message": "Invalid ICCID format.",
+  "hint": "Parameter iccid must match /^([0-9]{19}F?|[0-9]{20})$/i",
+  "documentation": ["https://developers.gigs.com/api/error-handling"]
+}
+```
+
+## Common errors
+
+Here are some common error types you might encounter:
+
+| Status Code | Type | Description |
+| --- | --- | --- |
+| `400` | `malformed` | The request has incorrect syntax, such as an unparseable JSON body. |
+| `401` | `unauthenticated` | The request doesn't have the required credentials. |
+| `403` | `permissionDenied` | The authenticated user doesn't have permissions to perform the request. |
+| `404` | `notFound` | The requested resource doesn't exist. |
+| `409` | `conflict` | The request conflicts with another request. |
+| `422` | `invalid` | The request has invalid properties. |
+| `429` | `tooManyRequests` | The API user has made too many requests in violation of our API Terms of Service. |
+| `500` | `internal` | An unexpected error ocurred and the result of the request is unknown. |
+| `501` | `notImplemented` | The operation requested is not supported. |
+| `503` | `serviceUnavailable` | The service is currently unavailable. Please retry. |
+
+For our API users, `4xx` status codes are by far the most interesting, as they indicate something _did_ go wrong, but that _you_ can likely fix it.
+
+On rare occasions, a request may fail due to an issue with our servers, resulting in a `5xx` error. The `503 Service Unavailable` code is a temporary error, typically resolved after a short period.
+
+When you encounter a `503` error, we recommend retrying the request. If you retry multiple times, you should use an exponential backoff schedule to avoid sending a high volume of requests in quick succession.
+
+For any retry to be safe, the original request must be idempotent. To prevent duplicate actions when retrying a POST request, you should always include a unique Idempotency-Key in the request header. For implementation details, please see our documentation on [Idempotent Requests](/api/idempotent-requests).

@@ -1,0 +1,29 @@
+---
+title: "Intent: updateUserFullName"
+description: "How do I let a user update their name?"
+---
+
+Will open Connect on the edit user name page. Upon successful update, users will be redirected back to `callbackUrl` if provided.
+
+![updateUserFullName.jpg](https://i.gigscdn.net/docs/v1/connect-session-updateUserFullName.jpg)
+
+### Creating a Connect Session with updateUserFullName intent
+
+```bash
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/connectSessions" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --data '{
+    "callbackUrl": "https://example.com",
+    "intent": {
+      "type": "updateUserFullName"
+    },
+    "user": "usr_0U2ViuFW0Z7P8Y2S1L76mfADMT6m"
+  }'
+```
+
+## Where to go from here
+
+- Read the [Connect Sessions API Documentation](/api/projects/${GIGS_PROJECT}/connectSessions)
+- Reach out to [support@gigs.com](mailto:support@gigs.com) for assistance

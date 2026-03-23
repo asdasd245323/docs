@@ -1,0 +1,33 @@
+---
+title: "Compatibility"
+---
+
+Sometimes it is necessary to make backwards-incompatible (breaking) changes as new functionality and improvements are added to the Gigs API. To avoid breaking existing code, we guarantee that we will release a new version of the API any time such a change is made.
+
+## Backwards-compatible (non-breaking) changes
+
+The following changes are considered to be backwards-compatible:
+
+### Adding a new optional parameter to an existing request
+
+New optional parameters might be added to existing requests, ensuring that clients that don't specify them will maintain the same behavior as before they were introduced.
+
+### Adding a new property to an existing response
+
+New properties might be added to existing responses, ensuring that they don't modify the semantics of any other existing properties.
+
+### Adding a new error code
+
+Error codes can be expanded to describe new situations. Your code should handle unknown error codes gracefully.
+
+### Changing an error message
+
+Error messages are intended for human consumption and should not be used for error handling. Use error codes instead.
+
+### Changing the length or format of IDs
+
+IDs should be treated as case-sensitive opaque strings and their format is subject to change. You can safely assume that they will never exceed 64 characters.
+
+## Previews
+
+Some functionality on our API is only available as a preview and doesn't offer the same stability guarantees described above. This will be clearly warned in the corresponding documentation. Breaking changes for such functionality are not only allowed but must be expected.

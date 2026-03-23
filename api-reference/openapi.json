@@ -1,16 +1,13 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.3",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
+    "title": "Gigs Core API",
+    "description": "OpenAPI spec for Gigs Core API endpoints",
     "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://api.gigs.com"
     }
   ],
   "security": [
@@ -19,76 +16,22 @@
     }
   ],
   "paths": {
-    "/plants": {
+    "/projects/{project}/addons": {
       "get": {
-        "description": "Returns all plants from the system that the user has access to",
+        "summary": "List all add-ons",
+        "operationId": "addonsList",
         "parameters": [
           {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
+            "$ref": "#/components/parameters/project"
           }
         ],
         "responses": {
           "200": {
-            "description": "Plant response",
+            "description": "A paginated list of add-ons.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/AddonList"
                 }
               }
             }
@@ -96,113 +39,2113 @@
         }
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
+    "/projects/{project}/addons/{addon}": {
+      "get": {
+        "summary": "Retrieve an add-on",
+        "operationId": "addonsRetrieve",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/addon"
           }
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
+          "200": {
+            "description": "Returns the add-on object if it exists.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/Addon"
                 }
               }
             }
           }
         }
-      }
-    }
-  },
-  "webhooks": {
-    "/plant/webhook": {
-      "post": {
-        "description": "Information about a new plant added to the store",
+      },
+      "patch": {
+        "summary": "Update an add-on",
+        "operationId": "addonsUpdate",
+        "description": "Updates an add-on's name and description.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/addon"
+          }
+        ],
         "requestBody": {
-          "description": "Plant added to the store",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "$ref": "#/components/schemas/UpdateAddon"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
+            "description": "Returns the updated add-on.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Addon"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/addons/{addon}/archive": {
+      "post": {
+        "summary": "Archive an add-on",
+        "operationId": "addonsArchive",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/addon"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the archived add-on.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Addon"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/addons/{addon}/publish": {
+      "post": {
+        "summary": "Publish an add-on",
+        "operationId": "addonsPublish",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/addon"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the available add-on.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Addon"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/devices": {
+      "get": {
+        "summary": "List all devices",
+        "operationId": "devicesList",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of devices.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceList"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a device",
+        "operationId": "devicesCreate",
+        "description": "Creates a new device with the given parameters.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDevice"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the created device.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/devices/{device}": {
+      "get": {
+        "summary": "Retrieve a device",
+        "operationId": "devicesRetrieve",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/device"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the device object if it exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a device",
+        "operationId": "devicesDelete",
+        "description": "Retrieves the details of an existing device and deletes it.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/device"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the deleted device.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a device",
+        "operationId": "devicesUpdate",
+        "description": "Updates the given properties of an existing device.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/device"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDevice"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the updated device.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/devices/search": {
+      "post": {
+        "summary": "Search for devices",
+        "operationId": "devicesSearch",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchDevice"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of devices.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deviceModelBrands": {
+      "get": {
+        "summary": "List all device model brands",
+        "operationId": "deviceModelBrandsList",
+        "responses": {
+          "200": {
+            "description": "Returns a list of device model brands.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceModelBrandsList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deviceModels/{deviceModel}": {
+      "get": {
+        "summary": "Retrieve a device model",
+        "operationId": "deviceModelsRetrieve",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/deviceModel"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the device model object if it exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deviceModels/search": {
+      "post": {
+        "summary": "Search for device models",
+        "operationId": "deviceModelsSearch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchDeviceModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of device models.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceModelList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deviceModels": {
+      "get": {
+        "summary": "List all device models",
+        "operationId": "deviceModelsList",
+        "responses": {
+          "200": {
+            "description": "Returns a list of device models.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceModelList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/networkAvailabilities/lookup": {
+      "post": {
+        "summary": "Lookup network availability by location",
+        "operationId": "networkAvailabilitiesLookup",
+        "description": "Looks up network availability information based on geographic coordinates (latitude/longitude) or address. Returns network availability data only for US locations.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkAvailabilityLookup"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the network availability data with location.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkAvailability"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/plans": {
+      "get": {
+        "summary": "List all plans",
+        "operationId": "plansList",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of plan objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/plans/{plan}": {
+      "get": {
+        "summary": "Retrieve a plan",
+        "operationId": "plansRetrieve",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/plan"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the plan if it exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plan"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a plan",
+        "operationId": "plansUpdate",
+        "description": "Updates the specified plan by setting the values of the parameters passed.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/plan"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the updated plan.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plan"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/plans/{plan}/archive": {
+      "post": {
+        "summary": "Archive a plan",
+        "operationId": "plansArchive",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/plan"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the archived plan.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plan"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/plans/{plan}/publish": {
+      "post": {
+        "summary": "Publish a plan",
+        "operationId": "plansPublish",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/plan"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the available plan.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plan"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/plans/search": {
+      "post": {
+        "summary": "Search for Plans",
+        "operationId": "plansSearch",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchPlans"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of plans.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/planDocuments": {
+      "get": {
+        "summary": "List all plan documents",
+        "operationId": "planDocumentsList",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of document objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanDocumentList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/planDocuments/{planDocument}": {
+      "get": {
+        "summary": "Retrieve a plan document",
+        "operationId": "planDocumentsRetrieve",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/planDocument"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the plan document if it exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanDocument"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/portings": {
+      "get": {
+        "summary": "List all portings",
+        "operationId": "portingsList",
+        "description": "Returns a list of portings. The portings returned are sorted by creation date, with the most recently created portings appearing first.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "The status to filter the portings by.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "subscription",
+            "in": "query",
+            "description": "The unique identifier of the subscription to be filtered by.",
+            "example": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "description": "The unique identifier of the user to be filtered by.",
+            "example": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "description": "A cursor for use in pagination. The after parameter takes an object ID that defines the position in the list, only items immediately following the item with that ID will be returned.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "description": "A cursor for use in pagination. The before parameter takes an object ID that defines the position in the list, only items immediately preceding the item with that ID will be returned.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The limit of items to be returned in the list, between 0 and 200.",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 0,
+              "maximum": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a dictionary with an items property that contains an array of portings.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortingList"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a porting",
+        "operationId": "portingsCreate",
+        "description": "Creates a new porting. It will be created in draft status and can be later used to create an order or subscription for the same provider.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePorting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the created porting.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Porting"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/projects/{project}/portings/{porting}": {
+      "get": {
+        "summary": "Retrieve a Porting",
+        "operationId": "portingsRetrieve",
+        "description": "Retrieves the details of an existing porting.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/porting"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the porting.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Porting"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a draft porting",
+        "operationId": "portingsDelete",
+        "description": "Deletes a porting that is in the draft state.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/porting"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the porting.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Porting"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a porting",
+        "operationId": "portingsUpdate",
+        "description": "Updates a porting with the given parameters. Depending on the status of the porting, some fields may not be updated anymore.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/porting"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePorting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the updated porting.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Porting"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/projects/{project}/portings/{porting}/cancel": {
+      "post": {
+        "summary": "Cancel a porting",
+        "operationId": "portingsCancel",
+        "description": "Cancels a porting. A porting can be cancelled if it is in the pending, declined or informationRequired state, or in the requested state and scheduled for a future date.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/porting"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the canceled porting.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Porting"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/projects/{project}/portings/search": {
+      "post": {
+        "summary": "Search for portings",
+        "operationId": "portingsSearch",
+        "description": "Searches for existing portings matching the given parameters.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchPortings"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of portings matching the search criteria.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortingList"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/serviceProviders": {
+      "get": {
+        "summary": "List all service providers",
+        "operationId": "serviceProvidersList",
+        "description": "Returns a list of service providers. It is recommended that callers provide either a recipient provider or country to filter for relevant service providers.",
+        "parameters": [
+          {
+            "name": "recipientProvider",
+            "in": "query",
+            "description": "Only return service providers that have the given network provider as supported porting recipient.",
+            "example": "p7",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "description": "Only return service providers for the given country represented by the ISO 3166-1 alpha-2 country code.",
+            "example": "US",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a dictionary with an items property that contains an array of service providers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceProviderList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/serviceProviders/{serviceProvider}": {
+      "get": {
+        "summary": "Retrieve a service provider",
+        "operationId": "serviceProvidersRetrieve",
+        "description": "Retrieves the details of a service provider.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/serviceProvider"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the service provider object if it exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceProvider"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         }
       }
     }
   },
   "components": {
+    "parameters": {
+      "project": {
+        "name": "project",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the project.",
+        "example": "gigs",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "addon": {
+        "name": "addon",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the add-on.",
+        "example": "add_0SNlurA049MEWV4VxLfwJc7PJtHc",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "device": {
+        "name": "device",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the device.",
+        "example": "dev_0SNlurA049MEWV55CrA9qMvI2FVJ",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "deviceModel": {
+        "name": "deviceModel",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the device model.",
+        "example": "dmd_0SNlurA04OUskUGfGAn3Rh",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "plan": {
+        "name": "plan",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the plan.",
+        "example": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "planDocument": {
+        "name": "planDocument",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the plan document.",
+        "example": "pdc_0SNlurA049MEWV1S6e1qVqBV2xge",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "porting": {
+        "name": "porting",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the porting.",
+        "example": "prt_0SNlurA049MEWV39s2kSYqaat7ZS",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "serviceProvider": {
+        "name": "serviceProvider",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the service provider.",
+        "example": "svp_0SNlurA01K6GY5L0XJffY8",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
     "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
+      "Addon": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "addon"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "available",
+              "archived"
+            ]
+          }
+        }
+      },
+      "AddonList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Addon"
+            }
+          }
+        }
+      },
+      "UpdateAddon": {
         "type": "object",
         "properties": {
           "name": {
-            "description": "The name of the plant",
+            "type": "string",
+            "nullable": true,
+            "description": "The name of the add-on, meant to be displayable to users.",
+            "example": "1GB Data Top-up"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "The description of the add-on.",
+            "example": "Disable international roaming."
+          },
+          "validity": {
+            "type": "object",
+            "nullable": true,
+            "description": "The custom validity for this add-on.",
+            "properties": {
+              "unit": {
+                "type": "string",
+                "enum": ["day", "month"],
+                "description": "The time unit, either day or month.",
+                "example": "day"
+              },
+              "value": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "The amount of units.",
+                "example": 7
+              }
+            },
+            "required": ["unit", "value"]
+          },
+          "metadata": {
+            "type": "object",
+            "description": "A set of key-value pairs, to store metadata related to the resource.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Device": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "device"
+            ]
+          },
+          "id": {
             "type": "string"
           },
-          "tag": {
-            "description": "Tag to specify the type",
+          "imei": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "DeviceList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Device"
+            }
+          }
+        }
+      },
+      "CreateDevice": {
+        "type": "object",
+        "required": ["imei"],
+        "properties": {
+          "imei": {
+            "type": "string",
+            "description": "The IMEI (international mobile equipment identity) of the device.",
+            "example": "492388841798923"
+          },
+          "user": {
+            "type": "string",
+            "nullable": true,
+            "description": "Unique user identifier for the device owner.",
+            "example": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+          },
+          "sims": {
+            "type": "array",
+            "nullable": true,
+            "description": "List of identifiers for all SIMs to attach to the device.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "An optional custom name for the device.",
+            "example": "Anna's iPhone 12 Pro"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "A set of key-value pairs, to store metadata related to the resource.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateDevice": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "An optional custom name for the device.",
+            "example": "Anna's iPhone 12 Pro"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "A set of key-value pairs, to store metadata related to the resource.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "sims": {
+            "type": "array",
+            "description": "List of identifiers for all SIMs currently attached to the device.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "user": {
+            "type": "string",
+            "nullable": true,
+            "description": "Unique user identifier for the device owner.",
+            "example": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+          }
+        }
+      },
+      "DeviceModel": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "deviceModel"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "brand": {
+            "type": "string"
+          },
+          "name": {
             "type": "string"
           }
         }
       },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
+      "DeviceModelList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
           },
-          {
-            "required": [
-              "id"
-            ],
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceModel"
+            }
+          }
+        }
+      },
+      "DeviceModelBrandsList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "deviceModelBrands"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SearchDevice": {
+        "type": "object",
+        "required": [
+          "imei"
+        ],
+        "properties": {
+          "imei": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchDeviceModel": {
+        "type": "object",
+        "required": [
+          "imei"
+        ],
+        "properties": {
+          "imei": {
+            "type": "string"
+          }
+        }
+      },
+      "NetworkAvailability": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": ["networkAvailability"]
+          },
+          "availability": {
+            "type": "array",
+            "description": "A list of availability details for the plans in the project.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "plan": {
+                  "type": "string",
+                  "description": "The unique identifier for the plan.",
+                  "example": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo"
+                },
+                "provider": {
+                  "type": "string",
+                  "description": "The ID of the network provider supported by this plan.",
+                  "example": "p11"
+                },
+                "technologies": {
+                  "type": "object",
+                  "description": "The technologies supported by the network provider.",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "strength": {
+                        "type": "string"
+                      },
+                      "minDecibelMilliwatts": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "location": {
             "type": "object",
+            "description": "The location for which availability information is provided.",
             "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
+              "address": {
+                "$ref": "#/components/schemas/Address"
+              },
+              "coordinates": {
+                "$ref": "#/components/schemas/Coordinates"
               }
             }
           }
-        ]
+        }
       },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
+      "NetworkAvailabilityLookup": {
         "type": "object",
         "properties": {
-          "error": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "coordinates": {
+            "$ref": "#/components/schemas/Coordinates"
+          }
+        }
+      },
+      "Address": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string",
+            "example": "New York City"
+          },
+          "country": {
+            "type": "string",
+            "example": "US"
+          },
+          "line1": {
+            "type": "string",
+            "example": "129 West 81st Street"
+          },
+          "line2": {
+            "type": "string",
+            "nullable": true,
+            "example": "Apartment 5"
+          },
+          "postalCode": {
+            "type": "string",
+            "example": "10024"
+          },
+          "state": {
+            "type": "string",
+            "example": "NY"
+          }
+        }
+      },
+      "Coordinates": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "description": "The latitude coordinate.",
+            "example": 40.7831,
+            "minimum": -90,
+            "maximum": 90
+          },
+          "longitude": {
+            "type": "number",
+            "description": "The longitude coordinate.",
+            "example": -73.9712,
+            "minimum": -180,
+            "maximum": 180
+          }
+        }
+      },
+      "Plan": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "plan"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "image": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "available",
+              "archived",
+              "pending"
+            ]
+          }
+        }
+      },
+      "PlanList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Plan"
+            }
+          }
+        }
+      },
+      "UpdatePlan": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The plan's name, meant to be displayable to the user.",
+            "example": "Gigs Global"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "The plan's description, meant to be displayable to the user.",
+            "example": "A data plan you will love! Operates in most countries of the world."
+          },
+          "image": {
+            "type": "string",
+            "nullable": true,
+            "description": "The plan's image, meant to be displayable to the user.",
+            "example": "https://i.gigscdn.com/pr/nTZpgaEj5dTQ2Jo/original.png"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "A set of key-value pairs, to store metadata related to the resource.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SearchPlans": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "simType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "provider": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "coverageCountry": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PlanDocument": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "planDocument"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "plan": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "PlanDocumentList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanDocument"
+            }
+          }
+        }
+      },
+      "Porting": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": ["porting"]
+          },
+          "id": {
+            "type": "string",
+            "example": "prt_0SNlurA049MEWV39s2kSYqaat7ZS"
+          },
+          "accountNumber": {
+            "type": "string",
+            "nullable": true,
+            "description": "The account number on the donor service provider.",
+            "example": "123456789"
+          },
+          "accountPinExists": {
+            "type": "boolean",
+            "description": "Whether the account PIN has been provided.",
+            "example": true
+          },
+          "address": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ],
+            "description": "The address of the account holder on the donor service provider."
+          },
+          "behavior": {
+            "type": "string",
+            "enum": ["cancelOnly", "portIn"],
+            "description": "The behavior of the porting.",
+            "example": "portIn"
+          },
+          "billingPinExists": {
+            "type": "boolean",
+            "description": "Whether the billing PIN has been provided.",
+            "example": true
+          },
+          "birthday": {
+            "type": "string",
+            "nullable": true,
+            "description": "The birthday of the account holder on the donor service provider.",
+            "example": "2017-07-21"
+          },
+          "canceledAt": {
+            "type": "string",
+            "nullable": true,
+            "description": "Time when the porting was canceled.",
+            "example": "2021-01-21T19:39:53Z"
+          },
+          "completedAt": {
+            "type": "string",
+            "nullable": true,
+            "description": "Time when the porting was completed.",
+            "example": "2021-01-21T19:36:57Z"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Time when the porting was created.",
+            "example": "2021-01-21T19:12:28Z"
+          },
+          "declinedAttempts": {
             "type": "integer",
-            "format": "int32"
+            "minimum": 0,
+            "description": "The number of declined porting attempts so far.",
+            "example": 0
+          },
+          "declinedCode": {
+            "type": "string",
+            "nullable": true,
+            "description": "The code reason for the declined porting.",
+            "example": "portingPhoneNumberPortProtected"
+          },
+          "declinedMessage": {
+            "type": "string",
+            "nullable": true,
+            "description": "The reason description for the declined porting.",
+            "example": "The phone number has port protection on the provider."
+          },
+          "donorProvider": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ServiceProvider"
+              }
+            ],
+            "description": "The service provider from whom the number is ported."
+          },
+          "donorProviderApproval": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Whether the donor provider has approved or not the porting.",
+            "example": true
+          },
+          "expiredAt": {
+            "type": "string",
+            "nullable": true,
+            "description": "Time when the porting was expired.",
+            "example": "2021-01-21T19:39:53Z"
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true,
+            "description": "The first name of the account holder on the donor service provider.",
+            "example": "Jerry"
+          },
+          "lastDeclinedAt": {
+            "type": "string",
+            "nullable": true,
+            "description": "Time when the porting was last declined.",
+            "example": "2021-01-21T19:31:13Z"
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true,
+            "description": "The last name of the account holder on the donor service provider.",
+            "example": "Seinfeld"
+          },
+          "lastRequestedAt": {
+            "type": "string",
+            "nullable": true,
+            "description": "Time when the porting was last requested.",
+            "example": "2021-01-21T19:22:31Z"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "The phone number to port in E.164 format.",
+            "example": "+19591234567"
+          },
+          "provider": {
+            "type": "string",
+            "description": "The ID of the recipient network provider.",
+            "example": "p9"
+          },
+          "recipientProvider": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ServiceProvider"
+              }
+            ],
+            "description": "The service provider to whom the number is ported."
+          },
+          "required": {
+            "type": "array",
+            "description": "List of fields required for the porting to be processable.",
+            "items": {
+              "type": "string"
+            },
+            "example": ["accountNumber", "accountPin", "accountType", "address", "birthday", "donorProvider", "donorProviderApproval", "firstName", "lastName"]
+          },
+          "scheduledOn": {
+            "type": "string",
+            "nullable": true,
+            "description": "Date when the porting is scheduled to take effect.",
+            "example": "2021-01-21"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "initiated", "pending", "informationRequired", "requested", "declined", "completed", "canceled", "expired", "failed"],
+            "description": "The current status of the porting."
+          },
+          "subscription": {
+            "type": "string",
+            "nullable": true,
+            "description": "Unique identifier for the porting subscription.",
+            "example": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+          },
+          "user": {
+            "type": "string",
+            "description": "Unique identifier for the user this porting is for.",
+            "example": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+          }
+        }
+      },
+      "PortingList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": ["list"]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Porting"
+            }
+          },
+          "moreItemsAfter": {
+            "type": "string",
+            "nullable": true,
+            "description": "A unique identifier to be used as after pagination parameter if more items are available sorted after the current batch of items."
+          },
+          "moreItemsBefore": {
+            "type": "string",
+            "nullable": true,
+            "description": "A unique identifier to be used as before pagination parameter if more items are available sorted before the current batch of items."
+          }
+        }
+      },
+      "CreatePorting": {
+        "type": "object",
+        "required": ["phoneNumber", "provider", "user"],
+        "properties": {
+          "accountNumber": {
+            "type": "string",
+            "nullable": true,
+            "description": "The account number on the donor service provider.",
+            "example": "123456789"
+          },
+          "accountPin": {
+            "type": "string",
+            "nullable": true,
+            "description": "The pin for the account on the donor service provider.",
+            "example": "1234"
+          },
+          "address": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ],
+            "description": "The address of the account holder on the donor service provider."
+          },
+          "behavior": {
+            "type": "string",
+            "nullable": true,
+            "enum": ["cancelOnly", "portIn"],
+            "default": "portIn",
+            "description": "The behavior of the porting.",
+            "example": "portIn"
+          },
+          "billingPin": {
+            "type": "string",
+            "nullable": true,
+            "description": "The billing pin for the account on the donor service provider.",
+            "example": "1234"
+          },
+          "birthday": {
+            "type": "string",
+            "nullable": true,
+            "description": "The birthday of the account holder on the donor service provider.",
+            "example": "2017-07-21"
+          },
+          "donorProvider": {
+            "type": "string",
+            "nullable": true,
+            "description": "The unique identifier of the donor service provider.",
+            "example": "svp_0SNlurA01K6GY5L0XJffY8"
+          },
+          "donorProviderApproval": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Whether the donor provider has approved or not the porting.",
+            "example": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true,
+            "description": "The first name of the account holder.",
+            "example": "Jerry"
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true,
+            "description": "The last name of the account holder.",
+            "example": "Seinfeld"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "The phone number to port in E.164 format.",
+            "example": "+19591234567"
+          },
+          "provider": {
+            "type": "string",
+            "description": "The name of the receiving network provider.",
+            "example": "p9"
+          },
+          "scheduledOn": {
+            "type": "string",
+            "nullable": true,
+            "description": "The date that the porting is scheduled to take effect.",
+            "example": "2021-01-21"
+          },
+          "user": {
+            "type": "string",
+            "description": "The unique identifier for an existing user the porting should be created for.",
+            "example": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+          }
+        }
+      },
+      "UpdatePorting": {
+        "type": "object",
+        "properties": {
+          "accountNumber": {
+            "type": "string",
+            "description": "The account number on the donor service provider.",
+            "example": "123456789"
+          },
+          "accountPin": {
+            "type": "string",
+            "description": "The pin for the account on the donor service provider.",
+            "example": "1234"
+          },
+          "address": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ],
+            "description": "The address of the account holder on the donor service provider."
+          },
+          "behavior": {
+            "type": "string",
+            "enum": ["cancelOnly", "portIn"],
+            "description": "The behavior of the porting.",
+            "example": "portIn"
+          },
+          "billingPin": {
+            "type": "string",
+            "description": "The billing pin for the account on the donor service provider.",
+            "example": "1234"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "The birthday of the account holder on the donor service provider.",
+            "example": "2017-07-21"
+          },
+          "donorProvider": {
+            "type": "string",
+            "description": "The unique identifier of the donor service provider.",
+            "example": "svp_0SNlurA01K6GY5L0XJffY8"
+          },
+          "donorProviderApproval": {
+            "type": "boolean",
+            "description": "Whether the donor provider has approved or not the porting.",
+            "example": true
+          },
+          "firstName": {
+            "type": "string",
+            "description": "The first name of the account holder.",
+            "example": "Jerry"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The last name of the account holder.",
+            "example": "Seinfeld"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "The phone number to port in E.164 format.",
+            "example": "+19591234567"
+          },
+          "provider": {
+            "type": "string",
+            "description": "The ID of the recipient network provider.",
+            "example": "p9"
+          },
+          "scheduledOn": {
+            "type": "string",
+            "nullable": true,
+            "description": "Date when the porting is scheduled to take effect.",
+            "example": "2021-01-21"
+          }
+        }
+      },
+      "SearchPortings": {
+        "type": "object",
+        "required": ["phoneNumber"],
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "description": "The E.164-formatted phone number associated with the porting.",
+            "example": "+12065550123"
+          }
+        }
+      },
+      "ServiceProvider": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": ["serviceProvider"]
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the service provider.",
+            "example": "svp_0SNlurA01K6GY5L0XJffY8"
+          },
+          "country": {
+            "type": "string",
+            "description": "The ISO 3166-1 alpha-2 country code of the service provider.",
+            "example": "US"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the service provider, usually a brand name.",
+            "example": "AT&T"
+          },
+          "recipientProviders": {
+            "type": "array",
+            "description": "List of network providers IDs that can receive portings from the service provider.",
+            "items": {
+              "type": "string"
+            },
+            "example": ["p3"]
+          }
+        }
+      },
+      "ServiceProviderList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": ["list"]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceProvider"
+            }
+          },
+          "moreItemsAfter": {
+            "type": "string",
+            "nullable": true
+          },
+          "moreItemsBefore": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
           },
           "message": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "responses": {
+      "Forbidden": {
+        "description": "The authenticated user does not have permission to perform this request.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "The requested resource does not exist.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "The request was well-formed but could not be processed due to a semantic error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotImplemented": {
+        "description": "The requested operation is not implemented.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "ServiceUnavailable": {
+        "description": "The service is temporarily unavailable.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
           }
         }
       }

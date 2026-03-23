@@ -1,0 +1,226 @@
+---
+title: "Example: Purchasing and Managing"
+description: "A walkthrough of our example application for purchasing and managing subscriptions in an existing application using Connect Sessions."
+---
+
+<iframe
+  width="100%"
+  height="400"
+  src="https://www.youtube.com/embed/t93s1hEm7KM"
+  title="Add and Manage Phone Plans with Connect Sessions"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
+
+This is a walkthrough of our [example application](https://github.com/gigs/connect-sessions-buy-manage-example/tree/main) for purchasing and managing subscriptions in an existing application using Connect Sessions.
+While this example is written in Next.js and uses TypeScript, the concepts discussed here should be transferrable to every other programming language and framework.
+
+<Warning>
+To enhance readability and highlight the key concepts, we have simplified the code throughout this guide. As a result, **you should not copy and paste code snippets directly from this guide** with the expectation that they will work as is.
+</Warning>
+
+Further resources:
+- [Connect Sessions API Documentation](/api/projects/${GIGS_PROJECT}/connectSessions)
+- [Full source code of the example application](https://github.com/gigs/connect-sessions-buy-manage-example/tree/main)
+
+## Allowing users to purchase subscriptions
+
+Our example application is a small shop that sells mobile phones. We'll be adding the ability to purchase a phone plan within our existing checkout success page.
+
+![Initial checkout success page](https://i.gigscdn.net/docs/v1/connect-session-example-checkout-start.png)
+
+### Building the UI
+
+As a first step, we'll fetch the existing plans from our project:
+
+```tsx
+export const getPlans = async (): Promise<{ error?: string; data: Plan[] }> => {
+  const response = await fetch(
+    `/api/projects/${process.env.GIGS_PROJECT}/plans`,
+    {
+      headers,
+    },
+  )
+
+  const data = await response.json()
+
+  if (response.status !== 200) {
+    return {
+      error: data.message,
+    }
+  }
+
+  return { data: data.items }
+}
+```
+
+In our page, we call this function to obtain all plans we can offer the user:
+
+```tsx
+const CheckoutPage = async () => {
+  const { error, data: plans } = await getPlans()
+
+  return (
+    // ...
+  )
+}
+
+export default CheckoutPage
+```
+
+We then map over the plans to render a `PurchasePlanCard` for every plan in a carousel:
+
+```tsx
+<Carousel>
+  <CarouselContent>
+    {plans.map((plan) => (
+      <CarouselItem key={plan.id}>
+        <PurchasePlanCard
+          title={plan.name}
+          price={plan.price}
+          allowances={plan.allowances}
+          planId={plan.id}
+        />
+      </CarouselItem>
+    ))}
+  </CarouselContent>
+  {/* Carousel navigation */}
+</Carousel>
+```
+
+![Checkout success screen with offered plans](https://i.gigscdn.net/docs/v1/connect-session-example-checkout-ui.png)
+
+### Creating the Connect Session
+
+Once the user clicks "Buy", we create a new Connect Session with the `checkoutNewSubscription` intent.
+
+#### Preparing user data
+
+We retrieve the user details from our session to pass them into the Connect Session:
+
+```tsx
+const currentUser = auth.getUser()
+
+// Check if user exists in Gigs or needs to be created
+const { data: userRes } = await findUser(currentUser.email)
+const existingUser = userRes && userRes[0]
+
+const userPayload = existingUser
+  ? { user: existingUser.id }
+  : {
+      userDetails: {
+        birthday: currentUser.birthday,
+        email: currentUser.email,
+        fullName: currentUser.fullName,
+        preferredLocale: 'en-US',
+      },
+    }
+```
+
+#### Assembling and using the Connect Session
+
+We define the intent and callback URL, then send a `POST` request to `/connectSessions`:
+
+```tsx
+const connectSession = {
+  callbackUrl: 'http://localhost:3000/phone-plans',
+  intent: {
+    type: 'checkoutNewSubscription',
+    checkoutNewSubscription: {
+      plan: planId,
+    },
+  },
+  ...userPayload,
+}
+```
+
+Upon success, we redirect the user to the `url` provided in the response:
+
+```tsx
+const handleClick = async (planId: string) => {
+  const { data: session, error } = await checkoutNewSubscription(planId)
+
+  if (session?.url) {
+    router.push(session.url)
+  }
+}
+```
+
+![Finished purchase flow](https://i.gigscdn.net/docs/v1/connect-session-examples-purchase-with-callback.gif)
+
+## Managing existing subscriptions
+
+We'll enable users to purchase add-ons, change plans, or cancel subscriptions directly from their account dashboard.
+
+![Basic image of our dashboard](https://i.gigscdn.net/docs/v1/connect-session-example-manage-start.png)
+
+### Building the UI
+
+We fetch the active subscriptions for our user:
+
+```tsx
+export const getSubscriptionsByUser = async () => {
+  const currentUser = auth.getUser()
+  const { data: userData } = await findUser(currentUser.email!)
+  const userId = userData[0].id
+
+  const response = await fetch(
+    `/api/projects/${process.env.GIGS_PROJECT}/subscriptions?user=${userId}&status=active`,
+    { headers }
+  )
+  const data = await response.json()
+  return { data: data.items }
+}
+```
+
+![Manage Card UI](https://i.gigscdn.net/docs/v1/connect-session-example-manage-ui.png)
+
+### Creating the Connect Sessions
+
+We implement functions for different management intents:
+
+```tsx
+// Example: cancelSubscription intent
+export const cancelSubscription = async (subscriptionId: string) => {
+  const connectSession = {
+    callbackUrl: 'http://localhost:3000/phone-plans',
+    intent: {
+      type: 'cancelSubscription',
+      cancelSubscription: {
+        subscription: subscriptionId,
+      },
+    },
+    user: existingUser.id,
+  }
+
+  return await createConnectSession(connectSession)
+}
+```
+
+![Changing plan flow](https://i.gigscdn.net/docs/v1/connect-session-example-manage-change-flow-with-callback.gif)
+
+## Handling callback redirects
+
+Upon completion, users are redirected back to your `callbackUrl` with a `session_id` and `status`. You can then fetch the session state to display a success message:
+
+```tsx
+const PhonePlansPage = async ({ searchParams }) => {
+  const isCallback = !!searchParams?.session_id
+
+  if (isCallback) {
+    const { data: session } = await getConnectSession(searchParams.session_id)
+    const alertMessage = searchParams.status === 'success' 
+      ? 'Operation successfully completed!'
+      : 'An error occurred.'
+    // Render alert...
+  }
+}
+```
+
+![Purchase Addon Flow](https://i.gigscdn.net/docs/v1/connect-session-example-manage-addon-flow-with-callback.gif)
+
+# Resources
+
+- [Connect Sessions API Documentation](/api/projects/${GIGS_PROJECT}/connectSessions)
+- [Full source code of the example application](https://github.com/gigs/connect-sessions-buy-manage-example/tree/main)
