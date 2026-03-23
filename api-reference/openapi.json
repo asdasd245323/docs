@@ -3319,16 +3319,12 @@
                       }
                     },
                     "moreItemsAfter": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": "string",
+                      "nullable": true
                     },
                     "moreItemsBefore": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": "string",
+                      "nullable": true
                     }
                   }
                 }
@@ -3367,10 +3363,7 @@
                     "type": "string"
                   },
                   "lineItems": {
-                    "type": [
-                      "array",
-                      "null"
-                    ],
+                    "type": "array",
                     "items": {
                       "type": "object",
                       "properties": {
@@ -3378,10 +3371,8 @@
                           "type": "string"
                         },
                         "amount": {
-                          "type": [
-                            "integer",
-                            "null"
-                          ]
+                          "type": "integer",
+                          "nullable": true
                         },
                         "taxes": {
                           "type": "array",
@@ -3392,22 +3383,18 @@
                                 "type": "string"
                               },
                               "amount": {
-                                "type": [
-                                  "integer",
-                                  "null"
-                                ]
+                                "type": "integer",
+                                "nullable": true
                               }
                             }
                           }
                         }
                       }
-                    }
+                    },
+                    "nullable": true
                   },
                   "fees": {
-                    "type": [
-                      "array",
-                      "null"
-                    ],
+                    "type": "array",
                     "items": {
                       "type": "object",
                       "properties": {
@@ -3418,7 +3405,8 @@
                           "type": "integer"
                         }
                       }
-                    }
+                    },
+                    "nullable": true
                   }
                 }
               }
@@ -3625,16 +3613,12 @@
                       }
                     },
                     "moreItemsAfter": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": "string",
+                      "nullable": true
                     },
                     "moreItemsBefore": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": "string",
+                      "nullable": true
                     }
                   }
                 }
@@ -3750,37 +3734,27 @@
                 ],
                 "properties": {
                   "addon": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": "string",
+                    "nullable": true
                   },
                   "address": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": "string",
+                    "nullable": true
                   },
                   "creditedPlan": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": "string",
+                    "nullable": true
                   },
                   "plan": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": "string",
+                    "nullable": true
                   },
                   "user": {
                     "type": "string"
                   },
                   "voucher": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": "string",
+                    "nullable": true
                   }
                 }
               }
@@ -7092,11 +7066,9 @@
             "description": "The credited fees."
           },
           "fileUrl": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "A signed URL to download the credit note PDF file."
+            "type": "string",
+            "description": "A signed URL to download the credit note PDF file.",
+            "nullable": true
           },
           "invoice": {
             "type": "string",
@@ -7158,12 +7130,10 @@
             "description": "The total amount credited after taxes and fees."
           },
           "voidedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": "string",
             "format": "date-time",
-            "description": "Time when the credit note was voided."
+            "description": "Time when the credit note was voided.",
+            "nullable": true
           }
         }
       },
@@ -7182,11 +7152,9 @@
             "description": "Unique identifier for the invoice."
           },
           "address": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "The unique identifier for the address this invoice relates to."
+            "type": "string",
+            "description": "The unique identifier for the address this invoice relates to.",
+            "nullable": true
           },
           "appliedBalance": {
             "$ref": "#/components/schemas/Price",
@@ -7202,12 +7170,10 @@
             "description": "The total discount applied. This is the sum of the discounts of each line item."
           },
           "dueAt": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": "string",
             "format": "date-time",
-            "description": "Time when the invoice is due to be paid."
+            "description": "Time when the invoice is due to be paid.",
+            "nullable": true
           },
           "fees": {
             "type": "array",
@@ -7231,19 +7197,15 @@
             "description": "The fees for the invoice."
           },
           "fileUrl": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "A signed URL to download the invoice PDF file."
+            "type": "string",
+            "description": "A signed URL to download the invoice PDF file.",
+            "nullable": true
           },
           "finalizedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": "string",
             "format": "date-time",
-            "description": "Time when the invoice was finalized and could no longer be changed."
+            "description": "Time when the invoice was finalized and could no longer be changed.",
+            "nullable": true
           },
           "lineItems": {
             "type": "array",
@@ -7260,43 +7222,31 @@
                   "type": "string"
                 },
                 "addon": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": "string",
+                  "nullable": true
                 },
                 "creditedPlan": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": "string",
+                  "nullable": true
                 },
                 "discount": {
                   "$ref": "#/components/schemas/Price"
                 },
                 "plan": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": "string",
+                  "nullable": true
                 },
                 "subscription": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": "string",
+                  "nullable": true
                 },
                 "subscriptionAddon": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": "string",
+                  "nullable": true
                 },
                 "subscriptionChange": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": "string",
+                  "nullable": true
                 },
                 "subtotal": {
                   "$ref": "#/components/schemas/Price"
@@ -7341,33 +7291,24 @@
             "description": "The line items that make up the invoice."
           },
           "overdueAt": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": "string",
             "format": "date-time",
-            "description": "Time when the invoice is considered overdue."
+            "description": "Time when the invoice is considered overdue.",
+            "nullable": true
           },
           "paidAt": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": "string",
             "format": "date-time",
-            "description": "Time when the invoice was paid."
+            "description": "Time when the invoice was paid.",
+            "nullable": true
           },
           "payment": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "The unique identifier for the payment associated with the invoice, if any."
+            "type": "string",
+            "description": "The unique identifier for the payment associated with the invoice, if any.",
+            "nullable": true
           },
           "period": {
-            "type": [
-              "object",
-              "null"
-            ],
+            "type": "object",
             "properties": {
               "number": {
                 "type": "integer"
@@ -7381,7 +7322,8 @@
                 "format": "date-time"
               }
             },
-            "description": "The subscription period that this invoice relates to."
+            "description": "The subscription period that this invoice relates to.",
+            "nullable": true
           },
           "reason": {
             "type": "string",
@@ -7412,25 +7354,21 @@
             "$ref": "#/components/schemas/Price"
           },
           "taxExemptionReason": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": "string",
             "enum": [
               "calculationFailed",
               "fullyDiscounted",
               "inclusiveTaxExceedsPrice",
               "userExempted"
-            ]
+            ],
+            "nullable": true
           },
           "total": {
             "$ref": "#/components/schemas/Price"
           },
           "voucher": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -7448,10 +7386,8 @@
             "description": "Unique identifier for the quote."
           },
           "address": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "createdAt": {
             "type": "string",
@@ -7487,25 +7423,19 @@
               "type": "object",
               "properties": {
                 "addon": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": "string",
+                  "nullable": true
                 },
                 "creditedPlan": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": "string",
+                  "nullable": true
                 },
                 "discount": {
                   "$ref": "#/components/schemas/Price"
                 },
                 "plan": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": "string",
+                  "nullable": true
                 },
                 "subtotal": {
                   "$ref": "#/components/schemas/Price"
@@ -7554,16 +7484,14 @@
             "$ref": "#/components/schemas/Price"
           },
           "taxExemptionReason": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": "string",
             "enum": [
               "calculationFailed",
               "inclusiveTaxExceedsPrice",
               "fullyDiscounted",
               "userExempted"
-            ]
+            ],
+            "nullable": true
           },
           "total": {
             "$ref": "#/components/schemas/Price"
@@ -7572,10 +7500,8 @@
             "type": "string"
           },
           "voucher": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       }

@@ -209,9 +209,30 @@
           {
             "group": "Gigs Billing API",
             "pages": [
-              "api/gigs-billing/credit-notes",
-              "api/gigs-billing/invoices",
-              "api/gigs-billing/quotes",
+              {
+                "group": "Credit Notes",
+                "pages": [
+                  "api/gigs-billing/credit-notes/list-all-credit-notes",
+                  "api/gigs-billing/credit-notes/create-a-credit-note",
+                  "api/gigs-billing/credit-notes/retrieve-a-credit-note",
+                  "api/gigs-billing/credit-notes/void-a-credit-note"
+                ]
+              },
+              {
+                "group": "Invoices",
+                "pages": [
+                  "api/gigs-billing/invoices/list-all-invoices",
+                  "api/gigs-billing/invoices/retrieve-an-invoice",
+                  "api/gigs-billing/invoices/pay-an-invoice"
+                ]
+              },
+              {
+                "group": "Quotes",
+                "pages": [
+                  "api/gigs-billing/quotes/create-a-quote",
+                  "api/gigs-billing/quotes/retrieve-a-quote"
+                ]
+              },
               "api/gigs-billing/vouchers",
               {
                 "group": "Schemas",
