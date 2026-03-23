@@ -184,7 +184,62 @@
               }
             ]
           },
-          { "group": "Gigs Payments API" }
+          {
+            "group": "Gigs Payments API",
+            "pages": [
+              {
+                "group": "Schemas",
+                "pages": [
+                  "api/gigs-payments/schemas/payment",
+                  "api/gigs-payments/schemas/payment-method"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Gigs Connect API",
+            "pages": [
+              "api/gigs-connect/connect-sessions",
+              {
+                "group": "Schemas",
+                "pages": ["api/gigs-connect/schemas/connect-session"]
+              }
+            ]
+          },
+          {
+            "group": "Gigs Billing API",
+            "pages": [
+              "api/gigs-billing/credit-notes",
+              "api/gigs-billing/invoices",
+              "api/gigs-billing/quotes",
+              "api/gigs-billing/vouchers",
+              {
+                "group": "Schemas",
+                "pages": [
+                  "api/gigs-billing/schemas/credit-note",
+                  "api/gigs-billing/schemas/invoice",
+                  "api/gigs-billing/schemas/quote",
+                  "api/gigs-billing/schemas/voucher"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Gigs Reminders",
+            "pages": [
+              {
+                "group": "Schemas",
+                "pages": [
+                  "api/gigs-reminders/schemas/com.gigs.reminder.porting.declined",
+                  "api/gigs-reminders/schemas/com.gigs.reminder.porting.informationRequired",
+                  "api/gigs-reminders/schemas/com.gigs.reminder.porting.requested",
+                  "api/gigs-reminders/schemas/com.gigs.reminder.porting.scheduled",
+                  "api/gigs-reminders/schemas/com.gigs.reminder.subscription.simNotInstalled",
+                  "api/gigs-reminders/schemas/com.gigs.reminder.subscription.usageMissing"
+                ]
+              }
+            ]
+          }
         ]
       },
       {
@@ -273,8 +328,8 @@
     "global": {}
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/logo.png",
+    "dark": "/logo/logo.png"
   },
   "openapi": "api-reference/openapi.json",
   "navbar": {

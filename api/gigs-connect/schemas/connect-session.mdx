@@ -1,0 +1,162 @@
+---
+title: "ConnectSession"
+description: ""
+---
+
+<ResponseField name="object" type="string">
+  Type of object is always `connectSession`.
+
+  Allowed values: `connectSession`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the Connect Session.
+
+  Example: `"csn_0SNlurA049MEWV1GWxpaE5D0t2D6"`
+</ResponseField>
+
+<ResponseField name="appearance" type="Appearance">
+  <Expandable title="properties">
+    <ResponseField name="theme" type="string">
+      The theme setting that will influence the visual appearance during the Connect Session.
+
+      Example: `"light"`
+
+      Allowed values: `light`, `dark`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="callbackUrl" type="string | null">
+  The URL to which the user will be redirected after the Connect Session is completed.
+
+  Example: `"https://example.com"`
+</ResponseField>
+
+<ResponseField name="intent" type="Intent">
+  <Expandable title="properties">
+    <ResponseField name="cancelSubscription" type="object">
+      <Expandable title="properties">
+        <ResponseField name="subscription" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="changeSubscription" type="object">
+      <Expandable title="properties">
+        <ResponseField name="subscription" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="checkoutAddon" type="object">
+      <Expandable title="properties">
+        <ResponseField name="addons" type="array" />
+        <ResponseField name="subscription" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="checkoutNewSubscription" type="object">
+      <Expandable title="properties">
+        <ResponseField name="device" type="string" />
+        <ResponseField name="plan" type="string" />
+        <ResponseField name="sim" type="string" />
+        <ResponseField name="imei" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="completePorting" type="object">
+      <Expandable title="properties">
+        <ResponseField name="behavior" type="object">
+          <Expandable title="properties">
+            <ResponseField name="hideIntroPage" type="boolean" />
+            <ResponseField name="hideOutroPage" type="boolean" />
+          </Expandable>
+        </ResponseField>
+        <ResponseField name="subscription" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="confirmPayment" type="object">
+      <Expandable title="properties">
+        <ResponseField name="payment" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="resumeSubscription" type="object">
+      <Expandable title="properties">
+        <ResponseField name="subscription" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="type" type="string" />
+    <ResponseField name="viewEsimInstallation" type="object">
+      <Expandable title="properties">
+        <ResponseField name="subscription" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="viewSubscription" type="object">
+      <Expandable title="properties">
+        <ResponseField name="subscription" type="string" />
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="url" type="string | null">
+  The session URL. Redirect your users to this URL to take them to Connect. It is only present on all create responses or in the update responses that associate the session with a user. It should not be stored, logged or exposed to anyone other than the user.
+
+  Example: `"https://connect.gigs.com/checkout/entry?session=csn_0SNlurA049MEWV1GWxpaE5D0t2D6&token=lzODbEyaUQjVRAmalD4pdaq5Nkn1Lw0qTL6Rdsh7PwLVES6N7ImWxnCYbJA99AXp"`
+</ResponseField>
+
+<ResponseField name="user" type="string | null">
+  The unique identifier of the user that the session is for.
+
+  Example: `"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "connectSession",
+  "id": "csn_0SNlurA049MEWV1GWxpaE5D0t2D6",
+  "appearance": {
+    "theme": "light"
+  },
+  "callbackUrl": "https://example.com",
+  "intent": {
+    "cancelSubscription": {
+      "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+    },
+    "changeSubscription": {
+      "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+    },
+    "checkoutAddon": {
+      "addons": [
+        "add_0SNlurA049MEWV4VxLfwJc7PJtHc"
+      ],
+      "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+    },
+    "checkoutNewSubscription": {
+      "device": "dev_0SNlurA049MEWV55CrA9qMvI2FVJ",
+      "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+      "sim": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+      "imei": "492388841798923"
+    },
+    "completePorting": {
+      "behavior": {
+        "hideIntroPage": true,
+        "hideOutroPage": true
+      },
+      "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+    },
+    "confirmPayment": {
+      "payment": "pay_0SNlurA049MEWV2HRA0slWFuS8DV"
+    },
+    "resumeSubscription": {
+      "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+    },
+    "type": "cancelSubscription",
+    "viewEsimInstallation": {
+      "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+    },
+    "viewSubscription": {
+      "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+    }
+  },
+  "url": "https://connect.gigs.com/checkout/entry?session=csn_0SNlurA049MEWV1GWxpaE5D0t2D6&token=lzODbEyaUQjVRAmalD4pdaq5Nkn1Lw0qTL6Rdsh7PwLVES6N7ImWxnCYbJA99AXp",
+  "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+}
+```
+</RequestExample>
