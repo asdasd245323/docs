@@ -85,6 +85,17 @@
                   "api/gig-core-api/portings/list-providers",
                   "api/gig-core-api/portings/retrieve-provider"
                 ]
+              },
+              {
+                "group": "Port Outs",
+                "pages": [
+                  "api/port-outs/list-all-port-outs",
+                  "api/port-outs/create-port-out",
+                  "api/port-outs/retrieve-port-out",
+                  "api/port-outs/retrieve-port-out-credentials",
+                  "api/port-outs/expire-existing-port-out-credentials",
+                  "api/port-outs/simulate-port-out-completion-by-network-provider"
+                ]
               }
             ]
           },

@@ -20,6 +20,9 @@
       "get": {
         "summary": "List all add-ons",
         "operationId": "addonsList",
+        "tags": [
+          "Add-ons"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -43,6 +46,9 @@
       "get": {
         "summary": "Retrieve an add-on",
         "operationId": "addonsRetrieve",
+        "tags": [
+          "Add-ons"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -67,6 +73,9 @@
       "patch": {
         "summary": "Update an add-on",
         "operationId": "addonsUpdate",
+        "tags": [
+          "Add-ons"
+        ],
         "description": "Updates an add-on's name and description.",
         "parameters": [
           {
@@ -104,6 +113,9 @@
       "post": {
         "summary": "Archive an add-on",
         "operationId": "addonsArchive",
+        "tags": [
+          "Add-ons"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -130,6 +142,9 @@
       "post": {
         "summary": "Publish an add-on",
         "operationId": "addonsPublish",
+        "tags": [
+          "Add-ons"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -156,6 +171,9 @@
       "get": {
         "summary": "List all devices",
         "operationId": "devicesList",
+        "tags": [
+          "Devices"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -177,6 +195,9 @@
       "post": {
         "summary": "Create a device",
         "operationId": "devicesCreate",
+        "tags": [
+          "Devices"
+        ],
         "description": "Creates a new device with the given parameters.",
         "parameters": [
           {
@@ -211,6 +232,9 @@
       "get": {
         "summary": "Retrieve a device",
         "operationId": "devicesRetrieve",
+        "tags": [
+          "Devices"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -235,6 +259,9 @@
       "delete": {
         "summary": "Delete a device",
         "operationId": "devicesDelete",
+        "tags": [
+          "Devices"
+        ],
         "description": "Retrieves the details of an existing device and deletes it.",
         "parameters": [
           {
@@ -260,6 +287,9 @@
       "patch": {
         "summary": "Update a device",
         "operationId": "devicesUpdate",
+        "tags": [
+          "Devices"
+        ],
         "description": "Updates the given properties of an existing device.",
         "parameters": [
           {
@@ -297,6 +327,9 @@
       "post": {
         "summary": "Search for devices",
         "operationId": "devicesSearch",
+        "tags": [
+          "Devices"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -330,6 +363,9 @@
       "get": {
         "summary": "List all device model brands",
         "operationId": "deviceModelBrandsList",
+        "tags": [
+          "Device Models"
+        ],
         "responses": {
           "200": {
             "description": "Returns a list of device model brands.",
@@ -344,22 +380,20 @@
         }
       }
     },
-    "/deviceModels/{deviceModel}": {
+    "/deviceModels": {
       "get": {
-        "summary": "Retrieve a device model",
-        "operationId": "deviceModelsRetrieve",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/deviceModel"
-          }
+        "summary": "List all device models",
+        "operationId": "deviceModelsList",
+        "tags": [
+          "Device Models"
         ],
         "responses": {
           "200": {
-            "description": "Returns the device model object if it exists.",
+            "description": "Returns a list of device models.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeviceModel"
+                  "$ref": "#/components/schemas/DeviceModelList"
                 }
               }
             }
@@ -371,6 +405,9 @@
       "post": {
         "summary": "Search for device models",
         "operationId": "deviceModelsSearch",
+        "tags": [
+          "Device Models"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -395,17 +432,25 @@
         }
       }
     },
-    "/deviceModels": {
+    "/deviceModels/{deviceModel}": {
       "get": {
-        "summary": "List all device models",
-        "operationId": "deviceModelsList",
+        "summary": "Retrieve a device model",
+        "operationId": "deviceModelsRetrieve",
+        "tags": [
+          "Device Models"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/deviceModel"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Returns a list of device models.",
+            "description": "Returns the device model object if it exists.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeviceModelList"
+                  "$ref": "#/components/schemas/DeviceModel"
                 }
               }
             }
@@ -417,6 +462,9 @@
       "post": {
         "summary": "Lookup network availability by location",
         "operationId": "networkAvailabilitiesLookup",
+        "tags": [
+          "Network Availabilities"
+        ],
         "description": "Looks up network availability information based on geographic coordinates (latitude/longitude) or address. Returns network availability data only for US locations.",
         "parameters": [
           {
@@ -451,6 +499,9 @@
       "get": {
         "summary": "List all plans",
         "operationId": "plansList",
+        "tags": [
+          "Plans"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -470,10 +521,49 @@
         }
       }
     },
+    "/projects/{project}/plans/search": {
+      "post": {
+        "summary": "Search for Plans",
+        "operationId": "plansSearch",
+        "tags": [
+          "Plans"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchPlans"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of plans.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/projects/{project}/plans/{plan}": {
       "get": {
         "summary": "Retrieve a plan",
         "operationId": "plansRetrieve",
+        "tags": [
+          "Plans"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -498,6 +588,9 @@
       "patch": {
         "summary": "Update a plan",
         "operationId": "plansUpdate",
+        "tags": [
+          "Plans"
+        ],
         "description": "Updates the specified plan by setting the values of the parameters passed.",
         "parameters": [
           {
@@ -535,6 +628,9 @@
       "post": {
         "summary": "Archive a plan",
         "operationId": "plansArchive",
+        "tags": [
+          "Plans"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -561,6 +657,9 @@
       "post": {
         "summary": "Publish a plan",
         "operationId": "plansPublish",
+        "tags": [
+          "Plans"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -583,43 +682,13 @@
         }
       }
     },
-    "/projects/{project}/plans/search": {
-      "post": {
-        "summary": "Search for Plans",
-        "operationId": "plansSearch",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/project"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SearchPlans"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Returns a list of plans.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PlanList"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/projects/{project}/planDocuments": {
       "get": {
         "summary": "List all plan documents",
         "operationId": "planDocumentsList",
+        "tags": [
+          "Plan Documents"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -643,6 +712,9 @@
       "get": {
         "summary": "Retrieve a plan document",
         "operationId": "planDocumentsRetrieve",
+        "tags": [
+          "Plan Documents"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -669,6 +741,9 @@
       "get": {
         "summary": "List all portings",
         "operationId": "portingsList",
+        "tags": [
+          "Portings"
+        ],
         "description": "Returns a list of portings. The portings returned are sorted by creation date, with the most recently created portings appearing first.",
         "parameters": [
           {
@@ -747,6 +822,9 @@
       "post": {
         "summary": "Create a porting",
         "operationId": "portingsCreate",
+        "tags": [
+          "Portings"
+        ],
         "description": "Creates a new porting. It will be created in draft status and can be later used to create an order or subscription for the same provider.",
         "parameters": [
           {
@@ -783,10 +861,53 @@
         }
       }
     },
+    "/projects/{project}/portings/search": {
+      "post": {
+        "summary": "Search for portings",
+        "operationId": "portingsSearch",
+        "tags": [
+          "Portings"
+        ],
+        "description": "Searches for existing portings matching the given parameters.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchPortings"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of portings matching the search criteria.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortingList"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
     "/projects/{project}/portings/{porting}": {
       "get": {
         "summary": "Retrieve a Porting",
         "operationId": "portingsRetrieve",
+        "tags": [
+          "Portings"
+        ],
         "description": "Retrieves the details of an existing porting.",
         "parameters": [
           {
@@ -815,6 +936,9 @@
       "delete": {
         "summary": "Delete a draft porting",
         "operationId": "portingsDelete",
+        "tags": [
+          "Portings"
+        ],
         "description": "Deletes a porting that is in the draft state.",
         "parameters": [
           {
@@ -846,6 +970,9 @@
       "patch": {
         "summary": "Update a porting",
         "operationId": "portingsUpdate",
+        "tags": [
+          "Portings"
+        ],
         "description": "Updates a porting with the given parameters. Depending on the status of the porting, some fields may not be updated anymore.",
         "parameters": [
           {
@@ -892,6 +1019,9 @@
       "post": {
         "summary": "Cancel a porting",
         "operationId": "portingsCancel",
+        "tags": [
+          "Portings"
+        ],
         "description": "Cancels a porting. A porting can be cancelled if it is in the pending, declined or informationRequired state, or in the requested state and scheduled for a future date.",
         "parameters": [
           {
@@ -921,47 +1051,13 @@
         }
       }
     },
-    "/projects/{project}/portings/search": {
-      "post": {
-        "summary": "Search for portings",
-        "operationId": "portingsSearch",
-        "description": "Searches for existing portings matching the given parameters.",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/project"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SearchPortings"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Returns a list of portings matching the search criteria.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PortingList"
-                }
-              }
-            }
-          },
-          "422": {
-            "$ref": "#/components/responses/UnprocessableEntity"
-          }
-        }
-      }
-    },
     "/serviceProviders": {
       "get": {
         "summary": "List all service providers",
         "operationId": "serviceProvidersList",
+        "tags": [
+          "Service Providers"
+        ],
         "description": "Returns a list of service providers. It is recommended that callers provide either a recipient provider or country to filter for relevant service providers.",
         "parameters": [
           {
@@ -1001,6 +1097,9 @@
       "get": {
         "summary": "Retrieve a service provider",
         "operationId": "serviceProvidersRetrieve",
+        "tags": [
+          "Service Providers"
+        ],
         "description": "Retrieves the details of a service provider.",
         "parameters": [
           {
@@ -1020,6 +1119,239 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/projects/{project}/portOuts": {
+      "get": {
+        "summary": "List all port outs",
+        "operationId": "portOutsList",
+        "tags": [
+          "Port Outs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "name": "subscription",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the subscription to be filtered by.",
+            "example": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [
+                "initiated",
+                "issued",
+                "processing"
+              ]
+            },
+            "description": "A comma-separated list of statuses to filter the port outs by."
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "A cursor for use in pagination."
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "A cursor for use in pagination."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 0,
+              "maximum": 200
+            },
+            "description": "The limit of items to be returned in the list."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a dictionary with an items property that contains an array of port outs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortOutList"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create port out",
+        "operationId": "portOutsCreate",
+        "tags": [
+          "Port Outs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePortOut"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the created port out.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortOut"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/portOuts/{portOut}": {
+      "get": {
+        "summary": "Retrieve port out",
+        "operationId": "portOutsRetrieve",
+        "tags": [
+          "Port Outs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/portOut"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the port out.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortOut"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/portOuts/{portOut}/credentials": {
+      "get": {
+        "summary": "Retrieve port out credentials",
+        "operationId": "portOutsRetrieveCredentials",
+        "tags": [
+          "Port Outs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/portOut"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the port out credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortOutCredentials"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/portOuts/{portOut}/expire": {
+      "post": {
+        "summary": "Expire existing port out credentials",
+        "operationId": "portOutsExpire",
+        "tags": [
+          "Port Outs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/portOut"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the port out.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortOut"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/testing/projects/{project}/portOuts/{portOut}/simulate": {
+      "post": {
+        "summary": "Simulate port out completion by network provider",
+        "operationId": "portOutsSimulate",
+        "tags": [
+          "Port Outs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/portOut"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Port out completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortOut"
+                }
+              }
+            }
           }
         }
       }
@@ -1106,6 +1438,16 @@
         "schema": {
           "type": "string"
         }
+      },
+      "portOut": {
+        "name": "portOut",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the port out.",
+        "schema": {
+          "type": "string",
+          "example": "pto_0SNlurA049MEWV4DWEaT4SaeDI8s"
+        }
       }
     },
     "schemas": {
@@ -1114,7 +1456,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["addon"]
+            "enum": [
+              "addon"
+            ]
           },
           "id": {
             "type": "string"
@@ -1128,7 +1472,11 @@
           },
           "status": {
             "type": "string",
-            "enum": ["draft", "available", "archived"]
+            "enum": [
+              "draft",
+              "available",
+              "archived"
+            ]
           }
         }
       },
@@ -1137,7 +1485,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -1169,7 +1519,10 @@
             "properties": {
               "unit": {
                 "type": "string",
-                "enum": ["day", "month"],
+                "enum": [
+                  "day",
+                  "month"
+                ],
                 "description": "The time unit, either day or month.",
                 "example": "day"
               },
@@ -1180,7 +1533,10 @@
                 "example": 7
               }
             },
-            "required": ["unit", "value"]
+            "required": [
+              "unit",
+              "value"
+            ]
           },
           "metadata": {
             "type": "object",
@@ -1196,7 +1552,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["device"]
+            "enum": [
+              "device"
+            ]
           },
           "id": {
             "type": "string"
@@ -1216,7 +1574,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -1228,7 +1588,9 @@
       },
       "CreateDevice": {
         "type": "object",
-        "required": ["imei"],
+        "required": [
+          "imei"
+        ],
         "properties": {
           "imei": {
             "type": "string",
@@ -1300,7 +1662,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["deviceModel"]
+            "enum": [
+              "deviceModel"
+            ]
           },
           "id": {
             "type": "string"
@@ -1318,7 +1682,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -1333,7 +1699,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["deviceModelBrands"]
+            "enum": [
+              "deviceModelBrands"
+            ]
           },
           "items": {
             "type": "array",
@@ -1345,7 +1713,9 @@
       },
       "SearchDevice": {
         "type": "object",
-        "required": ["imei"],
+        "required": [
+          "imei"
+        ],
         "properties": {
           "imei": {
             "type": "string"
@@ -1354,7 +1724,9 @@
       },
       "SearchDeviceModel": {
         "type": "object",
-        "required": ["imei"],
+        "required": [
+          "imei"
+        ],
         "properties": {
           "imei": {
             "type": "string"
@@ -1366,7 +1738,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["networkAvailability"]
+            "enum": [
+              "networkAvailability"
+            ]
           },
           "availability": {
             "type": "array",
@@ -1481,7 +1855,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["plan"]
+            "enum": [
+              "plan"
+            ]
           },
           "id": {
             "type": "string"
@@ -1499,7 +1875,12 @@
           },
           "status": {
             "type": "string",
-            "enum": ["draft", "available", "archived", "pending"]
+            "enum": [
+              "draft",
+              "available",
+              "archived",
+              "pending"
+            ]
           }
         }
       },
@@ -1508,7 +1889,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -1581,7 +1964,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["planDocument"]
+            "enum": [
+              "planDocument"
+            ]
           },
           "id": {
             "type": "string"
@@ -1602,7 +1987,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -1617,7 +2004,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["porting"]
+            "enum": [
+              "porting"
+            ]
           },
           "id": {
             "type": "string",
@@ -1645,7 +2034,10 @@
           },
           "behavior": {
             "type": "string",
-            "enum": ["cancelOnly", "portIn"],
+            "enum": [
+              "cancelOnly",
+              "portIn"
+            ],
             "description": "The behavior of the porting.",
             "example": "portIn"
           },
@@ -1816,7 +2208,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -1838,7 +2232,11 @@
       },
       "CreatePorting": {
         "type": "object",
-        "required": ["phoneNumber", "provider", "user"],
+        "required": [
+          "phoneNumber",
+          "provider",
+          "user"
+        ],
         "properties": {
           "accountNumber": {
             "type": "string",
@@ -1864,7 +2262,10 @@
           "behavior": {
             "type": "string",
             "nullable": true,
-            "enum": ["cancelOnly", "portIn"],
+            "enum": [
+              "cancelOnly",
+              "portIn"
+            ],
             "default": "portIn",
             "description": "The behavior of the porting.",
             "example": "portIn"
@@ -1951,7 +2352,10 @@
           },
           "behavior": {
             "type": "string",
-            "enum": ["cancelOnly", "portIn"],
+            "enum": [
+              "cancelOnly",
+              "portIn"
+            ],
             "description": "The behavior of the porting.",
             "example": "portIn"
           },
@@ -2005,7 +2409,9 @@
       },
       "SearchPortings": {
         "type": "object",
-        "required": ["phoneNumber"],
+        "required": [
+          "phoneNumber"
+        ],
         "properties": {
           "phoneNumber": {
             "type": "string",
@@ -2019,7 +2425,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["serviceProvider"]
+            "enum": [
+              "serviceProvider"
+            ]
           },
           "id": {
             "type": "string",
@@ -2042,7 +2450,9 @@
             "items": {
               "type": "string"
             },
-            "example": ["p3"]
+            "example": [
+              "p3"
+            ]
           }
         }
       },
@@ -2051,7 +2461,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -2080,6 +2492,143 @@
           },
           "message": {
             "type": "string"
+          }
+        }
+      },
+      "PortOut": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "portOut"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "example": "pto_0SNlurA049MEWV4DWEaT4SaeDI8s"
+          },
+          "behavior": {
+            "type": "string",
+            "enum": [
+              "cancelOnly",
+              "portOut"
+            ],
+            "example": "portOut"
+          },
+          "completedAt": {
+            "type": "string",
+            "nullable": true,
+            "example": "2022-02-21T19:38:34Z"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2020-01-01T00:00:00Z"
+          },
+          "expiredAt": {
+            "type": "string",
+            "nullable": true,
+            "example": "2022-02-21T19:38:34Z"
+          },
+          "failureReason": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "consentNotGiven",
+              "consentRequestCanceled"
+            ],
+            "example": "consentNotGiven"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "expired",
+              "failed",
+              "initiated",
+              "issued",
+              "processing"
+            ],
+            "example": "issued"
+          },
+          "subscription": {
+            "type": "string",
+            "example": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+          },
+          "user": {
+            "type": "string",
+            "example": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+          }
+        }
+      },
+      "CreatePortOut": {
+        "type": "object",
+        "required": [
+          "subscription"
+        ],
+        "properties": {
+          "behavior": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "cancelOnly",
+              "portOut"
+            ],
+            "default": "portOut",
+            "example": "portOut"
+          },
+          "subscription": {
+            "type": "string",
+            "example": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+          }
+        }
+      },
+      "PortOutList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PortOut"
+            }
+          },
+          "moreItemsAfter": {
+            "type": "string",
+            "nullable": true
+          },
+          "moreItemsBefore": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "PortOutCredentials": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "portOutCredentials"
+            ]
+          },
+          "accountNumber": {
+            "type": "string",
+            "nullable": true,
+            "example": "123456789"
+          },
+          "accountPin": {
+            "type": "string",
+            "example": "1234"
+          },
+          "portOut": {
+            "type": "string",
+            "example": "pto_0SNlurA049MEWV4DWEaT4SaeDI8s"
           }
         }
       }
