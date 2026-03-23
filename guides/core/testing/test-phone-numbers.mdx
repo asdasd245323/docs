@@ -1,0 +1,40 @@
+---
+title: "Test Phone Numbers"
+description: "How to use test phone numbers."
+---
+
+Test phone numbers are used to simulate different porting scenarios and verify that the integration with the porting API works correctly.
+The test phone numbers are designed to mimic real-world scenarios.
+Therefore, test portings require the same information as real portings from the mimicked provider.
+When a porting is in status `informationRequired`, you need to update the porting with the required information to proceed (see `required` attribute of the porting).
+
+To make use of a test phone number, provide one of the following phone numbers when creating a porting.
+The phone numbers are organized by provider.
+
+testt11t12
+
+| Phone Number | Country | Description |
+| --- | --- | --- |
+| `+1 959 555 0100` | `US` | This number will be ported in successfully after a few seconds. |
+| `+1 959 555 0101` | `US` | This number is not supported to be ported. |
+| `+1 959 555 0102` | `US` | This number is always declined after being requested. |
+| `+1 959 555 0103` | `US` | This number is always declined the first time it is requested with the `portingDeclined` decline code but succeeds after the porting information is updated.<br/>Note: When testing with Connect (or Connect Sessions), we recommend using one of the numbers that return a more specific decline code (i.e. the numbers ending with 10 - 14). |
+| `+1 959 555 0104` | `US` | This number always requires the approval of the donor provider. |
+| `+1 959 555 0105` | `US` | This number has port protection on the provider. It will be declined the first time it is requested, and then succeed when the porting is updated. |
+| `+1 959 555 0107` | `US` | This number is always declined with the `portingPhoneNumberNotFound` decline code. |
+| `+1 959 555 0108` | `US` | This number is always declined with the `portingPhoneNumberNotActive` decline code. |
+| `+1 959 555 0109` | `US` | This number is always declined with the `portingPendingOtherProvider` decline code. |
+| `+1 959 555 0110` | `US` | This number is always declined the first time it is requested with the `portingAccountPinRequiredOrInvalid` decline code, but succeeds after the porting information is updated. |
+| `+1 959 555 0111` | `US` | This number is always declined the first time it is requested with the `portingAccountNumberRequiredOrInvalid` decline code, but succeeds after the porting information is updated. |
+| `+1 959 555 0112` | `US` | This number is always declined the first time it is requested with the `portingAddressRequiredOrInvalid` decline code, but succeeds after the porting information is updated. |
+| `+1 959 555 0113` | `US` | This number is always declined the first time it is requested with the `portingFirstNameRequiredOrInvalid` decline code, but succeeds after the porting information is updated. |
+| `+1 959 555 0114` | `US` | This number is always declined the first time it is requested with the `portingLastNameRequiredOrInvalid` decline code, but succeeds after the porting information is updated. |
+| `+1 959 555 0115` | `US` | This number is will stay in a requested state for 5 minutes, before being ported in successfully. |
+| `+1 959 555 0116` | `US` | This number is always declined with the `portingPhoneNumberNotEligible` decline code. |
+| `+1 959 555 0118` | `US` | This number is always declined the first time it is requested with the `portingUserInformationMismatch` decline code, but succeeds after the porting information is updated. |
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)

@@ -1,0 +1,105 @@
+---
+title: "SIMs"
+description: "Learn about pSIMs and eSIMs with Geigs API."
+---
+
+Learn some of the details around [SIMs](https://en.wikipedia.org/wiki/SIM_card) and how to use them with Gigs API!
+
+The following sections assume you have an [API key](/api/authentication), your first project and familiarized your self with some basics of the Gigs API. All of this is covered by working through the [introduction](/api/introduction) guide.
+
+## [pSIM vs eSIM](/api/guides/core/sims#p-sim-vs-e-sim)
+
+At this time, the Gigs API supports two types of SIMs: embedded (`eSIM`) and physical (`pSIM`). A plan dictates what kind of SIMs it supports. A plan that only supports `pSIM`s will require you to distribute known SIMs to your users, or install them in your devices prior to shipping them out. A quick call to the [plans endpoint](/api/core/plans#list-all-plans) can provide these details:
+
+### Retrieving plan details with the Gigs Core API - cURL.
+
+```bash
+curl --request "GET" \
+  --url "https://api.gigs.com/projects/${GIGS_PROJECT}/plans/${PLAN_ID}" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+From the above, `${GIGS_PROJECT}` and `${PLAN_ID}` are unique identifiers for your project and plan respectively. The `${GIGS_TOKEN}` is your [API key](/api/authentication). A successful request will result in the following truncated response:
+
+### A successful plan response.
+
+```json
+{
+  "object": "plan",
+  "id": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+  "name": "Gigs Global",
+  "description": "A data plan you will love! Operates in most countries of the world.",
+  "coverage": {
+    "object": "coverage",
+    "id": "de",
+    "name": "Europe",
+    "networks": [{"country": "DE", ...}]
+  },
+  "data": 10000000000,
+  "dataUnit": "byte",
+  "sms": 100,
+  "smsUnit": "message",
+  "voice": 30000,
+  "voiceUnit": "second",
+  "price": {...},
+  "provider": "p4",
+  "requirements": { "address": "none" },
+  "simTypes": ["eSIM", "pSIM"],
+  "status": "active",
+  "tags": ["smartphone", "travel"],
+  "validity": {...}
+}
+```
+
+From the above plan we can see that it supports both `pSIM` and `eSIM`s in Germany (DE). You will need to have your `pSIM`s associated to your Gigs project before pairing them with a compatible plan. The SIMs linked to a project can be retrieved via the [SIMs endpoint](/api/core/sims#list-all-sims):
+
+### Listing project SIMs with the Gigs Core API - cURL.
+
+```bash
+curl --request "GET" \
+  --url "https://api.gigs.com/projects/${GIGS_PROJECT}/sims" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+An example response for requesting all SIMs linked to a specific project:
+
+```json
+{
+  "object": "list",
+  "items": [\
+    {\
+      "object": "sim",\
+      "id": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",\
+      "type": "pSIM",\
+      "iccid": "89883070000007537119",\
+      "provider": "p4",\
+      "status": "inactive",\
+      "createdAt": "2021-01-21T19:38:34Z"\
+    }\
+  ],
+  "moreItemsAfter": null,
+  "moreItemsBefore": null
+}
+```
+
+eSIMs do not share the same requirement of being associated to a specific project before being used. An eSIM is provisioned on demand via the Gigs API and returned to the caller. You can follow along with our guide on [creating a subscription](/api/guides/create-subscription) for more details regarding connectivity supplied via eSIMs.
+
+#### Provisioning Time
+
+Depending on the network provider it can take several minutes before a SIM is fully provisioned.
+
+## [Test SIMs](/api/guides/core/sims#test-sims)
+
+We provide placeholder SIMs which allow you to test various flows in the API. See our [testing guide](/api/guides/core/testing/test-sims) for more information.
+
+Follow our ["Create a subscription"](/api/guides/create-subscription) guide for more details regarding subscriptions.
+
+If you have any further questions or need any assistance please reach out to [support@gigs.com](mailto:support@gigs.com).
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)

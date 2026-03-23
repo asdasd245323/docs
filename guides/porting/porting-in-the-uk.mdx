@@ -1,0 +1,74 @@
+---
+title: "Porting in the UK"
+---
+
+Porting in the UK refers to the process of switching your carrier with porting your existing phone number or solely switching without keeping the number but canceling the old contract. There are a few concepts that you should be aware of throughout the porting process:
+
+- **Donor provider:** The carrier that currently owns the number and will lose it once the porting is completed (the user’s current provider).
+- **Recipient provider:** The carrier that will receive the number once the porting is completed (managed through Gigs).
+- **PAC:** The PAC is a unique code that allows the recipient provider to request the port from the donor provider. It always follows the format of three letters and then six digits, e.g. ABC123456.
+- **STAC:** The STAC is a unique code that allows the recipient provider to request the switch from the donor provider without keeping their phone number. It always follows the format of six digits and then three letters, e.g. 123456ABC. Sometimes referred to as a Non-Porting Authorization Code (N-PAC).
+- **Scheduled Porting**: Portings can be scheduled to happen on a specific date, which is useful for users who want to start their carrier change process early and plan ahead, minimizing downtime of their old phone number. If the scheduled date is not a working day, the porting will be processed on the next working day.
+
+In the UK, ports are highly regulated and are very familiar to end users, as it is a common practice. The process is designed to be straightforward and user-friendly, with most users able to complete the porting process without any issues.
+The porting process is initiated by the end user, who must provide a PAC or STAC code from their current provider.
+
+**Contents:**
+
+- [Porting lifecycle](#porting-lifecycle), including End User Flow
+- [Information Required for a Port](#information-required-for-a-port)
+
+## Porting Lifecycle
+
+The following sections describe the lifecycle of a porting in the UK, including the end user flows for:
+
+- porting in their existing phone number,
+- canceling their existing phone number.
+
+Portings can be requested on subscription creation or for an existing active subscription.
+
+A subscription can have **only one successfully completed porting**.
+
+### End User Flow: Porting In Their Existing Phone Number (PAC)
+
+Below is an overview of the porting process:
+
+1. User wants to bring their phone number to their new plan and reaches out to their current provider to obtain a PAC.
+2. You [create a porting](/api/gig-core-api/portings/create) with behavior `portIn` and the PAC as the account pin. Optionally, specify a `scheduledOn` date to schedule the porting.
+3. Request the porting:
+   - with a new subscription: [create a subscription](/guides/create-subscription) through the API and reference the porting, or
+   - with an existing active subscription: [request a port for an existing subscription](/api/gig-core-api/portings/update) and reference the porting.
+4. Gigs submits the port to the recipient provider.
+5. The recipient provider validates the PAC code and schedules the number transfer with the donor provider, either on the next working day or at the scheduled date.
+6. The previous subscription with the donor provider is automatically canceled and user looses connectivity to their number for a few hours.
+7. The `status` of the porting moves to `completed` (see section [Lifecycle](#lifecycle-of-the-porting-object)) and Gigs activates the new subscription with the ported phone number.
+
+### End User Flow: Canceling the Existing Provider Without Keeping the Old Phone Number (STAC)
+
+1. User indicates that they want to switch to you for their new phone plan, however they want to get a new phone number and not keep their current number. User reaches out to their current provider to obtain a STAC.
+2. You [create a porting](/api/gig-core-api/portings/create) with behavior `cancelOnly` and the STAC as the account pin. Optionally, specify a `scheduledOn` date to schedule the porting.
+3. Request the porting:
+   - with a new subscription: [create a subscription](/guides/create-subscription) through the API and reference the porting. The subscription is blocked until the porting is completed.
+   - with an existing active subscription: [request a port for an existing subscription](/api/gig-core-api/portings/update) and reference the porting. This is the recommended flow, as this way, subscription activation does not depend on STAC completion; STAC processing is asynchronous.
+4. Gigs submits the port to the recipient provider.
+5. The recipient provider validates the STAC code and schedules the subscription cancellation with the donor provider, either on the next working day or at the scheduled date.
+6. The previous subscription with the donor provider is canceled.
+7. The `status` of the porting moves to `completed` (see section [Lifecycle](#lifecycle-of-the-porting-object)) and Gigs activates the new subscription with a new phone number.
+
+For STAC, follow the asynchronous flow described in step 3b: create and activate the subscription first, then attach a `cancelOnly` porting to the existing subscription.
+
+### Lifecycle of the Porting Object
+
+The porting process is modeled on the Gigs APIs through the [`porting`](/api/gig-core-api/portings) object. For a detailed description of the [`porting`](/api/gig-core-api/portings) object and its lifecycle, refer to the [Porting Lifecycle](/guides/porting/how-porting-in-works#porting-lifecycle) section in [How Porting in Works](/guides/porting/how-porting-in-works).
+
+**On the duration of the porting process:**
+
+The porting process in the UK is typically completed within one working day, when the port is submitted before 5pm local time on the previous day and the STAC or PAC is provided accurately by the user.
+
+## Information Required for a Port
+
+Below is the information that is required to submit a port. Note that it is crucial that account pin and phone number are correct.
+
+- Phone number: Number that the user wants to bring to their new subscription or the number that the user wants to cancel.
+- Account pin: The PAC or STAC code provided by the user.
+- Recipient provider: `p12`

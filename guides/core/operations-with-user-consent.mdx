@@ -1,0 +1,56 @@
+---
+title: "Operations with User Consent"
+description: "How certain sensitive operations require explicit user approval in Gigs."
+---
+
+To prevent fraud and protect privacy, we treat certain operations as sensitive and require explicit user approval before executing them.
+
+## Process
+
+### 1. Request an Operation that Requires Consent
+
+You can request operations which require consent via the API.
+The requested resource is created in `initiated` status if user consent needs to be provided.
+
+### 2. User Approval
+
+After requesting an operation with user consent, the affected user receives a notification via the configured delivery method to approve the operation.
+
+Once the user approves, the operation proceeds and the affected resource moves to the `pending` status.
+
+If the user denies the operation or doesn’t approve within 5 hours, the system cancels the request and the affected resource moves to the `failed` status.
+You can retry the failed operation by recreating the resource.
+
+If you want to resend the consent request, you first need to delete or cancel the affected resource, then recreate it.
+
+### 3. Wait for Completion
+
+Our system now processes the requested operation.
+
+You can monitor its progress by tracking the status of the affected resource.
+
+## Consent Notifications
+
+We notify users via the project’s configured delivery method.
+
+We offer the following delivery methods for approval:
+
+- **Email:** The user receives an email with a link to authorize the operation.
+- **SMS:** The user receives an SMS and can reply with `yes` to authorize the operation. Reach out to your account manager if you are interested in this option.
+- **Sending custom notifications:** Reach out to your account manager if you are interested in this option.
+
+## Overview of Operations Requiring User Consent
+
+Affected operations and endpoints are marked in the API specification.
+These operations require user consent only if this feature is enabled in the project settings.
+
+Examples of these operations are:
+
+- Creating a port out
+- Requesting a SIM exchange by creating a subscription change
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)

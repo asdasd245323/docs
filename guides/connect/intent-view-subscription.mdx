@@ -1,1 +1,34 @@
----\ntitle: \Intent: viewSubscription\\n---\n
+---
+title: "Intent: viewSubscription"
+description: "How do I show subscription details to a user?"
+---
+
+Will open Connect on the subscription details page.
+
+![viewSubscription.jpg](https://i.gigscdn.net/docs/v1/connect-session-viewSubscription.jpg)
+
+The request expects a `viewSubscription` object that defines the `subscription` for which to display the details.
+
+### Creating a Connect Session with viewSubscription intent
+
+```bash
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/connectSessions" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --data '{
+    "callbackUrl": "https://example.com",
+    "intent": {
+      "type": "viewSubscription",
+      "viewSubscription": {
+          "subscription": "sub_0U32VAxJ0Z7P8Y40mBAnOP9LPhEr"
+        }
+      },
+    "user": "usr_0U2ViuFW0Z7P8Y2S1L76mfADMT6m"
+  }'
+```
+
+## Where to go from here
+
+- Read the [Connect Sessions API Documentation](/api/projects/${GIGS_PROJECT}/connectSessions)
+- Reach out to [support@gigs.com](mailto:support@gigs.com) for assistance

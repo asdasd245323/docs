@@ -1,0 +1,195 @@
+---
+title: "Porting in the US"
+---
+
+Phone number porting in the U.S. refers to the process of transferring your existing phone number from one carrier to another. It allows you to keep the same number even when you change carriers. There are a few players that you should be aware of throughout the porting process:
+
+- In the United States, **NPAC** stands for the **Number Portability Administration Center**. It is the system that facilitates **Local Number Portability (LNP)**—which allows phone numbers to be retained by users when they switch carriers.
+- **Donor provider:** The carrier that currently owns the number and will lose it once the porting is completed (the user’s current provider).
+- **Recipient provider:** The carrier that will receive the number once the porting is completed (managed through Gigs).
+
+In the US, ports are handled directly between the donor and recipient provider, there is no central clearinghouse. Ports typically take minutes to hours to complete, with median times for successful portings being less than 60 minutes. Porting is the most complex part of the purchase flow from both a development and UX perspective, and also requires action from the end user. At the same time, it is the key point in the user journey: the ability to keep their phone number is a major driver of conversion and the ultimate signal of long-term retention. The success of your program hence hinges on its correct implementation.
+
+**Contents:**
+
+- [Porting lifecycle](#porting-lifecycle), including End User Flow
+- [Information Required for a Port](#information-required-for-a-port)
+- [Implementation Options](#implementation-options)
+- [Timing considerations](#timing-considerations)
+- [Handling Porting Declines](#handling-porting-declines)
+- [How to test portings](#how-to-test-portings)
+- [End user communications](#end-user-communication)
+
+## Porting Lifecycle
+
+### End User Flow
+
+Below is an overview of the porting process:
+
+1. User indicates that they want to bring their phone number to their new phone plan
+2. You create a draft [porting](/api/gig-core-api/portings/create) and create a [subscription](/guides/create-subscription) through the API.
+3. User reaches out to their current provider to obtain required porting information, which typically includes an account number and PIN.
+4. User inputs all required information for the port to you (see section [Information Required for a Port](#information-required-for-a-port)).
+5. You update the [porting](/api/gig-core-api/portings/update) through the API.
+6. Gigs submits the port to the donor provider.
+7. The _donor provider_ approves the port and releases the phone number.
+8. The `status` of the porting moves to `completed` (see section [Lifecycle](#lifecycle-of-the-porting-object)) and Gigs activates the new subscription with the ported phone number.
+9. The user cancels their subscription with their _donor provider_.
+
+### Lifecycle of the porting object
+
+The porting process is modeled on the Gigs APIs through the [`porting`](/api/gig-core-api/portings) object. For a detailed description of the [`porting`](/api/gig-core-api/portings) object and its lifecycle, refer to the [Porting Lifecycle](/guides/porting/how-porting-in-works#porting-lifecycle) section in [How Porting in Works](/guides/porting/how-porting-in-works).
+
+**On the duration of the porting process:**
+
+The porting process in the US can be completed within minutes, when all information is provided accurately by the user. When incorrect information is provided, a back-and-forth between your user and their carrier may occur, which can draw out the process. See the [Information Required for a Port](#information-required-for-a-port) section for a list of all information that is needed from your user.
+
+Expiration timelines for ports vary between carriers in the US, ranging between 10 and 50 days. When a port has expired, you need to create a new porting object and a new subscription.
+
+## Information Required for a Port
+
+Below is the information that is required to submit a port. Note that it is crucial that every piece of this information is correct and **exactly** matches what the _donor carrier_ has on file.
+The exact attributes required for a porting are listed in the `required` attribute of the `porting` object.
+
+We strongly recommend emphasizing in the UI/UX (for instance with mandatory checkboxes) the importance of the user checking that the porting information matches what they have on file with their _donor provider_ as any mismatches will result in delays.
+
+- Phone number: Number that the user wants to bring to their new subscription
+- Account holder name: Name of the account holder for the user’s current carrier. The account holder is the owner of the account
+- User address: This is the address on file with the user’s current carrier
+- Account number: User must obtain this from their current carrier
+- Account PIN: User must obtain this from their current carrier
+- Donor provider: User’s current carrier
+- Recipient provider: `p11` or `p13`
+
+In specific cases, we might also require:
+
+- Billing PIN: Additional security code linked to the user's current account (currently relevant only for p11)
+
+## Implementation Options
+
+There are two options when it comes to implementing porting: building a custom porting flow using the Gigs [API](#api), or leveraging the low-code Gigs’ [Connect Sessions `completePorting` Intent](#connect-sessions-complete-porting-intent) (recommended for most customers).
+
+### API
+
+Using the API is an option for those that want the design to be native in their app. See below for what is required to successfully build out a porting flow:
+
+![Porting API diagram](https://i.gigscdn.net/docs/v1/us-porting-flow-api.png)
+
+**API Endpoints to Use:**
+
+1. [Create a draft porting](/api/gig-core-api/portings/create)
+2. [List all service providers](/api/gig-core-api/portings/list-providers) (when calling this endpoint filter for US only providers)
+3. [Create a subscription](/guides/create-subscription)
+4. [Update the porting](/api/gig-core-api/portings/update) (to complete the porting with newly provided information by the user)
+5. [Cancel a porting](/api/gig-core-api/portings/cancel) (if needed)
+
+**How to handle decline codes or ineligible ports:**
+
+Appropriately handle any decline codes that come back from a submitted port. Please see the section on [Handling Porting Declines](#handling-porting-declines) on how to handle declined ports, and [End-User Communications](#end-user-communication) for how to keep your end user informed about the status and required action on their side.
+
+**Additional Information to Note:**
+
+We recommend to surface instructions for how to retrieve the necessary credentials (account number and PIN) from key donor providers and embed them in your application.
+
+If a user's service provider does not appear in the returned list of service providers, an option labeled "Other (unlisted provider)" is available in the response and can be used for such cases.
+
+For additional information on how to implement the Porting API, refer to the section [How Porting In Works](/guides/porting/how-porting-in-works).
+
+### Connect Sessions `completePorting` Intent
+
+The `completePorting` Intent consists a fully templated porting experience, hosted by Gigs. You can show the `completePorting` event in a webview in your application. With the Gigs `completePorting` Intent the most common decline codes, the donor carrier list, and donor specific port out instructions are handled automatically and kept up to date by Gigs.
+
+We recommend the majority of customers to use the Connect Sessions `completePorting` Intent.
+
+After creating a subscription, redirect the user to the Connect Session to provide the initial porting information. The Connection Session will show the required input fields and details about the donor provider. Additionally, you can redirect to a Connect Session again when the initial attempt is not successful and follow-up actions are required.
+
+**API Endpoints To Use:**
+
+1. [Create a draft porting](/api/gig-core-api/portings/create)
+2. [List all service providers](/api/gig-core-api/portings/list-providers) (when calling this endpoint filter for US only providers)
+3. [Create a subscription](/guides/create-subscription)
+4. [Create a Connect Session](/guides/connect/create-sessions) with [Intent: completePorting](/guides/connect/intent-complete-porting) and redirect the user to the Connect Sessions URL.
+
+**Additional Information to Note:**
+
+The `completePorting` intent handles the most common decline codes automatically:
+
+- `portingAccountNumberRequiredOrInvalid`
+- `portingAccountPinRequiredOrInvalid`
+- `portingAddressRequiredOrInvalid`
+- `portingPhoneNumberPortProtected`
+
+If a user's service provider does not appear in the returned list of service providers, an option labeled "Other (unlisted provider)" is available in the response and can be used for such cases.
+
+If a Connect Session is created with a non-applicable declinedCode, Connect will immediately redirect the user back to the callbackUrl with the `bad_configuration` status code. If no `callbackUrl` is provided, Connect will display an error screen.
+
+We recommend redirecting users to a Gigs Connect Session with `completePorting` Intent by default when portings are not successful. For the following statuses, the user cannot successfully complete their port and should be given the option to create their subscription with a new number. If you decide to build out a flow for these statuses you do not need to send the user to the Connect Sessions intent:
+
+- `portingDeclined`
+- `portingPhoneNumberNotActive`
+- `portingPhoneNumberAdministrative`
+
+To create consistency in styling between your application and the Connect Session `completePorting` intent, the button colors and logo are customizable.
+
+For a more complete reference of the `completePorting` intent, please refer to [Intent: completePorting](/guides/connect/intent-complete-porting) in the [Connect sessions documentation](/guides/connect/about).
+
+## Timing considerations
+
+**When should you collect information from the end user?**
+
+It is possible to collect all porting information from the end user before completing the payment. To optimize for conversion however, we recommend collecting a _limited_ set of information before completing the payment:
+
+| User information to collect _before_ payment                                | User information to collect _after_ payment                                    |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Phone number: Number that the user wants to bring to their new subscription | Account holder name: Name of the account holder for the user’s current carrier |
+| User address: This is the address on file for the user’s current carrier.   | Account number: User must obtain this from their current carrier               |
+| Donor provider: User’s current carrier                                      | Account PIN: User must obtain this from their current carrier                  |
+
+The user will have to manually reach out to their current carrier to collect their account number and PIN and come back to your application to input the information. Therefore if they have already paid for the subscription, they are more likely to follow through with providing their porting information.
+
+**When should the user be charged for the subscription?**
+
+| Scenario                                          | Pros                                                                    | Cons                                                               |
+| ------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Before prompting for account info (_recommended_) | Higher commitment; user is more likely to follow through with the port. | If the port fails, it will require a refund or cancellation.       |
+| After the port successfully completes             | User doesn't pay for service without connectivity.                      | Less incentive for the user to follow through with their purchase. |
+
+**When should the user be prompted to download their eSIM?**
+
+| Scenario                                  | Pros                                                                     | Cons                                                                 |
+| ----------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| Once the port is complete (_recommended_) | Least confusing flow. Ensures issues are resolved before device setup.   | User needs Wifi to download and might experience brief service gap.  |
+| Right after port info submission          | Zero connectivity downtime as eSIM works instantly upon port completion. | May cause confusion if user tries to use the SIM before it's active. |
+
+## Handling Porting Declines
+
+### Porting Decline Codes
+
+The Gigs platform abstracts country and provider specific porting decline codes to a generic set of codes to use in your integration. For detailed instructions on the available declines codes, refer to the [Decline Codes](/guides/porting/how-porting-in-works#porting-decline-codes) section in [How Porting in Works](/guides/porting/how-porting-in-works).
+
+Due to inherent limitations of phone number porting infrastructure, decline codes are surfaced _one at a time_. Therefore if a port has multiple declines, the next decline reason will not appear until the first decline reason is resolved.
+
+## How to Test Portings
+
+The test providers that are part of the Gigs platform allow for extensive testing of Porting. Test phone numbers are used to simulate different porting scenarios and verify that your integration with the Gigs API works correctly.
+
+For test phone numbers, refer to the [Testing](/guides/core/testing/test-phone-numbers) section in the Core documentation.
+
+## End-User Communication
+
+### Porting lifecycle communication: Status and Decline Codes
+
+Based on the status and the decline code of the port, you should send specific communication with a Call-to-Action to the end user. This ensures your users know when to take which action, helping to expedite the porting process and reduce the need for customer support intervention.
+
+We recommend communication for the following stages of the porting lifecycle:
+
+- Porting requested
+- Porting status is `informationRequired`
+- Porting status is `declined`
+- Porting completed
+
+### Using Gigs webhooks to send porting lifecycle communication
+
+We proactively inform you of all status changes of a porting through our webhooks, so you can trigger communication to your end user. You can configure a webhook endpoint in the developers section of the Gigs Dashboard.
+
+Detailed information about how to setup webhooks can be found in our documentation on [Events and Webhooks](/guides/core/events/events-webhooks).

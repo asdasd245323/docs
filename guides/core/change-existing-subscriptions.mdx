@@ -1,0 +1,126 @@
+---
+title: "Making Changes to an Existing Subscription"
+description: "How to change a subscription's plan or SIM using the Gigs API."
+---
+
+After a subscription has been created on Gigs, a user may wish to make changes to certain attributes of the subscription, such as changing the plan or the SIM. This is enabled through an entity known as a [subscription change](/api/core/subscription-changes#retrieve-a-subscription-change).
+
+A subscription change can be created to change a subscription's plan or SIM.
+
+## Subscription change process
+
+The example steps below show the process for changing a subscription's SIM. The steps are identical for a plan change, the parameters supplied when creating the subscription change are the only difference. See [the API docs for creating a new subscription change](/api/core/subscription-changes#create-a-subscription-change) for more detail.
+
+### 1. Create a new subscription change
+
+To change the SIM associated to a subscription, [create a new subscription change](/api/core/subscription-changes#create-a-subscription-change):
+
+### Create a subscription change
+
+```shell
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptionChanges" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "sim": "auto",
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+    "when": "now"
+  }'
+```
+
+Note that specifying the desired `sim` to be `"auto"` will automatically allocate a new eSIM to the subscription. Should you wish to assign a specific SIM to the subscription, the SIM's unique identifier must be specified.
+
+The response will contain the newly created subscription change:
+
+### A pending SIM subscription change
+
+```json
+{
+  "object": "subscriptionChange",
+  "id": "sch_0SNlurA049MEWV3bE0SMtbIEJApp",
+  "sim": {
+    "object": "sim",
+    "id": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+    ...
+  },
+  "status": "pending",
+  "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+  "appliedAt": null,
+  "createdAt": "2021-01-21T19:12:28Z",
+  "scheduledAt": "2021-01-21T19:12:28Z"
+}
+```
+
+### 2. Monitor subscription change status
+
+After the subscription change has been created, the changes will be applied asynchronously once when the scheduled time is reached. Once a subscription change has been applied, the status will change from `"pending"` to `"applied"`. [Retrieve the subscription change](/api/core/subscription-changes#retrieve-a-subscription-change) to view its status:
+
+### Retrieve a subscription change
+
+```shell
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptionChanges/${ID}" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+The subscription change (with its current status) will be returned:
+
+### An applied SIM subscription change
+
+```json
+{
+  "object": "subscriptionChange",
+  "id": "sch_0SNlurA049MEWV3bE0SMtbIEJApp",
+  "sim": {
+    "object": "sim",
+    "id": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+    ...
+  },
+  "status": "applied",
+  "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+  "appliedAt": "2021-01-21T19:12:35Z",
+  "createdAt": "2021-01-21T19:12:28Z",
+  "scheduledAt": "2021-01-21T19:12:28Z"
+}
+```
+
+## Subscription change lifecycle
+
+- **initiated**: Indicates that the subscription change is waiting for another action (such as an invoice payment) to succeed before the subscription change can be processed.
+- **pending**: Indicates that the subscription change is waiting to be processed by our system. This will happen at the `scheduledAt` time.
+- **applied**: Indicates that the subscription change has been applied successfully. The desired changes will be reflected on the subscription at this point.
+- **failed**: Indicates that the subscription change could not be applied, in which case the subscription change will include a `failureCode`. Should you require assistance with a failed subscription change, please reach out to [support@gigs.com](mailto:support@gigs.com).
+
+## Updating a subscription directly
+
+Some properties of a subscription can be updated directly without the use of a subscription change.
+
+### User Address
+
+In some regions this address is used as a service address for the subscription. It should be kept up to date for regulatory compliance and correct tax calculations.
+
+You can update the subscription directly with the `userAddress` property and the ID of the [new user address](/api/core/user-addresses#create-a-user-address).
+
+### Update subscription service address
+
+```shell
+curl --request "PATCH" \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptions/${SUBSCRIPTION_ID}" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "userAddress": "adr_0SNlurA049MEWV5ELDmnaqVXgTFT"
+  }'
+```
+
+Once a subscription has a user address, it cannot be removed, only updated to a different user address. This feature is only available for active signatures.
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)

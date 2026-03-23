@@ -1,0 +1,33 @@
+---
+title: "Test Reminders"
+description: "How to test lifecycle reminders."
+---
+
+We currently support the following porting-related reminders, which are testable via test providers:
+
+- `com.gigs.reminder.porting.declined`
+- `com.gigs.reminder.porting.informationRequired`
+- `com.gigs.reminder.porting.requested`
+- `com.gigs.reminder.porting.scheduled`
+
+## [Accelerated Timing](/api/guides/core/testing/test-reminders#accelerated-timing)
+
+Test providers use accelerated threshold schedules for faster testing. The same threshold patterns apply as shown in the [table](/api/guides/core/reminders#how-they-work), but time intervals are measured in **minutes instead of days**. For example, "Day 1" becomes "Minute 1".
+
+## [Example: Testing Porting Information Required](/api/guides/core/testing/test-reminders#example-testing-porting-information-required)
+
+To test the `com.gigs.reminder.porting.informationRequired` reminder:
+
+1. **Create a porting** without all required attributes. For example, leave out the `accountPin`.
+2. **Create a subscription** with this porting. The porting will transition to `informationRequired` status.
+3. The reminder condition is now triggered and Gigs begins monitoring the porting status.
+4. **Wait for reminder webhooks** to be sent at 1 minute, 3 minutes, 7 minutes, 14 minutes, and 30 minutes.
+5. Reminders will continue until the porting status changes from `informationRequired` to any other status.
+
+Subscription reminders (`com.gigs.reminder.subscription.simNotInstalled` and `com.gigs.reminder.subscription.usageMissing`) are not available for test providers.
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)

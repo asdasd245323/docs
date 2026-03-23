@@ -1,0 +1,53 @@
+---
+title: "Metadata"
+description: "How to store and update custom metadata on Gigs API resources."
+---
+
+A metadata object with custom data (in the form of key-value pairs) can be stored and updated on many Gigs API resources. Metadata can be used to store any data, including references to resources in another system or additional information about the resource. Metadata keys and values are UTF-8-encoded strings.
+
+Metadata is exposed by the API to help with ease of integration.
+The Gigs platform might utilize metadata to convey customer-specific information. This metadata can be identified by the `gigs.com` prefix in the metadata key and is referred to as Gigs metadata. Gigs metadata is managed internally by the Gigs platform and it cannot be added or modified via API calls.
+
+## Updating and deleting metadata
+
+Metadata can be updated or deleted in various POST and PATCH requests.
+
+- `"metadata": { "customer_id": "4972" }` updates the value of the `"customer_id"` property, and does not affect any other properties for the same resource.
+- `"metadata": { "customer_id": null }` deletes the `"customer_id"` property.
+- `"metadata": { "customer_id": "" }` updates the value of the `"customer_id"` property to an empty string.
+- `"metadata": {}` does nothing.
+- `"metadata": null` is not allowed. An invalid request error (with status 422) will be returned.
+- Not including the `"metadata"` key does nothing.
+
+### Example
+
+The following example indicates a request that will update the metadata on a subscription. The value of the `"customer_id"` property will be updated to `"7251"` and the `"referred_by"` property will be deleted.
+
+```shell
+curl --request "PATCH" \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptions/${ID}" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "metadata": {
+      "customer_id": "7251",
+      "referred_by": null
+    }
+  }'
+```
+
+## Constraints
+
+Some constraints are imposed on metadata:
+
+- All keys and values are stored and returned as strings.
+- Up to 10 keys can be stored on a reference (excluding Gigs metadata).
+- Keys can contain up to a maximum of 40 characters.
+- Values can contain up to a maximum of 255 characters.
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)

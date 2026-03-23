@@ -14,10 +14,6 @@
         "tab": "Reference",
         "groups": [
           {
-            "group": "Getting started",
-            "pages": ["index", "quickstart", "development"]
-          },
-          {
             "group": "Explore the API",
             "pages": [
               "api/introduction",
@@ -32,96 +28,67 @@
             ]
           },
           {
-            "group": "Devices",
+            "group": "Gig Core API",
             "pages": [
-              "api/gig-core-api/devices/list",
-              "api/gig-core-api/devices/create",
-              "api/gig-core-api/devices/retrieve",
-              "api/gig-core-api/devices/delete",
-              "api/gig-core-api/devices/update",
-              "api/gig-core-api/devices/search",
-              "api/gig-core-api/devices/device-model-brands",
-              "api/gig-core-api/devices/device-model-retrieve",
-              "api/gig-core-api/devices/device-model-search",
-              "api/gig-core-api/devices/device-model-list"
+              {
+                "group": "Devices",
+                "pages": [
+                  "api/gig-core-api/devices/list",
+                  "api/gig-core-api/devices/create",
+                  "api/gig-core-api/devices/retrieve",
+                  "api/gig-core-api/devices/delete",
+                  "api/gig-core-api/devices/update",
+                  "api/gig-core-api/devices/search",
+                  "api/gig-core-api/devices/device-model-brands",
+                  "api/gig-core-api/devices/device-model-retrieve",
+                  "api/gig-core-api/devices/device-model-search",
+                  "api/gig-core-api/devices/device-model-list"
+                ]
+              },
+              {
+                "group": "Add-ons",
+                "pages": [
+                  "api/gig-core-api/add-ons/add-ons",
+                  "api/gig-core-api/add-ons/retrieve",
+                  "api/gig-core-api/add-ons/update",
+                  "api/gig-core-api/add-ons/archive",
+                  "api/gig-core-api/add-ons/publish"
+                ]
+              },
+              {
+                "group": "Network Availabilities",
+                "pages": ["api/gig-core-api/network-availabilities"]
+              },
+              {
+                "group": "Plans",
+                "pages": [
+                  "api/gig-core-api/plans/list",
+                  "api/gig-core-api/plans/retrieve",
+                  "api/gig-core-api/plans/update",
+                  "api/gig-core-api/plans/archive",
+                  "api/gig-core-api/plans/publish",
+                  "api/gig-core-api/plans/search",
+                  "api/gig-core-api/plans/list-documents",
+                  "api/gig-core-api/plans/retrieve-document"
+                ]
+              },
+              {
+                "group": "Portings",
+                "pages": [
+                  "api/gig-core-api/portings/list",
+                  "api/gig-core-api/portings/create",
+                  "api/gig-core-api/portings/retrieve",
+                  "api/gig-core-api/portings/delete",
+                  "api/gig-core-api/portings/update",
+                  "api/gig-core-api/portings/cancel",
+                  "api/gig-core-api/portings/search",
+                  "api/gig-core-api/portings/list-providers",
+                  "api/gig-core-api/portings/retrieve-provider"
+                ]
+              }
             ]
           },
-          {
-            "group": "Network Availabilities",
-            "pages": ["api/gig-core-api/network-availabilities"]
-          },
-          {
-            "group": "Plans",
-            "pages": [
-              "api/gig-core-api/plans/list",
-              "api/gig-core-api/plans/retrieve",
-              "api/gig-core-api/plans/update",
-              "api/gig-core-api/plans/archive",
-              "api/gig-core-api/plans/publish",
-              "api/gig-core-api/plans/search",
-              "api/gig-core-api/plans/list-documents",
-              "api/gig-core-api/plans/retrieve-document"
-            ]
-          },
-          {
-            "group": "Add-ons",
-            "pages": [
-              "api/gig-core-api/add-ons/add-ons",
-              "api/gig-core-api/add-ons/retrieve",
-              "api/gig-core-api/add-ons/update",
-              "api/gig-core-api/add-ons/archive",
-              "api/gig-core-api/add-ons/publish"
-            ]
-          },
-          {
-            "group": "Portings",
-            "pages": [
-              "api/gig-core-api/portings/list",
-              "api/gig-core-api/portings/create",
-              "api/gig-core-api/portings/retrieve",
-              "api/gig-core-api/portings/delete",
-              "api/gig-core-api/portings/update",
-              "api/gig-core-api/portings/cancel",
-              "api/gig-core-api/portings/search",
-              "api/gig-core-api/portings/list-providers",
-              "api/gig-core-api/portings/retrieve-provider"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": ["api-reference/introduction"]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
-          }
+          { "group": "Gigs Payments API" }
         ]
       },
       {
@@ -167,25 +134,47 @@
           },
           {
             "group": "Core",
-            "pages": ["guides/core/activate-physical-sims"]
+            "pages": [
+              "guides/core/activate-physical-sims",
+              "guides/core/add-ons",
+              "guides/core/change-existing-subscriptions",
+              "guides/core/metadata",
+              "guides/core/operations-with-user-consent",
+              "guides/core/reminders",
+              "guides/core/sims",
+              "guides/core/user-address-validation",
+              {
+                "group": "Events",
+                "pages": [
+                  "guides/core/events/events-webhooks",
+                  "guides/core/events/data-change-notifications"
+                ]
+              },
+              {
+                "group": "Testing",
+                "pages": [
+                  "guides/core/testing/overview",
+                  "guides/core/testing/test-reminders",
+                  "guides/core/testing/simulate-usage",
+                  "guides/core/testing/test-phone-numbers",
+                  "guides/core/testing/test-sims"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Porting",
+            "pages": [
+              "guides/porting/how-porting-in-works",
+              "guides/porting/how-porting-out-works",
+              "guides/porting/porting-in-the-uk",
+              "guides/porting/porting-in-the-us"
+            ]
           }
         ]
       }
     ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    "global": {}
   },
   "logo": {
     "light": "/logo/light.svg",

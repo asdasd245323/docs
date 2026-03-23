@@ -1,1 +1,154 @@
----\ntitle: \Activate Physical SIMs Inside\\n---\n
+---
+title: "Activate Physical SIMs Inside Devices"
+description: "How to activate physical SIMs inside devices using the Gigs API."
+---
+
+In this guide we will walk you through activating your user's SIM cards when
+they arrive with a device that has the physical SIM already inserted. A possible
+scenario here is that you bought Gigs SIM cards for devices that you sell and
+inserted them into the devices during the packaging process.
+
+That's great user experience because now your users just have to unpack the
+device and provide you with the device's IMEI in order to activate the SIM card
+in an instant.
+
+## The workflow
+
+Once the user opens up their new device, they will only need to provide you with
+the device's IMEI number, usually easily found on the device's backside or
+inside its general settings.
+
+Once you have a device's IMEI you need to go through the following steps inside
+the Gigs API to activate the SIM card:
+
+1. Find user's device
+2. Create a subscription
+
+Respectively, you'll need to do a series of requests.
+
+### 1. Find user's device
+
+To find a user's device, the device must be present in the database.
+Read [here](#import-devices) to add your devices to the Gigs API.
+
+### Retrieve a device by IMEI
+
+```shell
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/devices/search" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{"imei": "529959546691063"}'
+```
+
+This search endpoint is a POST endpoint because it potentially requires personal
+identifiable search parameter information (namely the IMEI). Passing it via the
+message body makes is less likely to be exposed to third parties, e.g. in
+higher-level log records.
+
+You should receive a JSON response resembling this:
+
+### A device object to get the associated sim
+
+```json
+{
+  "object": "device",
+  "id": "dev_0SNlurA049MEWV55CrA9qMvI2FVJ",
+  "imei": "123456789012435",
+  "model": {
+    "object": "deviceModel",
+    "id": "dmd_0SNlurA04OUskUGfGAn3Rh",
+    "brand": "Apple",
+    "name": "iPhone 13 Pro",
+    "simTypes": ["pSIM", "eSIM"],
+    "type": "smartphone"
+  },
+  "name": null,
+  "sims": [
+    {
+      "object": "sim",
+      "id": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+      "type": "pSIM",
+      "iccid": "89014104271234567890",
+      "provider": "p4",
+      "status": "active",
+      "createdAt": "2021-10-07T14:59:00Z"
+    }
+  ],
+  "user": null,
+  "createdAt": "2022-01-22T20:38:31Z"
+}
+```
+
+Please take a note of the SIM ID (`response.sims[0].id`).
+
+### 2. Create a subscription
+
+By creating a subscription you activate the SIM card so that it becomes `active`
+and usable by the end-user.
+
+Let's look at a sample subscription request POST body:
+
+### POST /projects/${GIGS_PROJECT}/subscriptions JSON body
+
+```json
+{
+  "plan": "${PLAN_ID}",
+  "user": "${USER_ID}",
+  "sim": "${SIM_ID}"
+}
+```
+
+Respectively, you'll need to...
+
+1. Provide a `${PLAN_ID}` (You should have plans pre-configured and retrievable
+via the `GET /projects/${GIGS_PROJECT}/plans` [endpoint](/api/core/plans#list-all-plans))
+2. Provide a `${SIM_ID}`
+3. Provide a `${USER_ID}`
+
+Equipped with that, we can now fire up a real subscription request:
+
+```shell
+curl --request POST \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptions" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+    "sim": "sim_0SNlurA049MEWV1BAAmWZULA4lf6"
+  }'
+```
+
+The response will contain all the details about your subscription created with the SIM card:
+
+```shell
+{
+  "object": "subscription",
+  "id": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+  // [... more properties ...]
+}
+```
+
+As you can see, when the user scans a device's IMEI, it's just a matter of a few
+requests to find the device, get its mapped SIM card and then place an order to
+finally activate the SIM card.
+
+Once the SIM card is activated, the end user is able to use it.
+
+#### SIM Card Activated!
+
+Congratulations, you have successfully activated a SIM card and connected a soul to the rest of the world! 🚀
+
+### Import devices
+
+You can send the device details (i.e. brand name and model name) and a CSV table
+of an ICCID to IMEI mapping table to [Gigs](mailto:support@gigs.com).
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)

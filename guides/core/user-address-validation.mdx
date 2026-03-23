@@ -1,0 +1,195 @@
+---
+title: "User Address Validation"
+description: "How user addresses are validated on the Gigs API."
+---
+
+User addresses are always validated when they're submitted to the [address creation endpoint](/api/core/user-addresses#create-a-user-address) on the Gigs API. Typically, basic checks are performed, such as:
+
+- Are the required fields (such as `line1`, `city`, and `country`) present?
+- Is the country code valid?
+
+Some network carriers, however, require stricter checks. As an example, US carriers may require the address be verified against a database of postal addresses in order to be able to provide [E911](https://en.wikipedia.org/wiki/Enhanced_911) support.
+
+Whether the validation is strict or not, if an address is considered invalid, our API will attempt to provide details in its response, explaining which errors were found. In some cases, it might also be able to provide suggestions on how to fix the address input, which could help for example in the case of typos.
+
+Below we cover a number of possible validation errors, with examples of API responses.
+
+## [Prerequisites](/api/guides/core/user-address-validation#prerequisites)
+
+For this guide, we'll assume you know how to:
+
+- [Get an API key](/api/introduction#1-getting-an-api-key)
+- [Make an API request](/api/introduction#2-making-an-api-request)
+
+## [Examples](/api/guides/core/user-address-validation#examples)
+
+All examples use the [address creation endpoint](/api/core/user-addresses#create-a-user-address) to add an address for a user with id `USER_ID`. As explained in the [error handling guide](/api/error-handling), all error responses contain a machine-readable `code` field, and a human-readable description in `message`.
+
+For address validation, these top-level error fields don't provide enough useful and actionable information, so more details can be found within the `details` field. These contain error descriptions specific to each address field and, when possible, suggestions on how to fix each one. The format is as follows:
+
+```json
+{
+  "object": "error",
+  "code": "userAddressInvalid",
+  "details":[
+    {
+      "object": "propertyErrorDetail",
+      "code": "addressPropertyIncomplete",
+      "message": "The value for this property is incomplete or missing.",
+      "property": "line1",
+      "suggestion": null
+    },
+    {
+      "object": "propertyErrorDetail",
+      "code": "addressPropertyInvalid",
+      "message": "Invalid value for property.",
+      "property": "city",
+      "suggestion": "<suggestion to correct `city`>"
+    },
+    ...
+  ]
+}
+```
+
+Note how in the example a suggestion is given to correct `city`, but none is given to correct `line1`. This is the case when there is not enough information to find a suitable suggestion, or when there is no known address with a similar `line1`.
+
+You can see the full error schema in the [address creation endpoint reference](/api/core/user-addresses#create-a-user-address). Below we give more concrete examples of address validation errors.
+
+### [Missing required information](/api/guides/core/user-address-validation#missing-required-information)
+
+In the following example, both `city` and `line1` are missing.
+
+### POST address with missing fields - cURL
+
+```bash
+curl --request POST \
+  --url https://api.gigs.com/projects/${GIGS_PROJECT}/users/${USER_ID}/addresses \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "country": "US",
+    "line2": "Apartment 5",
+    "state": "NY",
+    "postalCode": "10024"
+  }'
+```
+
+The response body lists the fields that are missing:
+
+### A failed response when fields are missing
+
+```json
+{
+  "object": "error",
+  "message": "Missing required properties \"city\" and \"line1\"",
+  "type": "invalid"
+}
+```
+
+### [Partially correct fields](/api/guides/core/user-address-validation#partially-correct-fields)
+
+In the next example, `line1` and `city` are sent, but both are partially incorrect (`Market Avenue` should be `Market Street`, and `San Francesco` should be `San Francisco`):
+
+### POST address with missing fields - cURL
+
+```bash
+curl --request POST \
+  --url https://api.gigs.com/projects/${GIGS_PROJECT}/users/${USER_ID}/addresses \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "country": "US",
+    "line1": "2261 Market Avenue",
+    "city": "San Francesco",
+    "state": "CA",
+    "postalCode": "94114"
+  }'
+```
+
+Since the fields are partially correct, and given additional information like postal code, the API is able to provide suggestions in the response, for both `line1` and `city`:
+
+### A failed response with suggestions to correct typos
+
+```json
+{
+  "object": "error",
+  "code": "userAddressInvalid",
+  "details":[
+    {
+      "object": "propertyErrorDetail",
+      "code": "addressPropertyInvalid",
+      "message": "Invalid value for property.",
+      "property": "line1",
+      "suggestion": "2261 Market St"
+    },
+    {
+      "object": "propertyErrorDetail",
+      "code": "addressPropertyInvalid",
+      "message": "Invalid value for property.",
+      "property": "city",
+      "suggestion": "San Francisco"
+    }
+  ],
+  "message": "The given address is not valid.",
+  "type": "invalid"
+}
+```
+
+A new request can then be made using the provided suggestions, and it should pass validation.
+
+### [Missing secondary information](/api/guides/core/user-address-validation#missing-secondary-information)
+
+Some addresses are only considered valid when provided with secondary information (`line2`). This kind of information cannot be guessed from other fields, so in those cases, no suggestion is provided in the response.
+
+### POST address with missing `line2`, when it is required - cURL
+
+```bash
+curl --request POST \
+  --url https://api.gigs.com/projects/${GIGS_PROJECT}/users/${USER_ID}/addresses \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "line1": "2335 S State St",
+    "city": "Provo",
+    "postalCode": "84606",
+    "state": "UT",
+    "country": "US"
+  }'
+```
+
+The response will indicate through the `addressPropertyIncomplete` code, that the field was required, but not provided. And as mentioned, the `suggestion` is in this case `null`.
+
+### A failed response without available suggestions
+
+```json
+{
+  "object": "error",
+  "code": "userAddressInvalid",
+  "details": [
+    {
+      "object": "propertyErrorDetail",
+      "code": "addressPropertyIncomplete",
+      "message": "The value for this property is incomplete or missing.",
+      "property": "line2",
+      "suggestion": null
+    }
+  ],
+  "message": "The given address is not valid.",
+  "type": "invalid"
+}
+```
+
+Note that not all addresses require the secondary information, but the error responses should make it clear when they do.
+
+## [Support](/api/guides/core/user-address-validation#support)
+
+Do you have still have questions or feedback to provide? We'd love to read them on [support@gigs.com](mailto:support@gigs.com).
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)

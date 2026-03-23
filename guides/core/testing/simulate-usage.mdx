@@ -1,0 +1,46 @@
+---
+title: "Simulate Usage"
+description: "How to simulate usage for testing purposes."
+---
+
+To test usage notifications, [simulate usage](/api/guides/core/testing/simulate-usage#simulate-subscription-usage) on any active test subscription.
+
+```bash
+curl --request "POST" \
+  --url https://api.gigs.com/testing/projects/${GIGS_PROJECT}/subscriptions/${SUBSCRIPTION_ID}/usage \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "data": 18883100,
+    "voice": 240,
+    "sms": 15,
+    "country": "US"
+  }'
+```
+
+In the request body you can pass `data` used in bytes, `voice` usage in seconds, `sms` sent and received or `country`.
+The country refers to the country code to assign to the simulated usage. If not provided, the usage will be assigned to the home country of the provider.
+
+The response contains the subscriptions' daily aggregated usage for the requested country. To see the full list of usages, [list the usages](/api/core/usage#list-subscription-usage-records) instead.
+
+```json
+{
+  "object": "usageRecord",
+  "data": 18883100,
+  "end": "2021-02-15T00:00:00Z",
+  "labels": {
+    "country": "US",
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+  },
+  "sms": 15,
+  "start": "2021-02-14T00:00:00Z",
+  "voice": 240
+}
+```
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)

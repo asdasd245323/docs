@@ -1114,9 +1114,7 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": [
-              "addon"
-            ]
+            "enum": ["addon"]
           },
           "id": {
             "type": "string"
@@ -1130,11 +1128,7 @@
           },
           "status": {
             "type": "string",
-            "enum": [
-              "draft",
-              "available",
-              "archived"
-            ]
+            "enum": ["draft", "available", "archived"]
           }
         }
       },
@@ -1143,9 +1137,7 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": [
-              "list"
-            ]
+            "enum": ["list"]
           },
           "items": {
             "type": "array",
@@ -1204,9 +1196,7 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": [
-              "device"
-            ]
+            "enum": ["device"]
           },
           "id": {
             "type": "string"
@@ -1226,9 +1216,7 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": [
-              "list"
-            ]
+            "enum": ["list"]
           },
           "items": {
             "type": "array",
@@ -1312,9 +1300,7 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": [
-              "deviceModel"
-            ]
+            "enum": ["deviceModel"]
           },
           "id": {
             "type": "string"
@@ -1332,9 +1318,7 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": [
-              "list"
-            ]
+            "enum": ["list"]
           },
           "items": {
             "type": "array",
@@ -1349,9 +1333,7 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": [
-              "deviceModelBrands"
-            ]
+            "enum": ["deviceModelBrands"]
           },
           "items": {
             "type": "array",
@@ -1363,9 +1345,7 @@
       },
       "SearchDevice": {
         "type": "object",
-        "required": [
-          "imei"
-        ],
+        "required": ["imei"],
         "properties": {
           "imei": {
             "type": "string"
@@ -1374,9 +1354,7 @@
       },
       "SearchDeviceModel": {
         "type": "object",
-        "required": [
-          "imei"
-        ],
+        "required": ["imei"],
         "properties": {
           "imei": {
             "type": "string"
@@ -1503,9 +1481,7 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": [
-              "plan"
-            ]
+            "enum": ["plan"]
           },
           "id": {
             "type": "string"
@@ -1523,12 +1499,7 @@
           },
           "status": {
             "type": "string",
-            "enum": [
-              "draft",
-              "available",
-              "archived",
-              "pending"
-            ]
+            "enum": ["draft", "available", "archived", "pending"]
           }
         }
       },
@@ -1537,9 +1508,7 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": [
-              "list"
-            ]
+            "enum": ["list"]
           },
           "items": {
             "type": "array",
@@ -1612,9 +1581,7 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": [
-              "planDocument"
-            ]
+            "enum": ["planDocument"]
           },
           "id": {
             "type": "string"
@@ -1635,9 +1602,7 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": [
-              "list"
-            ]
+            "enum": ["list"]
           },
           "items": {
             "type": "array",
@@ -1799,7 +1764,17 @@
             "items": {
               "type": "string"
             },
-            "example": ["accountNumber", "accountPin", "accountType", "address", "birthday", "donorProvider", "donorProviderApproval", "firstName", "lastName"]
+            "example": [
+              "accountNumber",
+              "accountPin",
+              "accountType",
+              "address",
+              "birthday",
+              "donorProvider",
+              "donorProviderApproval",
+              "firstName",
+              "lastName"
+            ]
           },
           "scheduledOn": {
             "type": "string",
@@ -1809,7 +1784,18 @@
           },
           "status": {
             "type": "string",
-            "enum": ["draft", "initiated", "pending", "informationRequired", "requested", "declined", "completed", "canceled", "expired", "failed"],
+            "enum": [
+              "draft",
+              "initiated",
+              "pending",
+              "informationRequired",
+              "requested",
+              "declined",
+              "completed",
+              "canceled",
+              "expired",
+              "failed"
+            ],
             "description": "The current status of the porting."
           },
           "subscription": {

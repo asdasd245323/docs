@@ -1,0 +1,141 @@
+---
+title: "Test SIMs"
+description: "How to use test SIMs."
+---
+
+Test SIMs can be used for testing purposes or to get you going with the Gigs API while you are waiting on real SIMs to be made available to you.
+These SIMs use a test provider and behave like any other API SIM resource, but don't provide actual connectivity.
+
+## [How to Use Test SIMs](/api/guides/core/testing/test-sims#how-to-use-test-sims)
+
+The following Gigs API endpoints support the use of test SIMs:
+
+- [Create a subscription](/api/guides/create-subscription)
+- [Create a device](/api/gig-core-api/devices/create)
+- [Update a device](/api/gig-core-api/devices/update)
+- [Search for SIMs](/api/guides/core/sims)
+
+A new test SIM instance will automatically be created when you use a special placeholder SIM in a POST request such as: `sim_test_psim`.
+This new test SIM instance will be generated with a unique resource ID as well a unique ICCID, starting with `8942424242` followed by 9 characters, for example: `"iccid": "89424242428486763002"`.
+
+**Example: Creating a Subscription**
+
+To use a test SIM in a subscription, you create a subscription with a special placeholder SIM ID in the request.
+A new test SIM instance will be automatically created and associated to the newly created user's subscription.
+For example, the request to create a new subscription with a test `pSIM` (using placeholder SIM ID: `sim_test_psim`) is:
+
+### Creating a subscription using the placeholder physical SIM with the Gigs Core API - cURL.
+
+```bash
+curl --request POST \
+--url "https://api.gigs.com/projects/${GIGS_PROJECT}/subscriptions" \
+--header "Accept: application/json" \
+--header "Authorization: Bearer ${GIGS_TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{
+"plan": "...",
+"sim": "sim_test_psim"
+"user": "...",
+}'
+```
+
+This will result in a response similar to:
+
+### Create subscription with placeholder sim response.
+
+```json
+{
+    "object": "subscription",
+    "id": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+    "currentPeriod": {...},
+    "phoneNumber": "+25411865216434",
+    "plan": {...},
+    "sim": {
+    "object": "sim",
+    "id": "sim_0SNlurA049MEWV3clHBExvxoU22R",
+    "type": "pSIM",
+    "iccid": "89424242428486763002",
+    "provider": "test",
+    "status": "inactive",
+    "createdAt": "2021-01-21T19:38:34Z"
+},
+    "status": "pending",
+    "user": {...},
+    ...
+}
+```
+
+The response contains the unique `id` and `iccid` of the new SIM resource.
+
+**Example: Searching for a test SIM**
+
+To find the placeholder SIMs, you can search for them using the [SIM search endpoint](/api/guides/core/sims#search-for-sims) with the fixed ICCIDs, for example looking up the placeholder `eSIM` - `8942400090000000010`:
+
+### Find the placeholder eSIM with the Gigs Core API - cURL.
+
+```bash
+curl --request "POST" \
+--url "https://api.gigs.com/projects/${GIGS_PROJECT}/sims/search" \
+--header "Accept: application/json" \
+--header "Authorization: Bearer ${GIGS_TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{"iccid": "8942400090000000010"}'
+```
+
+The response provides the details of the placeholder eSIM with the placeholder SIM ID:
+
+### A test eSIM returned in the response.
+
+```json
+{
+    "object": "list",
+    "items": [
+        {
+            "object": "sim",
+            "id": "sim_test_esim",
+            "iccid": "8942400090000000010",
+            "provider": "test",
+            "status": "inactive",
+            "type": "eSIM",
+            "createdAt": "2021-01-01T00:00:00Z"
+        }
+    ],
+    "moreItemsAfter": null,
+    "moreItemsBefore": null
+}
+```
+
+## [Overview of Test SIMs](/api/guides/core/testing/test-sims#overview-of-test-sims)
+
+For testing purposes, the Gigs API supports both embedded and physical SIMs with various behaviors and delays.
+Test SIMs with a delay mimic real-world subscription flows, whereas test SIMs without delays are ideal for automated testing.
+
+For example, a test SIM ID with a delay such as `sim_test_psim_delayed_up_to_one_min` or `sim_test_esim_delayed_four_hours` will result in a created subscription which starts off in the status of "pending" before transitioning to a status of "active".
+The transition time depends on the defined delay for the corresponding SIM.
+
+The delay specified in the test SIM ID applies both to initial subscription activation, and to replacement of an existing SIM via a subscription change.
+
+To make use of a test SIM, insert one of the below placeholder SIM IDs in a supported create request.
+The placeholder SIM IDs are organized by provider.
+
+testt11t12
+
+| SIM type | Placeholder SIM ID | ICCID | Description |
+| --- | --- | --- | --- |
+| pSIM | `sim_test_psim` | `8942400090000000028` | A pSIM which activates immediately |
+| eSIM | `sim_test_esim` | `8942400090000000010` | An eSIM which activates immediately |
+| pSIM Delayed (up to 60 seconds) | `sim_test_psim_delayed_up_to_one_min` | `8942400090000000044` | A pSIM with an activation delay between 30 and 60 seconds |
+| eSIM Delayed (up to 60 seconds) | `sim_test_esim_delayed_up_to_one_min` | `8942400090000000036` | An eSIM with an activation delay between 30 and 60 seconds |
+| pSIM Delayed (4 hours) | `sim_test_psim_delayed_four_hours` | `8942400090000000069` | A pSIM with an activation delay of four hours |
+| eSIM Delayed (4 hours) | `sim_test_esim_delayed_four_hours` | `8942400090000000051` | An eSIM with an activation delay of four hours |
+| pSIM Delayed (24 hours) | `sim_test_psim_delayed_twenty_four_hours` | `8942400090000000085` | A pSIM with an activation delay of 24 hours |
+| eSIM Delayed (24 hours) | `sim_test_esim_delayed_twenty_four_hours` | `8942400090000000077` | An eSIM with an activation delay of 24 hours |
+
+When you set the `sim` parameter to `auto` while creating a subscription, we’ll automatically provision an eSIM with a delay of up to 60 seconds.
+If you need faster activation times in automated end-to-end tests, use a test SIM which activates immediately.
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)

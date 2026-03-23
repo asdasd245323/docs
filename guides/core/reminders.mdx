@@ -1,0 +1,60 @@
+---
+title: "Lifecycle Reminders"
+description: "Lifecycle Reminders are automated, time-based signals that help you identify when users are stuck in critical steps of the subscription activation process."
+---
+
+Lifecycle Reminders are automated, time-based signals, that help you identify when users are stuck in critical steps of the subscription activation process. Gigs handles the monitoring and sends you webhook notifications when users need a nudge.
+
+## [When to Use Lifecycle Reminders](/api/guides/core/reminders#when-to-use-lifecycle-reminders)
+
+With lifecycle reminders, you can:
+
+- Send custom notifications (email, SMS, push notifications) to your users
+- Trigger in-app prompts or onboarding guides
+
+## [How They Work](/api/guides/core/reminders#how-they-work)
+
+Lifecycle Reminders are **derived signals**, not raw events. Gigs monitors the state of subscriptions, portings, and eSIM profiles, and fires reminder webhooks at specific time thresholds when a blocking condition persists. Once the condition is cleared (e.g., the eSIM gets installed), all future reminders are automatically cancelled.
+
+All reminders have a `type` starting with a `com.gigs.reminder.` prefix. Below are the types of lifecycle reminders available today:
+
+| Type | Description | Schedule |
+| --- | --- | --- |
+| `com.gigs.reminder.porting.declined` | Reminds users when their porting request has been declined, prompting them to review and resubmit with correct information. | Days 1, 3, 7, 14, 30 |
+| `com.gigs.reminder.porting.informationRequired` | Reminds users to provide required information when their porting request needs additional details from them. | Days 1, 3, 7, 14, 30 |
+| `com.gigs.reminder.porting.requested` | Reminds users that their porting has been in the requested state for a prolonged period and might need some intervention to check status with the donor provider. | Days 1, 3, 5, 7, 10, 14 |
+| `com.gigs.reminder.porting.scheduled` | Reminds users that their scheduled porting is going to be processed soon and that there may be some service interruption. | 20:00 on the day before the porting, 08:00 on the day of the porting. |
+| `com.gigs.reminder.subscription.simNotInstalled` | Reminds users to install their eSIM profile when it has been assigned to their subscription, but not yet installed on their device. | 1h, 6h, Days 1, 2, 3, 6, 8, 12 |
+| `com.gigs.reminder.subscription.usageMissing` | Reminds users to start using their subscription when their eSIM has been installed, but no usage has been detected after activation (one-time). | Day 7 (one-time only) |
+
+All reminders share the same payload schema with two fields in the `data` object:
+
+```json
+{
+  "type": "com.gigs.reminder.porting.informationRequired",
+  "data": {
+    "subscription": "sub_abc123xyz",
+    "conditionTriggeredAt": "2025-01-21T19:38:34Z"
+  }
+}
+```
+
+The `conditionTriggeredAt` field indicates when the condition that triggered the reminder first occurred (e.g., when porting status changed to `informationRequired` or when the eSIM was assigned), helping you understand how long the condition has persisted.
+
+To receive lifecycle reminders, you need to:
+
+1. Navigate to the [developers section of the Gigs dashboard](https://dashboard.gigs.com/developers)
+2. Click "Manage Webhooks" to open the Svix webhook dashboard
+3. Subscribe to the reminders you want to receive, or use `com.gigs.reminder.*` to subscribe to all reminders
+
+Once configured, you'll start receiving reminder notifications when users are stuck in the activation funnel.
+
+## [Testing](/api/guides/core/reminders#testing)
+
+To test lifecycle reminders in your development environment, see the [testing guide](/api/guides/core/testing/test-reminders).
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)

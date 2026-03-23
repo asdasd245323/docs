@@ -1,0 +1,546 @@
+---
+title: "Add-ons"
+description: "How to use add-ons with subscriptions."
+---
+
+Add-ons extend a subscription's capabilities beyond the base plan. They provide additional allowances for data, voice, or SMS, purchased as one-time top-ups applied to a subscription.
+
+With coverage profiles and flexible validity, add-ons can be both location-aware and time-aware, enabling use cases like destination-specific travel passes and time-limited data boosters.
+
+## Key Concepts
+
+- **Add-on**: A purchasable extension that grants additional allowances to a subscription.
+- **Top-up**: An add-on with `type: topUp`, used for one-time allowance increases. This is the only supported add-on type.
+- **Subscription Add-on**: An add-on attached to a specific subscription for a user.
+- **Coverage Profile**: Defines the geographic region where an add-on can be used. When `null`, the add-on inherits coverage from the base plan.
+- **Validity**: Defines how long an add-on lasts, independently of the subscription period.
+
+## Allowances
+
+Add-ons can include any combination of data, voice, and SMS allowances:
+
+| Allowance | Field | Unit | Example |
+| --- | --- | --- | --- |
+| Data | `dataBytes` | Bytes | `1000000000` (1 GB) |
+| Voice | `voiceSeconds` | Seconds | `3600` (60 minutes) |
+| SMS | `smsMessages` | Messages | `100` |
+
+Set any field to `null` to indicate unlimited allowance of that type.
+
+### Example add-on with mixed allowances
+
+```json
+{
+  "object": "addon",
+  "id": "add_0SNlurA049MEWV4VxLfwJc7PJtHc",
+  "name": "Roaming Add-On",
+  "type": "topUp",
+  "allowances": {
+    "dataBytes": 1000000000,
+    "voiceSeconds": 0,
+    "smsMessages": 100
+  },
+  "price": {
+    "amount": 999,
+    "currency": "USD"
+  }
+}
+```
+
+## Coverage Profiles
+
+Add-ons can define their own geographic coverage using a coverage profile. This enables travel and roaming use cases where an add-on covers a different region than the base plan.
+
+The coverage object follows the same schema used by Plans:
+
+### Add-on with coverage profile
+
+```json
+{
+  "object": "addon",
+  "id": "add_0SNlurA049MEWV3V0q7gjQbM4EVo",
+  "name": "1GB Europe Week Pass",
+  "type": "topUp",
+  "coverage": {
+    "object": "coverage",
+    "id": "cp_europe_zone_1",
+    "countries": ["DE", "FR", "IT", "ES", "PL", "NL"],
+    "name": "Europe Zone 1"
+  },
+  "validity": {
+    "unit": "day",
+    "value": 7
+  },
+  "allowances": {
+    "dataBytes": 1000000000,
+    "voiceSeconds": null,
+    "smsMessages": null
+  },
+  "price": {
+    "amount": 499,
+    "currency": "USD"
+  }
+}
+```
+
+When `coverage` is set to `null`, the add-on inherits the coverage from the subscription's base plan. This is useful for simple top-ups where the user just needs more data in the same region their plan already covers.
+
+### Filtering Add-ons by Country
+
+Use the `coverageCountry` query parameter to find add-ons that include a specific country in their coverage. This accepts ISO 3166-1 alpha-2 country codes.
+
+### Filter add-ons by coverage country
+
+```shell
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/addons?coverageCountry=JP" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+The response will include both country-specific add-ons (e.g., "Japan 5GB") and regional add-ons that include the specified country (e.g., "Asia Pacific 10GB").
+
+## Activation Triggers
+
+The `activationTrigger` field controls when an add-on becomes active after being attached to a subscription:
+
+| Trigger | Behaviour | Best For |
+| --- | --- | --- |
+| `creation` | Activates immediately when attached to a subscription | Users needing data right now |
+| `networkLatch` | Activates when the device connects to the network | Pre-trip purchases where the user has not yet arrived |
+| `usageStarted` | Activates on first usage (data, voice, or SMS) | Pre-trip purchases to avoid losing validity days before arrival |
+
+For travel top-ups, `usageStarted` is recommended so that users do not lose validity days before arriving at their destination.
+
+## Validity and Independent Periods
+
+Add-ons can have their own validity period that is independent from the subscription period. This means an add-on can have a shorter or longer lifespan than the subscription billing cycle.
+
+### Example validity configuration
+
+```json
+{
+  "validity": {
+    "unit": "day",
+    "value": 7
+  }
+}
+```
+
+Common validity configurations for travel products:
+
+| Product Type | Unit | Value | Example |
+| --- | --- | --- | --- |
+| Daily booster | `day` | 1 | Quick data for a layover |
+| Weekly pass | `day` | 7 | Short holiday trip |
+| Monthly plan | `day` | 30 | Extended travel or relocation |
+
+When `validity` is `null`, the add-on duration is tied to the subscription period, ending when the subscription period ends.
+
+The add-on validity period begins based on the configured `activationTrigger`, not the purchase date. For example, if a user purchases a 7-day add-on with `usageStarted` activation before their trip, the 7-day countdown begins when they first use data at their destination, not when they made the purchase.
+
+When an add-on's validity expires, any remaining data is lost. The system automatically falls back to the next active allowance based on the priority system.
+
+## Recurrence Types
+
+Add-ons support a single recurrence type: `oneTime`. Each add-on is a one-time purchase applied to the subscription. There is no recurring add-on type at this time.
+
+## Add-on Lifecycle
+
+Add-ons progress through three statuses during their lifecycle:
+
+| Status | Description |
+| --- | --- |
+| `draft` | The add-on is being configured and is not yet available for purchase. |
+| `available` | The add-on is active and can be attached to subscriptions. |
+| `archived` | The add-on is no longer available for new purchases but remains active on existing subscriptions. |
+
+## Managing Add-ons
+
+### List all add-ons
+
+Retrieve all add-ons configured for your project:
+
+### List add-ons
+
+```shell
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/addons" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+You can filter the list using query parameters:
+
+| Parameter | Description | Example |
+| --- | --- | --- |
+| `coverageCountry` | Filter by country in coverage | `?coverageCountry=JP` |
+| `status` | Filter by add-on status | `?status=available` |
+| `type` | Filter by add-on type | `?type=topUp` |
+| `plan` | Filter by compatible plan | `?plan=pln_abc123` |
+| `provider` | Filter by network provider | `?provider=p15` |
+
+### Retrieve an add-on
+
+Get details for a specific add-on:
+
+### Retrieve an add-on
+
+```shell
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/addons/${ADDON_ID}" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+### Publish an add-on
+
+Move an add-on from `draft` to `available` status:
+
+### Publish an add-on
+
+```shell
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/addons/${ADDON_ID}/publish" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+### Archive an add-on
+
+Move an add-on to `archived` status:
+
+### Archive an add-on
+
+```shell
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/addons/${ADDON_ID}/archive" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+## Subscription Add-ons
+
+Once you have add-ons configured, you can attach them to user subscriptions.
+
+### Attach an add-on to a subscription
+
+### Create a subscription add-on
+
+```shell
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptionAddons" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "addon": "add_0SNlurA049MEWV4VxLfwJc7PJtHc",
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+  }'
+```
+
+A successful response will return the newly created subscription add-on:
+
+### Subscription add-on response
+
+```json
+{
+  "object": "subscriptionAddon",
+  "id": "sad_0SNlurA049MEWV5CxLfwJc8QKsIp",
+  "addon": {
+    "object": "addon",
+    "id": "add_0SNlurA049MEWV4VxLfwJc7PJtHc",
+    "name": "1GB Europe Week Pass"
+  },
+  "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+  "status": "pending",
+  "currentPeriod": null,
+  "createdAt": "2025-12-15T10:30:00Z",
+  "activatedAt": null
+}
+```
+
+Creating a subscription add-on generates an invoice. The add-on will not activate until the invoice is marked as paid. See [purchasing a top-up](#tutorial-purchasing-a-travel-top-up) below for the complete flow.
+
+### List subscription add-ons
+
+Retrieve all add-ons attached to subscriptions in your project:
+
+### List subscription add-ons
+
+```shell
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptionAddons" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+Filter by subscription or user:
+
+### Filter subscription add-ons
+
+```shell
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptionAddons?subscription=sub_0SNlurA049MEWV2gSfSxi00xlPIi&status=active" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+### End a subscription add-on
+
+Remove an add-on from a subscription:
+
+### End a subscription add-on
+
+```shell
+curl --request "DELETE" \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptionAddons/${SUBSCRIPTION_ADDON_ID}" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+## Pricing
+
+Add-on prices are specified in the smallest currency unit (e.g., cents for USD):
+
+### Pricing structure
+
+```json
+{
+  "price": {
+    "amount": 999,
+    "currency": "USD"
+  }
+}
+```
+
+The above represents $9.99 USD.
+
+---
+
+## Tutorial: Searching for Travel Add-ons
+
+This section walks through common integration patterns for travel and roaming add-ons.
+
+### Searching by Destination
+
+When a user is planning a trip to a specific country, you can find relevant add-ons using the `coverageCountry` filter:
+
+### Step 1: Find add-ons for Japan
+
+```shell
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/addons?coverageCountry=JP&status=available&type=topUp" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+The response includes both Japan-specific and regional add-ons that cover Japan. Use the `coverage.name` and `validity` fields to build your UI:
+
+### Example response
+
+```json
+{
+  "object": "list",
+  "items": [
+    {
+      "object": "addon",
+      "id": "add_japan_5gb",
+      "name": "Japan 5GB",
+      "type": "topUp",
+      "activationTrigger": "usageStarted",
+      "coverage": {
+        "object": "coverage",
+        "id": "cp_japan",
+        "countries": ["JP"],
+        "name": "Japan"
+      },
+      "validity": {
+        "unit": "day",
+        "value": 14
+      },
+      "allowances": {
+        "dataBytes": 5000000000,
+        "voiceSeconds": null,
+        "smsMessages": null
+      },
+      "price": {
+        "amount": 1499,
+        "currency": "USD"
+      }
+    },
+    {
+      "object": "addon",
+      "id": "add_apac_10gb",
+      "name": "Asia Pacific 10GB",
+      "type": "topUp",
+      "activationTrigger": "usageStarted",
+      "coverage": {
+        "object": "coverage",
+        "id": "cp_apac",
+        "countries": ["JP", "KR", "TH", "SG", "MY"],
+        "name": "Asia Pacific"
+      },
+      "validity": {
+        "unit": "day",
+        "value": 30
+      },
+      "allowances": {
+        "dataBytes": 10000000000,
+        "voiceSeconds": null,
+        "smsMessages": null
+      },
+      "price": {
+        "amount": 2999,
+        "currency": "USD"
+      }
+    }
+  ],
+  "moreItemsAfter": null,
+  "moreItemsBefore": null
+}
+```
+
+Use the `validity` field to display labels such as "14 Days" or "30 Days", and the `coverage.name` for regional grouping in your UI.
+
+Add-ons may activate immediately or on first use depending on their `activationTrigger`. Display this information clearly so users understand when their validity period begins.
+
+### Offering Top-ups for an Existing Travel Plan
+
+When a user runs out of data on a travel plan, you can offer top-ups that match their existing coverage:
+
+### Step 1: Get the user's subscription and plan coverage
+
+```shell
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptions/${SUBSCRIPTION_ID}" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+From the response, note the plan's `coverage.id`. Then find matching add-ons:
+
+### Step 2: List add-ons and filter by matching coverage
+
+```shell
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/addons?status=available&type=topUp" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+Filter the results client-side to find add-ons where `coverage.id` matches the plan's `coverage.id`. This ensures the user sees only top-ups compatible with their current plan region.
+
+Alternatively, if you know one of the countries in the plan's coverage, use the `coverageCountry` filter:
+
+### Alternative: Filter by a country in the plan's coverage
+
+```shell
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/addons?coverageCountry=DE&status=available&type=topUp" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+## Tutorial: Purchasing a Travel Top-up
+
+This section covers the complete flow for purchasing and activating a travel top-up.
+
+### Step 1: Create the subscription add-on
+
+Apply the chosen add-on to the user's subscription:
+
+### Create subscription add-on
+
+```shell
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptionAddons" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "addon": "add_japan_5gb",
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+  }'
+```
+
+This creates the subscription add-on in `pending` status and generates an invoice.
+
+### Step 2: Retrieve and pay the invoice
+
+Fetch the invoice generated for this subscription add-on:
+
+### List invoices for the subscription add-on
+
+```shell
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/invoices?subscriptionAddon=${SUBSCRIPTION_ADDON_ID}" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+After collecting payment through your payment provider, mark the invoice as paid:
+
+### Mark invoice as paid
+
+```shell
+curl --request "POST" \
+  --url "/api/projects/${GIGS_PROJECT}/invoices/${INVOICE_ID}/pay" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+### Step 3: Add-on activation
+
+Once the invoice is paid, the add-on activates based on its `activationTrigger`:
+
+- `creation`: The add-on activates immediately and the validity countdown begins.
+- `networkLatch`: The add-on activates when the device connects to a supported network.
+- `usageStarted`: The add-on activates when the user first uses data, voice, or SMS in a supported country.
+
+### Step 4: Monitor usage
+
+Track usage via the subscription usage endpoint:
+
+### Check usage
+
+```shell
+curl --request "GET" \
+  --url "/api/projects/${GIGS_PROJECT}/subscriptions/${SUBSCRIPTION_ID}/usage" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+Rely primarily on webhooks (such as `subscription.usage.thresholdReached`) to proactively notify users when they are running low on data. Polling the usage endpoint should be reserved for when users explicitly check their remaining data.
+
+## Usage Display Considerations
+
+When a user has both a base plan and active add-ons, consider these guidelines for displaying usage:
+
+**Unified usage is supported** when the add-on coverage profile matches the base plan coverage profile and the add-on has the same validity as the subscription period. In this case, you can show a single combined gauge (e.g., "4.5 GB / 6 GB remaining").
+
+**Separate display is recommended** when coverage profiles differ or validity periods do not align. Show each allowance individually with:
+
+- Remaining data (e.g., "3.2 GB remaining")
+- Coverage scope (e.g., "Japan only" or "Europe Zone 1")
+- Expiry date (e.g., "Expires Dec 19")
+
+### Priority System
+
+When a user has multiple active allowances, the system consumes data from the most specific allowance first:
+
+| Priority | Scope | Example |
+| --- | --- | --- |
+| Highest | Country-specific | 5GB Japan |
+| Medium | Regional | 10GB Asia Pacific |
+| Lowest | Global | 5GB Worldwide |
+
+Within the same specificity level, allowances expiring sooner are consumed first.
+
+If you have any further questions or need assistance, please reach out to [support@gigs.com](mailto:support@gigs.com).
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)

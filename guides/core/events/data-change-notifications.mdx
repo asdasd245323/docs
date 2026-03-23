@@ -1,0 +1,318 @@
+---
+title: "Handling data change notifications"
+description: "How to use events to notify users about certain changes to their data on record."
+---
+
+While wireless telecommunication services are subject to varying rules and regulations across different countries, there are often overarching standards and principles. For instance, a common requirement is notifying users about certain changes to their data on record.
+
+With Gigs, this is easy to achieve using events. In the following guide, we will walk through how different resources could be updated and how events can be used to react those changes.
+
+#### Regulatory compliance
+
+Service providers in the United States are obligated to safeguard customer information. Notifying users about changes to their information is one of several measures that could be taken.
+
+## [Prerequisites](/api/guides/core/events/handling-data-change-notifications#prerequisites)
+
+In order to complete this guide, you'll need:
+
+- A valid API key ( [learn how to create one](/api/authentication))
+- A project with a plan (if you're missing this, reach out to [support@gigs.com](mailto:support@gigs.com) for assistance)
+- A user subscribed to a plan ( [learn how to create a user and a subscription](/api/introduction))
+- Familiarity with configuring [webhooks](/api/guides/core/events/events-webhooks)
+
+In a real system, you'll likely have a service to handle mailing. Since sending emails is not a feature of the Gigs API, this guide will use requests to `https://example.com/mail/send` as a placeholder for invoking such a service.
+
+## [Guide](/api/guides/core/events/handling-data-change-notifications#guide)
+
+Each resource comes with several events that describe its lifecycle. Let's look at how changes to port-out credentials, users and subscriptions could occur and which events could be used to handle each change.
+
+### [Port-out credentials](/api/guides/core/events/handling-data-change-notifications#port-out-credentials)
+
+Port-out credentials are used to complete number porting to a new provider. It's important to keep these credentials and user information secure. Combined, they could be exploited to hijack the user's phone number. In the event that those credentials are issued, it would be a sound idea to inform the user.
+
+To handle a change in port-out credentials, register a webhook endpoint for the [`portOutCredentials.issued`](/api/events/schemas/com.gigs.portOutCredentials.issued) event, emitted whenever the `PortOutCredentials` resource is issued. While we don't currently expose an endpoint to issue port-out credentials through the Gigs API, it is possible to do so through Dashboard.
+
+In the details page of an active subscription, you will find an option to issue new credentials in the actions menu. Any time port-out credentials are generated, our endpoint will receive a similar payload to the following:
+
+### Event payload for portOutCredentials.issued
+
+```json
+{
+  "data": {
+    "object": "portOutCredentials",
+    "accountNumber": "123456789",
+    "accountPin": null,
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+    "expiresAt": "2022-02-21T19:38:34Z"
+  },
+  "type": "com.gigs.portOutCredentials.issued"
+  // ...
+}
+```
+
+If you inspect the above payload, you'll notice that it doesn't tell us who the associated user is. Not to worry, once we have a subscription ID, determining the user is straightforward:
+
+### Retrieving the subscription with the Gigs Core API - cURL
+
+```bash
+curl --request "GET" \
+  --url "https://api.gigs.com/projects/${GIGS_PROJECT}/subscriptions/${SUBSCRIPTION_ID}" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+Then, find the user resource in the details of the subscription:
+
+### Response for retrieving a subscription
+
+```json
+{
+  "object": "subscription",
+  "id": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+  // ...
+  "user": {
+    "object": "user",
+    "id": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+    "email": "jerry@example.com"
+    // ...
+  }
+}
+```
+
+Knowing the user, we can now notify them of the change:
+
+### Notifying the user using placeholder mail service - cURL
+
+```bash
+curl --request "POST" \
+  --url "https://example.com/mail/send" \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "to": "jerry@example.com",
+    "subject": "Update notice",
+    "content": "..."
+  }'
+```
+
+### [User](/api/guides/core/events/handling-data-change-notifications#user)
+
+To handle changes to user information, register a webhook endpoint for the [`user.updated`](/api/events/schemas/com.gigs.user.updated) event. This event is emitted for changes to the [`User`](/api/core/users#the-user-resource) resource.
+
+In our imaginary application, one of our users has decided to update their name. Behind the scenes, this happens with a call to the Gigs API:
+
+### Updating a user's name with the Gigs Core API - cURL
+
+```bash
+curl --request "PATCH" \
+  --url "https://api.gigs.com/projects/${GIGS_PROJECT}/users/${USER_ID}" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+  --data '{
+   "fullName": "Jerry Seinfeld"
+  }'
+```
+
+At our registered webhook endpoint, we should then receive an event with a similar payload to the following:
+
+### Event payload for user.updated
+
+```json
+{
+  "data": {
+    "object": "user",
+    "id": "usr_0TtwGIAf3l2Mfq2h6rMzx7b8CvI1",
+    "birthday": null,
+    "email": "jerry@example.com",
+    "emailVerified": false,
+    "fullName": "Jerry Seinfeld",
+    "preferredLocale": "en-US",
+    "createdAt": "2023-10-23T16:04:20Z"
+  },
+  "previousData": {
+    "fullName": "John Doe"
+  },
+  "type": "com.gigs.user.updated"
+  // ...
+}
+```
+
+For a user resource, certain properties are more sensitive than others. For instance, you may wish to notify your user about a change to their email address, but not about a change to their preferred locale. You can inspect the `previousData` property of the event to see the specific properties which were updated. It also conveniently tells us what were the previous values.
+
+### Current and and previous data payloads for user.updated event
+
+```json
+{
+  "data": {
+    // ...
+    "fullName": "Jerry Seinfeld"
+  },
+  "previousData": {
+    "fullName": "John Doe"
+  }
+  // ...
+}
+```
+
+In a real application, your event handler may receive several `user.updated` events while a user is onboarding and before they've purchased a subscription. This will depend on your specific implementation, but we can account for this by checking if the user in the event has at least one subscription present:
+
+### Listing subscriptions for a user with the Gigs Core API - cURL
+
+```bash
+curl --request "GET" \
+  --url "https://api.gigs.com/projects/${GIGS_PROJECT}/subscriptions?user=${USER_ID}" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+The response will tell us how many subscriptions this user has:
+
+### Response for listing subscriptions for a user
+
+```json
+{
+  "object": "list",
+  "items": [
+    {
+      "object": "subscription",
+      "id": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+      // ...
+    }
+  ],
+  "moreItemsAfter": null,
+  "moreItemsBefore": null
+}
+```
+
+Since this user has a subscription, we should notify them that a change has occurred to their account information:
+
+### Notifying the user using placeholder mail service - cURL
+
+```bash
+curl --request "POST" \
+  --url "https://example.com/mail/send" \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "to": "jerry@example.com",
+    "subject": "Update notice",
+    "content": "..."
+  }'
+```
+
+### [Subscription](/api/guides/core/events/handling-data-change-notifications#subscription)
+
+Every subscription has a plan. To handle a plan change for a subscription, register a webhook endpoint for the [`subscriptionChange.applied`](/api/events/schemas/com.gigs.subscriptionChange.applied) event. It may occur to you to use [`subscription.updated`](/api/events/schemas/com.gigs.subscription.updated) instead since a plan is a nested resource on a [`Subscription`](/api/core/subscriptions#the-subscription-resource). But then we would have to probe `previousData` to understand that it was a plan change. The more specific an event, the simpler our code!
+
+One of our users has made up their mind and wishes to upgrade to a bigger data plan. we can schedule a plan change for them using the subscription changes API:
+
+### Creating a subscription change to a new plan with the Gigs Core API - cURL
+
+```bash
+curl --request "POST" \
+  --url "https://api.gigs.com/projects/${GIGS_PROJECT}/subscriptionChanges \
+  --header 'accept: application/json' \
+  --header "Authorization: Bearer ${GIGS_TOKEN}" \
+  --data '{
+   "plan": "pln_0U1goSXl2l4rLP1jIqTzWNx5BFb2",
+   "subscription": "sub_0U5w2gZv2l1rLP0CXl8SgTfVdi2C"
+  }'
+```
+
+The plan change is scheduled! Once it has been applied, we should receive an event at our webhook endpoint with a similar payload to the following:
+
+### Event payload for subscriptionChange.applied
+
+```json
+{
+  "data": {
+   "object": "subscriptionChange",
+    "id": "sch_0U4w4Egr2l4rGP1p1diDaPiVbbI8",
+    "plan": {...},
+    "status": "applied",
+    "subscription": "sub_0U5w2gZv2l1rLP0CXl8SgTfVdi2C",
+    "appliedAt": "2024-03-10T15:27:46Z",
+    "createdAt": "2024-02-10T15:33:56Z",
+    "scheduledAt": "2024-03-10T15:27:46Z"
+  },
+  "type": "com.gigs.subscriptionChange.applied",
+  // ...
+}
+```
+
+Now would be the time to bring the good news to the user. But first, we have to look them up. The remainder of our approach here is similar to our handling of [`portOutCredentials.issued:`](/api/guides/core/events/handling-data-change-notifications#port-out-credentials)
+
+### Retrieving the subscription with the Gigs Core API - cURL
+
+```bash
+curl --request "GET" \
+  --url "https://api.gigs.com/projects/${GIGS_PROJECT}/subscriptions/${SUBSCRIPTION_ID}" \
+  --header "Accept: application/json" \
+  --header "Authorization: Bearer ${GIGS_TOKEN}"
+```
+
+### Response for retrieving a subscription
+
+```bash
+{
+  "object": "subscription",
+  "id": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+  // ...
+  "user": {
+    "object": "user",
+    "id": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+    "email": "jerry@example.com"
+    // ...
+  }
+}
+```
+
+### Notifying the user using placeholder mail service - cURL
+
+```bash
+curl --request "POST" \
+  --url "https://example.com/mail/send" \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "to": "jerry@example.com",
+    "subject": "Update notice",
+    "content": "..."
+  }'
+```
+
+#### Additional subscription notifications
+
+When a user's subscription undergoes changes, it's vital to provide them with clear and timely communication about their subscription status. This helps maintain transparency and trust between your service and users. By sending notifications about various subscription events, you can ensure that users are aware of the changes and can take appropriate actions if needed.
+
+Here are some of the events available for monitoring the lifecycle of a subscription:
+
+| Event | Description |
+| --- | --- |
+| [`subscription.created`](/api/events/schemas/com.gigs.subscription.created) | Represents the initial point in the subscription lifecycle. |
+| [`subscription.activated`](/api/events/schemas/com.gigs.subscription.activated) | Indicates the subscription is active and the user has connectivity. |
+| [`subscription.restricted`](/api/events/schemas/com.gigs.subscription.restricted) | Indicates the subscription is restricted and the user has limited connectivity. |
+| [`subscription.restored`](/api/events/schemas/com.gigs.subscription.restored) | Indicates the subscription is restored (back to active state) and the user has full connectivity again. |
+| [`subscription.renewed`](/api/events/schemas/com.gigs.subscription.renewed) | Indicates a successfully renewed subscription, marking the start of a new service period. |
+| [`subscription.canceled`](/api/events/schemas/com.gigs.subscription.canceled) | Indicates subscription cancellation. |
+| [`subscription.resumed`](/api/events/schemas/com.gigs.subscription.resumed) | Indicates the subscription is no longer canceled. |
+| [`subscription.ended`](/api/events/schemas/com.gigs.subscription.ended) | Represents the end of the subscription lifecycle. |
+
+* * *
+
+#### Sensitive information
+
+When informing users about changes to their data, it's important not to disclose sensitive information. For example, you shouldn't include the user's address (new or old) in the notification, but you can include the timestamp and the type of information changed in the event.
+
+## [Final Thoughts](/api/guides/core/events/handling-data-change-notifications#final-thoughts)
+
+Well done! Aren't events useful? We went through one use case, but the possibilities are many. Could you apply this knowledge to other Gigs resources?
+
+If would like to browse all events published by Gigs, check out our [events schema](/api/events/schemas/com.gigs.apiKey.created).
+
+#### We'd love your feedback!
+
+Thanks for making it this far and we hope this has given you a feel for how could events be used. Did you get stuck? Feel like something was confusing? [Let us know!](mailto:support@gigs.com)
+
+© Copyright 2026 All rights reserved.
+
+[Gigs.com](https://gigs.com/)
+
+[Follow us on LinkedIn](https://www.linkedin.com/company/meetgigs/) [Follow us on Twitter](https://twitter.com/gigsdotcom) [Follow us on GitHub](https://github.com/gigs)
