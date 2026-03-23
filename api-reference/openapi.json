@@ -2401,6 +2401,710 @@
           }
         }
       }
+    },
+    "/projects/{project}/subscriptions/{subscription}/usage": {
+      "get": {
+        "summary": "List subscription usage records",
+        "description": "Lists usage records in ascending order for a subscription, defaulting to `daily` aggregation for the latest subscription period. If none of the `start`, `end`, or `period` parameters is provided, records are returned for the latest subscription period.",
+        "tags": [
+          "Usage"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subscription",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the subscription.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "description": "Limits the usage data returned to the subscription period provided. This option is incompatible with the `start` and `end` parameters.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Limits the usage data to dates greater than or equal to the provided date. Can only be used in combination with `end`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "Limits the usage data to dates up to and including the provided date. Can only be used in combination with `start`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "aggregation",
+            "in": "query",
+            "description": "Determines the aggregation method used, defaulting to `daily`. `period` provides aggregated values for the time range or period requested. The `roaming` aggregation is in preview and may only be used in particular cases.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "daily",
+                "period",
+                "country",
+                "roaming",
+                "daily,country",
+                "daily,roaming",
+                "period,country",
+                "period,roaming",
+                "country,daily",
+                "country,period",
+                "roaming,daily",
+                "roaming,period"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of usage records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageRecordList"
+                }
+              }
+            }
+          },
+          "redirects": {
+            "description": "Error details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/testing/projects/{project}/subscriptions/{subscription}/usage": {
+      "post": {
+        "summary": "Simulate subscription usage",
+        "description": "Simulates usage on a subscription with a test SIM. Can be used to test usage notifications. Subscription must be in status \"active\".\n\n#### Preview\nThis endpoint is currently in preview and might change in the future.\nWe\u2019re excited to hear your feedback and ideas. Please send an email to support@gigs.com to share your thoughts.",
+        "tags": [
+          "Usage"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subscription",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the subscription.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimulateUsage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the relevant usage record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageRecord"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/usageBalances": {
+      "get": {
+        "summary": "List all usage balances",
+        "description": "Returns a list of usage balances for the given project. The list can be filtered by subscription, subscription period, or subscription add-on. When filtering by subscription without specifying subscriptionPeriod or subscriptionAddon, all usage balances for the subscription are returned regardless of source type or period.\n\n#### Preview\nThis endpoint is currently in preview and might change in the future.\nWe\u2019re excited to hear your feedback and ideas. Please send an email to support@gigs.com to share your thoughts.",
+        "tags": [
+          "Usage Balances"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subscription",
+            "in": "query",
+            "description": "Filter usage balances by Subscription ID.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subscriptionPeriod",
+            "in": "query",
+            "description": "Filter usage balances by subscription period. Requires the `subscription` parameter. Accepts a positive integer, the special value `current`, or a negative integer to request previous periods (e.g., `-1` for the previous period). Cannot be combined with `subscriptionAddon`. A usage balance is sourced from either a subscription period or a subscription add-on, never both - combining these will return an error.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subscriptionAddon",
+            "in": "query",
+            "description": "Filter usage balances by Subscription Add-on ID. Can be combined with `subscription` but not with `subscriptionPeriod`. A usage balance is sourced from either a subscription period or a subscription add-on, never both \u2014 combining these will return an error.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of usage balances.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageBalanceList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/usageBalances/{usageBalance}": {
+      "get": {
+        "summary": "Retrieve a usage balance",
+        "description": "Returns the details of an existing usage balance.\n\n#### Preview\nThis endpoint is currently in preview and might change in the future.\nWe\u2019re excited to hear your feedback and ideas. Please send an email to support@gigs.com to share your thoughts.",
+        "tags": [
+          "Usage Balances"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "usageBalance",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the usage balance.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the usage balance.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageBalance"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/users": {
+      "get": {
+        "summary": "List all users",
+        "description": "Returns a list of users. The users returned are sorted by creation date, with the most recently created users appearing first.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "description": "A cursor for use in pagination. The `after` parameter takes an object ID that defines the position in the list, only items immediately following the item with that ID will be returned.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "description": "A cursor for use in pagination. The `before` parameter takes an object ID that defines the position in the list, only items immediately preceding the item with that ID will be returned.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The limit of items to be returned in the list, between 0 and 200.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 200,
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a dictionary with an items property that contains an array of user objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserList"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a user",
+        "description": "Creates a new user with the given parameters.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the created user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/users/{user}": {
+      "get": {
+        "summary": "Retrieve a user",
+        "description": "Retrieves the details of an existing user. You need only supply the unique user identifier that was returned upon user creation.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the user object if the user exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a user",
+        "description": "Retrieves the details of an existing user and deletes it.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the user after a successful deletion.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a user",
+        "description": "Updates the specified user by setting the values of the parameters passed.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the updated user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/users/search": {
+      "post": {
+        "summary": "Search for users",
+        "description": "Searches for existing users matching the given parameters.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchUsers"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the users matching the search criteria.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/users/{user}/addresses/{address}": {
+      "get": {
+        "summary": "Retrieve a user address",
+        "description": "Retrieves the details of an existing address for a given user.",
+        "tags": [
+          "User Addresses"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the user.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "address",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the address.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the address if it exists and is owned by the user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAddress"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a user address",
+        "description": "Retrieves the details of an existing user address and deletes it.",
+        "tags": [
+          "User Addresses"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the user.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "address",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the address.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the address after a successful deletion.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAddress"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/users/{user}/addresses": {
+      "get": {
+        "summary": "List all user addresses",
+        "description": "Returns a list of addresses owned by the given user. The addresses returned are sorted by creation date, with the most recently created addresses appearing first.",
+        "tags": [
+          "User Addresses"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of address objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAddressList"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a user address",
+        "description": "Create a new address for the given user with the provided parameters.\n\nIf any validations fail during the user address creation process, detailed information will be provided in the error response body. If applicable, suggested alternative values for properties that do not pass the validations will also be included.\n\nPlease note that there is a maximum limit of 10 active addresses permitted per user. Attempts to exceed this limit will result in an error response. Addresses must also be unique for a given user.",
+        "tags": [
+          "User Addresses"
+        ],
+        "parameters": [
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the project.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserAddress"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the created address.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAddress"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -4554,6 +5258,652 @@
               "renewal"
             ],
             "default": "renewal"
+          }
+        }
+      },
+      "UsageRecordList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsageRecord"
+            }
+          },
+          "moreItemsAfter": {
+            "type": "string",
+            "nullable": true
+          },
+          "moreItemsBefore": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UsageRecord": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "usageRecord"
+            ],
+            "description": "Type of object is always `usageRecord`."
+          },
+          "data": {
+            "type": "integer",
+            "description": "Amount of data used in bytes."
+          },
+          "dataDeviceBytes": {
+            "type": "integer",
+            "description": "Amount of on-device data used in bytes."
+          },
+          "dataTetheringBytes": {
+            "type": "integer",
+            "description": "Amount of tethering data used in bytes."
+          },
+          "end": {
+            "type": "string",
+            "description": "Timestamp representing the exclusive upper bound of the aggregation period."
+          },
+          "labels": {
+            "type": "object",
+            "description": "An object containing optional metadata about the usage record.",
+            "properties": {
+              "country": {
+                "type": "string",
+                "description": "The ISO 3166-1 alpha-2 country code of the country in which the usage occurred."
+              },
+              "roaming": {
+                "type": "string",
+                "description": "The roaming mode the usage occurred in.",
+                "enum": [
+                  "none",
+                  "international",
+                  "domestic"
+                ]
+              },
+              "subscription": {
+                "type": "string",
+                "description": "The unique identifier for the subscription to which the usage is attributed."
+              }
+            }
+          },
+          "sms": {
+            "type": "integer",
+            "description": "Amount of SMS messages sent and received."
+          },
+          "smsInternationalMessages": {
+            "type": "integer",
+            "description": "Amount of SMS messages sent internationally."
+          },
+          "smsLocalMessages": {
+            "type": "integer",
+            "description": "Amount of SMS messages sent locally."
+          },
+          "start": {
+            "type": "string",
+            "description": "Timestamp representing the inclusive lower bound of the aggregation period."
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "The time at which the aggregation was last updated."
+          },
+          "voice": {
+            "type": "integer",
+            "description": "Amount of voice usage in seconds."
+          },
+          "voiceInternationalSeconds": {
+            "type": "integer",
+            "description": "Amount of international voice usage in seconds."
+          },
+          "voiceLocalSeconds": {
+            "type": "integer",
+            "description": "Amount of local voice usage in seconds."
+          }
+        }
+      },
+      "SimulateUsage": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "integer",
+            "nullable": true,
+            "default": 0,
+            "description": "Amount of data used in bytes."
+          },
+          "dataDevice": {
+            "type": "integer",
+            "nullable": true,
+            "default": 0,
+            "description": "Amount of on-device data used in bytes."
+          },
+          "dataTethering": {
+            "type": "integer",
+            "nullable": true,
+            "default": 0,
+            "description": "Amount of tethering data used in bytes."
+          },
+          "voice": {
+            "type": "integer",
+            "nullable": true,
+            "default": 0,
+            "description": "Amount of voice usage in seconds."
+          },
+          "voiceLocal": {
+            "type": "integer",
+            "nullable": true,
+            "default": 0,
+            "description": "Amount of local voice usage in seconds."
+          },
+          "voiceInternational": {
+            "type": "integer",
+            "nullable": true,
+            "default": 0,
+            "description": "Amount of international long distance voice usage in seconds."
+          },
+          "sms": {
+            "type": "integer",
+            "nullable": true,
+            "default": 0,
+            "description": "Amount of SMS messages sent and received."
+          },
+          "smsLocal": {
+            "type": "integer",
+            "nullable": true,
+            "default": 0,
+            "description": "Amount of local SMS messages sent and received."
+          },
+          "smsInternational": {
+            "type": "integer",
+            "nullable": true,
+            "default": 0,
+            "description": "Amount of international long distance SMS messages sent and received."
+          },
+          "subscriptionAddon": {
+            "type": "string",
+            "nullable": true,
+            "description": "The unique identifier for the subscription addon to which the simulated usage should be attributed."
+          },
+          "country": {
+            "type": "string",
+            "nullable": true,
+            "description": "The ISO 3166-1 alpha-2 country code to assign to the simulated usage."
+          },
+          "roaming": {
+            "type": "string",
+            "nullable": true,
+            "default": "none",
+            "enum": [
+              "none",
+              "international",
+              "domestic"
+            ],
+            "description": "The roaming mode to assign to the simulated usage."
+          },
+          "usageBalance": {
+            "type": "string",
+            "nullable": true,
+            "description": "The Usage Balance id to assign the simulated usage to."
+          },
+          "usageBalanceAmount": {
+            "type": "integer",
+            "nullable": true,
+            "description": "The amount of usage to attribute to the specified Usage Balance."
+          }
+        }
+      },
+      "AllowanceCoverage": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "coverage"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "countries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Allowance": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "allowance"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "coverage": {
+            "$ref": "#/components/schemas/AllowanceCoverage"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer"
+          }
+        }
+      },
+      "UsageBalanceSource": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "subscriptionPeriod",
+              "subscriptionAddon"
+            ],
+            "description": "The entity type providing the allowance."
+          },
+          "subscriptionPeriod": {
+            "type": "integer",
+            "nullable": true,
+            "description": "When the allowance is provided by the subscription's plan, the subscription period this usage balance is bound by."
+          },
+          "subscriptionAddon": {
+            "type": "string",
+            "nullable": true,
+            "description": "When the allowance is provided by a Subscription Add-on, the subscription add-on this usage balance is provided by."
+          }
+        }
+      },
+      "UsageBalance": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "usageBalance"
+            ],
+            "description": "Type of object is always `usageBalance`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the usage balance.",
+            "example": "ubl_0V9n0zo90CE0NuvcsN0j88"
+          },
+          "allowance": {
+            "$ref": "#/components/schemas/Allowance"
+          },
+          "subscription": {
+            "type": "string",
+            "description": "Unique identifier of the Subscription the usage balance is related to.",
+            "example": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+          },
+          "source": {
+            "$ref": "#/components/schemas/UsageBalanceSource"
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "bytes",
+              "seconds",
+              "messages"
+            ],
+            "description": "The unit the usage is counted in."
+          },
+          "used": {
+            "type": "integer",
+            "description": "The amount of usage consumed, counted in `unit`."
+          },
+          "limit": {
+            "type": "integer",
+            "nullable": true,
+            "description": "The amount of usage permitted by the associated allowance counted in `unit`. A value of `null` indicates an unlimited allowance."
+          },
+          "remaining": {
+            "type": "integer",
+            "nullable": true,
+            "description": "The amount remaining that can still be consumed, counted in `unit`. A value of `null` indicates an unlimited allowance."
+          },
+          "usedPercent": {
+            "type": "integer",
+            "nullable": true,
+            "description": "The percentage of `limit` that has been used, expressed as an integer between 0 and 100. A value of `null` indicates an unlimited allowance."
+          },
+          "remainingPercent": {
+            "type": "integer",
+            "nullable": true,
+            "description": "The percentage of `limit` that has not been used, expressed as an integer between 0 and 100. A value of `null` indicates an unlimited allowance."
+          },
+          "usableFrom": {
+            "type": "string",
+            "description": "Timestamp representing the beginning of this usage balance's validity."
+          },
+          "usableUntil": {
+            "type": "string",
+            "description": "Timestamp representing the end of this usage balance's validity."
+          }
+        }
+      },
+      "UsageBalanceList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsageBalance"
+            }
+          },
+          "moreItemsAfter": {
+            "type": "string",
+            "nullable": true
+          },
+          "moreItemsBefore": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "user"
+            ],
+            "description": "Type of object is always `user`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the user.",
+            "example": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "birthday": {
+            "type": "string",
+            "nullable": true,
+            "description": "The birthday of the user.",
+            "example": "2017-07-21"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Time when the user was created.",
+            "example": "2021-01-21T19:38:34Z"
+          },
+          "email": {
+            "type": "string",
+            "description": "The primary email address of the user. Must be unique across all users.",
+            "example": "jerry@example.com"
+          },
+          "emailVerified": {
+            "type": "boolean",
+            "description": "Whether the user's primary email address is verified or not.",
+            "example": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true,
+            "description": "The user's full name. Required for some Plans.",
+            "example": "Jerry Seinfeld"
+          },
+          "preferredLocale": {
+            "type": "string",
+            "description": "The user's locale preference represented as an IETF language tag.",
+            "example": "en-US"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "blocked",
+              "deleted"
+            ],
+            "description": "The current status of the user."
+          }
+        }
+      },
+      "UserList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "moreItemsAfter": {
+            "type": "string",
+            "nullable": true
+          },
+          "moreItemsBefore": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateUser": {
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "birthday": {
+            "type": "string",
+            "nullable": true,
+            "description": "The birthday of the user.",
+            "example": "2017-07-21"
+          },
+          "email": {
+            "type": "string",
+            "description": "The primary verified email address of the user.",
+            "example": "jerry@example.com"
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true,
+            "description": "The user's full name.",
+            "example": "Jerry Seinfeld"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "preferredLocale": {
+            "type": "string",
+            "nullable": true,
+            "description": "The user's locale preference.",
+            "example": "en-US"
+          }
+        }
+      },
+      "UpdateUser": {
+        "type": "object",
+        "properties": {
+          "birthday": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "preferredLocale": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SearchUsers": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true,
+            "description": "The primary email address of the user."
+          }
+        }
+      },
+      "UserAddress": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "userAddress"
+            ],
+            "description": "Type of object is always `userAddress`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the address.",
+            "example": "adr_0SNlurA049MEWV5ELDmnaqVXgTFT"
+          },
+          "city": {
+            "type": "string",
+            "description": "The city/municipality of the address.",
+            "example": "New York City"
+          },
+          "country": {
+            "type": "string",
+            "description": "The ISO 3166-1 alpha-2 country code of the address.",
+            "example": "US"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "The time the address was created.",
+            "example": "2021-01-21T19:38:34Z"
+          },
+          "line1": {
+            "type": "string",
+            "description": "The first line of the address, e.g. street and house number.",
+            "example": "129 West 81st Street"
+          },
+          "line2": {
+            "type": "string",
+            "nullable": true,
+            "description": "The second line of the address, e.g. apartment number.",
+            "example": "Apartment 5"
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true,
+            "description": "The postal code of the address.",
+            "example": "10024"
+          },
+          "state": {
+            "type": "string",
+            "nullable": true,
+            "description": "The state/province/region of the address.",
+            "example": "NY"
+          },
+          "user": {
+            "type": "string",
+            "description": "Unique identifier for the address user.",
+            "example": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+          }
+        }
+      },
+      "UserAddressList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserAddress"
+            }
+          },
+          "moreItemsAfter": {
+            "type": "string",
+            "nullable": true
+          },
+          "moreItemsBefore": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateUserAddress": {
+        "type": "object",
+        "required": [
+          "city",
+          "country",
+          "line1"
+        ],
+        "properties": {
+          "city": {
+            "type": "string",
+            "description": "The city/municipality of the address."
+          },
+          "country": {
+            "type": "string",
+            "description": "The ISO 3166-1 alpha-2 country code of the address."
+          },
+          "line1": {
+            "type": "string",
+            "description": "The first line of the address, e.g. street and house number."
+          },
+          "line2": {
+            "type": "string",
+            "nullable": true,
+            "description": "The second line of the address, e.g. apartment number."
+          },
+          "state": {
+            "type": "string",
+            "nullable": true,
+            "description": "The state/province/region of the address. Required for US/CA addresses to be a valid ISO 3166-2 2 letter code."
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true,
+            "description": "The postal code of the address. Required for countries with postal codes."
           }
         }
       }

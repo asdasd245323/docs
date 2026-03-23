@@ -147,6 +147,40 @@
                   "api/gig-core-api/subscription-changes/retrieve-a-subscription-change",
                   "api/gig-core-api/subscription-changes/delete-a-subscription-change"
                 ]
+              },
+              {
+                "group": "Usage",
+                "pages": [
+                  "api/gig-core-api/usage/list-subscription-usage-records",
+                  "api/gig-core-api/usage/simulate-subscription-usage"
+                ]
+              },
+              {
+                "group": "Usage Balances",
+                "pages": [
+                  "api/gig-core-api/usage-balances/list-all-usage-balances",
+                  "api/gig-core-api/usage-balances/retrieve-a-usage-balance"
+                ]
+              },
+              {
+                "group": "Users",
+                "pages": [
+                  "api/gig-core-api/users/list-all-users",
+                  "api/gig-core-api/users/create-a-user",
+                  "api/gig-core-api/users/retrieve-a-user",
+                  "api/gig-core-api/users/delete-a-user",
+                  "api/gig-core-api/users/update-a-user",
+                  "api/gig-core-api/users/search-for-users"
+                ]
+              },
+              {
+                "group": "User Addresses",
+                "pages": [
+                  "api/gig-core-api/user-addresses/retrieve-a-user-address",
+                  "api/gig-core-api/user-addresses/delete-a-user-address",
+                  "api/gig-core-api/user-addresses/list-all-user-addresses",
+                  "api/gig-core-api/user-addresses/create-a-user-address"
+                ]
               }
             ]
           },
