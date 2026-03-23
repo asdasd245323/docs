@@ -104,6 +104,40 @@
                   "api/gig-core-api/projects/retrieve-a-project",
                   "api/gig-core-api/projects/retrieve-the-project-credentials"
                 ]
+              },
+              {
+                "group": "SIMs",
+                "pages": [
+                  "api/gig-core-api/sims/retrieve-an-esim-profile",
+                  "api/gig-core-api/sims/list-all-sims",
+                  "api/gig-core-api/sims/retrieve-a-sim",
+                  "api/gig-core-api/sims/update-a-sim",
+                  "api/gig-core-api/sims/retrieve-the-sim-credentials",
+                  "api/gig-core-api/sims/search-for-sims"
+                ]
+              },
+              {
+                "group": "Subscriptions",
+                "pages": [
+                  "api/gig-core-api/subscriptions/list-all-subscriptions",
+                  "api/gig-core-api/subscriptions/create-a-subscription",
+                  "api/gig-core-api/subscriptions/retrieve-a-subscription",
+                  "api/gig-core-api/subscriptions/update-a-subscription",
+                  "api/gig-core-api/subscriptions/cancel-an-active-subscription",
+                  "api/gig-core-api/subscriptions/port-a-phone-number-into-a-subscription",
+                  "api/gig-core-api/subscriptions/end-a-subscription-immediately",
+                  "api/gig-core-api/subscriptions/resume-a-canceled-subscription",
+                  "api/gig-core-api/subscriptions/search-for-subscriptions"
+                ]
+              },
+              {
+                "group": "Subscription Add-ons",
+                "pages": [
+                  "api/gig-core-api/subscription-add-ons/list-all-subscription-add-ons",
+                  "api/gig-core-api/subscription-add-ons/create-a-subscription-add-on",
+                  "api/gig-core-api/subscription-add-ons/retrieve-a-subscription-add-on",
+                  "api/gig-core-api/subscription-add-ons/end-a-subscription-add-on"
+                ]
               }
             ]
           },

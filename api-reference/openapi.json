@@ -1470,6 +1470,776 @@
           }
         }
       }
+    },
+    "/projects/{project}/sims/{sim}/eSimProfile": {
+      "get": {
+        "summary": "Retrieve an eSIM profile",
+        "operationId": "simsRetrieveESimProfile",
+        "tags": [
+          "SIMs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/sim"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the eSimProfile if it exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/eSimProfile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/sims": {
+      "get": {
+        "summary": "List all SIMs",
+        "operationId": "simsList",
+        "tags": [
+          "SIMs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "name": "provider",
+            "in": "query",
+            "description": "The network provider ID for the sim to be filtered by.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "A comma-separated list of statuses to filter the sims by.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "The type for the sim to be filtered by.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "eSIM",
+                "pSIM"
+              ]
+            }
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "description": "The unique identifier for the user to be filtered by.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "description": "A cursor for use in pagination.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "description": "A cursor for use in pagination.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The limit of items to be returned in the list.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of SIMs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/sims/{sim}": {
+      "get": {
+        "summary": "Retrieve a SIM",
+        "operationId": "simsRetrieve",
+        "tags": [
+          "SIMs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/sim"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the SIM if it exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sim"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a SIM",
+        "operationId": "simsUpdate",
+        "tags": [
+          "SIMs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/sim"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSim"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the updated SIM.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sim"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/sims/{sim}/credentials": {
+      "get": {
+        "summary": "Retrieve the SIM credentials",
+        "operationId": "simsCredentials",
+        "tags": [
+          "SIMs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/sim"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the SIM credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimCredentials"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/sims/search": {
+      "post": {
+        "summary": "Search for SIMs",
+        "operationId": "simsSearch",
+        "tags": [
+          "SIMs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchSims"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of SIMs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/subscriptions": {
+      "get": {
+        "summary": "List all subscriptions",
+        "operationId": "subscriptionsList",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "plan",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sim",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of subscription objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionList"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a subscription",
+        "operationId": "subscriptionsCreate",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubscription"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the newly created subscription.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/subscriptions/{subscription}": {
+      "get": {
+        "summary": "Retrieve a subscription",
+        "operationId": "subscriptionsRetrieve",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/subscription"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the subscription if it exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a subscription",
+        "operationId": "subscriptionsUpdate",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/subscription"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubscription"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the updated subscription.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/subscriptions/{subscription}/cancel": {
+      "post": {
+        "summary": "Cancel an active subscription",
+        "operationId": "subscriptionsCancel",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/subscription"
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelSubscription"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the subscription.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/subscriptions/{subscription}/portIn": {
+      "post": {
+        "summary": "Port a phone number into a subscription",
+        "operationId": "subscriptionsPortIn",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/subscription"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortInSubscription"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the subscription.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/subscriptions/{subscription}/end": {
+      "post": {
+        "summary": "End a subscription immediately",
+        "operationId": "subscriptionsEnd",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/subscription"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the subscription.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/subscriptions/{subscription}/resume": {
+      "post": {
+        "summary": "Resume a canceled subscription",
+        "operationId": "subscriptionsResume",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/subscription"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the subscription.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/subscriptions/search": {
+      "post": {
+        "summary": "Search for subscriptions",
+        "operationId": "subscriptionsSearch",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchSubscriptions"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of subscriptions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/subscriptionAddons": {
+      "get": {
+        "summary": "List all subscription add-ons",
+        "operationId": "subscriptionAddonsList",
+        "tags": [
+          "Subscription Add-ons"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "name": "addon",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "subscription",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of subscription add-ons.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionAddonList"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a subscription add-on",
+        "operationId": "subscriptionAddonsCreate",
+        "tags": [
+          "Subscription Add-ons"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubscriptionAddon"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the newly created subscription add-on.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionAddon"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/subscriptionAddons/{subscriptionAddon}": {
+      "get": {
+        "summary": "Retrieve a subscription add-on",
+        "operationId": "subscriptionAddonsRetrieve",
+        "tags": [
+          "Subscription Add-ons"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/subscriptionAddon"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the subscription add-on if it exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionAddon"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "End a subscription add-on",
+        "operationId": "subscriptionAddonsEnd",
+        "tags": [
+          "Subscription Add-ons"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          },
+          {
+            "$ref": "#/components/parameters/subscriptionAddon"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the ended subscription add-on.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionAddon"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1562,6 +2332,36 @@
         "schema": {
           "type": "string",
           "example": "pto_0SNlurA049MEWV4DWEaT4SaeDI8s"
+        }
+      },
+      "sim": {
+        "name": "sim",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the SIM.",
+        "example": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "subscription": {
+        "name": "subscription",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the subscription.",
+        "example": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "subscriptionAddon": {
+        "name": "subscriptionAddon",
+        "in": "path",
+        "required": true,
+        "description": "The unique identifier for the subscription add-on.",
+        "example": "sad_0SNlurA049MEWV2UNWPbDfW5B40U",
+        "schema": {
+          "type": "string"
         }
       }
     },
@@ -2887,6 +3687,572 @@
             "type": "string",
             "nullable": true,
             "example": "pk_test_XXooYYauvdEDq12NiTphI7sa"
+          }
+        }
+      },
+      "Sim": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "sim"
+            ],
+            "description": "Type of object is always `sim`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the SIM.",
+            "example": "sim_0SNlurA049MEWV1BAAmWZULA4lf6"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when the SIM was created.",
+            "example": "2021-01-21T19:38:34Z"
+          },
+          "iccid": {
+            "type": "string",
+            "description": "The ICCID (integrated circuit card identifier) associated with the SIM.",
+            "example": "89883070000007537119"
+          },
+          "provider": {
+            "type": "string",
+            "description": "The ID of the network provider of the SIM.",
+            "example": "p9"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "inactive",
+              "active",
+              "retired"
+            ],
+            "description": "The status of the SIM."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "eSIM",
+              "pSIM"
+            ],
+            "description": "The type of the SIM."
+          }
+        }
+      },
+      "eSimProfile": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "eSimProfile"
+            ],
+            "description": "Type of object is always `eSimProfile`."
+          },
+          "sim": {
+            "$ref": "#/components/schemas/Sim"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "deleted",
+              "disabled",
+              "enabled",
+              "installed",
+              "unknown"
+            ],
+            "description": "The current status of the eSimProfile."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time at which the status was last updated.",
+            "example": "2024-03-13T15:36:01Z"
+          }
+        }
+      },
+      "SimList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sim"
+            }
+          },
+          "moreItemsAfter": {
+            "type": "string",
+            "nullable": true
+          },
+          "moreItemsBefore": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SimCredentials": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "simCredentials"
+            ]
+          },
+          "activationCode": {
+            "type": "string",
+            "nullable": true,
+            "description": "eSIM activation code to download and install the profile in a device.",
+            "example": "LPA:1$smdp.gigs.com$2M-3L0MX-F8HE2"
+          },
+          "qrCodeUrl": {
+            "type": "string",
+            "nullable": true,
+            "description": "URL of the activation code in QR-Code format.",
+            "example": "https://files.gigs.com/qrcode/example/pUNIvfeLBNQ.png"
+          },
+          "sim": {
+            "type": "string",
+            "description": "Unique identifier for the SIM this credentials are for.",
+            "example": "sim_0SNlurA049MEWV1BAAmWZULA4lf6"
+          }
+        }
+      },
+      "UpdateSim": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        }
+      },
+      "SearchSims": {
+        "type": "object",
+        "required": [
+          "iccid"
+        ],
+        "properties": {
+          "iccid": {
+            "type": "string",
+            "description": "The ICCID (integrated circuit card identifier) associated with the SIM.",
+            "example": "89883070000007537119"
+          },
+          "type": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "eSIM",
+                "pSIM"
+              ]
+            },
+            "description": "Optional type of the SIM card, either `eSIM`, `pSIM` or both.",
+            "default": [
+              "eSIM",
+              "pSIM"
+            ]
+          }
+        }
+      },
+      "SubscriptionBilling": {
+        "type": "object",
+        "properties": {
+          "discount": {
+            "type": "object",
+            "properties": {
+              "voucher": {
+                "type": "string"
+              },
+              "expiresAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          },
+          "invoiceGracePeriodDays": {
+            "type": "integer"
+          },
+          "invoiceOverduePeriodDays": {
+            "type": "integer"
+          },
+          "invoiceOverdueAction": {
+            "type": "string",
+            "nullable": true
+          },
+          "restrictBehavior": {
+            "type": "string",
+            "nullable": true
+          },
+          "restoreBehavior": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SubscriptionCurrentPeriod": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "integer"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CancellationDetails": {
+        "type": "object",
+        "properties": {
+          "cause": {
+            "type": "string"
+          },
+          "userComment": {
+            "type": "string"
+          },
+          "userReason": {
+            "type": "string"
+          }
+        }
+      },
+      "RestrictionDetails": {
+        "type": "object",
+        "properties": {
+          "restrictBehavior": {
+            "type": "string"
+          },
+          "restoreBehavior": {
+            "type": "string"
+          },
+          "cause": {
+            "type": "string"
+          }
+        }
+      },
+      "Subscription": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "subscription"
+            ],
+            "description": "Type of object is always `subscription`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the subscription.",
+            "example": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "activatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "billing": {
+            "$ref": "#/components/schemas/SubscriptionBilling"
+          },
+          "canceledAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cancellationDetails": {
+            "$ref": "#/components/schemas/CancellationDetails"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "currentPeriod": {
+            "$ref": "#/components/schemas/SubscriptionCurrentPeriod"
+          },
+          "earliestEndAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "firstUsageAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastPorting": {
+            "type": "object"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "plan": {
+            "type": "object"
+          },
+          "restrictedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "restrictionDetails": {
+            "$ref": "#/components/schemas/RestrictionDetails"
+          },
+          "sim": {
+            "$ref": "#/components/schemas/Sim"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "initiated",
+              "active",
+              "restricted",
+              "ended"
+            ]
+          },
+          "user": {
+            "type": "object"
+          },
+          "userAddress": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SubscriptionList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Subscription"
+            }
+          },
+          "moreItemsAfter": {
+            "type": "string",
+            "nullable": true
+          },
+          "moreItemsBefore": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateSubscription": {
+        "type": "object",
+        "required": [
+          "plan",
+          "user"
+        ],
+        "properties": {
+          "billing": {
+            "type": "object"
+          },
+          "device": {
+            "type": "string"
+          },
+          "deviceModel": {
+            "type": "string"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "plan": {
+            "type": "string"
+          },
+          "porting": {
+            "type": "string"
+          },
+          "sim": {
+            "type": "string",
+            "default": "auto"
+          },
+          "userAddress": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateSubscription": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "billing": {
+            "type": "object"
+          },
+          "userAddress": {
+            "type": "string"
+          }
+        }
+      },
+      "CancelSubscription": {
+        "type": "object",
+        "properties": {
+          "cancellationDetails": {
+            "$ref": "#/components/schemas/CancellationDetails"
+          }
+        }
+      },
+      "PortInSubscription": {
+        "type": "object",
+        "required": [
+          "porting"
+        ],
+        "properties": {
+          "porting": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchSubscriptions": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "string"
+          },
+          "plan": {
+            "type": "string"
+          },
+          "sim": {
+            "type": "string"
+          },
+          "status": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SubscriptionAddon": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "subscriptionAddon"
+            ],
+            "description": "Type of object is always `subscriptionAddon`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the subscription add-on."
+          },
+          "activatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "addon": {
+            "type": "object"
+          },
+          "canceledAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "currentPeriod": {
+            "$ref": "#/components/schemas/SubscriptionCurrentPeriod"
+          },
+          "endedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "initiated",
+              "active",
+              "ended"
+            ],
+            "description": "The current status of the subscription add-on."
+          },
+          "subscription": {
+            "type": "string",
+            "description": "Unique identifier of the subscription the add-on applies to."
+          },
+          "user": {
+            "type": "string",
+            "description": "Unique identifier of the user the subscription add-on belongs to."
+          }
+        }
+      },
+      "SubscriptionAddonList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubscriptionAddon"
+            }
+          },
+          "moreItemsAfter": {
+            "type": "string",
+            "nullable": true
+          },
+          "moreItemsBefore": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateSubscriptionAddon": {
+        "type": "object",
+        "required": [
+          "addon",
+          "subscription"
+        ],
+        "properties": {
+          "addon": {
+            "type": "string",
+            "description": "Unique identifier of the add-on."
+          },
+          "subscription": {
+            "type": "string",
+            "description": "Unique identifier of the subscription the add-on applies to."
           }
         }
       }
