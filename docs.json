@@ -96,6 +96,14 @@
                   "api/port-outs/expire-existing-port-out-credentials",
                   "api/port-outs/simulate-port-out-completion-by-network-provider"
                 ]
+              },
+              {
+                "group": "Projects",
+                "pages": [
+                  "api/gig-core-api/projects/list-all-projects",
+                  "api/gig-core-api/projects/retrieve-a-project",
+                  "api/gig-core-api/projects/retrieve-the-project-credentials"
+                ]
               }
             ]
           },

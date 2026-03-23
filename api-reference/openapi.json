@@ -1355,6 +1355,121 @@
           }
         }
       }
+    },
+    "/projects": {
+      "get": {
+        "summary": "List all projects",
+        "operationId": "projectsList",
+        "tags": [
+          "Projects"
+        ],
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier for the organization to be filtered by.",
+            "example": "org_0SNlurA04kOdemVEMVZQBF"
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "A cursor for use in pagination."
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "A cursor for use in pagination."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 0,
+              "maximum": 200
+            },
+            "description": "The limit of items to be returned in the list."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a dictionary with an items property that contains an array of projects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}": {
+      "get": {
+        "summary": "Retrieve a project",
+        "operationId": "projectsRetrieve",
+        "tags": [
+          "Projects"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the project object if it exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{project}/credentials": {
+      "get": {
+        "summary": "Retrieve the project credentials",
+        "operationId": "projectsRetrieveCredentials",
+        "tags": [
+          "Projects"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/project"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the project credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectCredentials"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2629,6 +2744,149 @@
           "portOut": {
             "type": "string",
             "example": "pto_0SNlurA049MEWV4DWEaT4SaeDI8s"
+          }
+        }
+      },
+      "Organization": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "organization"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "example": "org_0SNlurA04kOdemVEMVZQBF"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2021-02-01T13:21:30Z"
+          },
+          "name": {
+            "type": "string",
+            "example": "Gigs"
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "project"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "example": "gigs"
+          },
+          "billing": {
+            "type": "object",
+            "nullable": true
+          },
+          "consent": {
+            "type": "object",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2021-01-21T19:32:13Z"
+          },
+          "image": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://a.gigscdn.net/p/gigs/icon.png"
+          },
+          "legal": {
+            "type": "object",
+            "nullable": true
+          },
+          "locales": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "en-US"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "example": "Gigs Connect"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/Organization"
+          },
+          "payments": {
+            "type": "object",
+            "nullable": true
+          },
+          "subscriptionOwner": {
+            "type": "string",
+            "enum": [
+              "user",
+              "company"
+            ]
+          },
+          "support": {
+            "type": "object",
+            "nullable": true
+          },
+          "tax": {
+            "type": "object",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "live",
+              "test"
+            ],
+            "example": "live"
+          }
+        }
+      },
+      "ProjectList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "list"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Project"
+            }
+          },
+          "moreItemsAfter": {
+            "type": "string",
+            "nullable": true
+          },
+          "moreItemsBefore": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ProjectCredentials": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "projectCredentials"
+            ]
+          },
+          "paymentsKey": {
+            "type": "string",
+            "nullable": true,
+            "example": "pk_test_XXooYYauvdEDq12NiTphI7sa"
           }
         }
       }
