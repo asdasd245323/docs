@@ -1,4 +1,140 @@
 ---
 title: "com.gigs.connectSession.created"
-openapi-schema: "com.gigs.connectSession.created"
+description: "Event fired when a Connect session is created."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"}`
+</ResponseField>
+
+<ResponseField name="data" type="ConnectSession">
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.connectSession.created`.
+
+  Allowed values: `com.gigs.connectSession.created`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "connectSession",
+    "id": "csn_0SNlurA049MEWV1GWxpaE5D0t2D6",
+    "appearance": {
+      "theme": "light"
+    },
+    "callbackUrl": "https://example.com",
+    "intent": {
+      "cancelSubscription": {
+        "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+      },
+      "changeSubscription": {
+        "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+      },
+      "checkoutAddon": {
+        "addons": [
+          "add_0SNlurA049MEWV4VxLfwJc7PJtHc"
+        ],
+        "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+      },
+      "checkoutNewSubscription": {
+        "device": "dev_0SNlurA049MEWV55CrA9qMvI2FVJ",
+        "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+        "sim": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+        "imei": "492388841798923"
+      },
+      "completePorting": {
+        "behavior": {
+          "hideIntroPage": true,
+          "hideOutroPage": true
+        },
+        "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+      },
+      "confirmPayment": {
+        "payment": "pay_0SNlurA049MEWV2HRA0slWFuS8DV"
+      },
+      "resumeSubscription": {
+        "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+      },
+      "type": "cancelSubscription",
+      "viewEsimInstallation": {
+        "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+      },
+      "viewSubscription": {
+        "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+      }
+    },
+    "url": "https://connect.gigs.com/checkout/entry?session=csn_0SNlurA049MEWV1GWxpaE5D0t2D6&token=lzODbEyaUQjVRAmalD4pdaq5Nkn1Lw0qTL6Rdsh7PwLVES6N7ImWxnCYbJA99AXp",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.connectSession.created",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

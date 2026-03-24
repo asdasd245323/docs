@@ -1,4 +1,105 @@
 ---
 title: "com.gigs.eSimProfile.enabled"
-openapi-schema: "com.gigs.eSimProfile.enabled"
+description: "Fires when the eSIM profile is enabled. Only available for providers `p3`, `p12`, `p14` and `p15`."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"}`
+</ResponseField>
+
+<ResponseField name="data" type="EsimProfile">
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.eSimProfile.enabled`.
+
+  Allowed values: `com.gigs.eSimProfile.enabled`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "eSimProfile",
+    "sim": {
+      "object": "sim",
+      "id": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+      "metadata": {},
+      "createdAt": "2021-01-21T19:38:34.0Z",
+      "iccid": "89883070000007537119",
+      "provider": "p9",
+      "status": "inactive",
+      "type": "eSIM"
+    },
+    "status": "deleted",
+    "updatedAt": "2024-03-13T15:36:01.0Z"
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.eSimProfile.enabled",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

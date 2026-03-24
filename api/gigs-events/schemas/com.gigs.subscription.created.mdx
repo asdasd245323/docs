@@ -1,4 +1,164 @@
 ---
 title: "com.gigs.subscription.created"
-openapi-schema: "com.gigs.subscription.created"
+description: "Fired when a new subscription has been created."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"},{"type":"apiKey","apiKey":"apk_0SNlurA049MEWV4wRq2ql6SYZxiY"},{"type":"member","member":"mbr_0SNlurA020zhzt0CwsIr53"},{"type":"system"}`
+</ResponseField>
+
+<ResponseField name="data" type="Subscription">
+  Subscriptions are tied to a user and are created once a user has a plan and SIM. This allows connectivity for their device and SIM.
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.subscription.created`.
+
+  Allowed values: `com.gigs.subscription.created`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "subscription",
+    "id": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+    "metadata": {},
+    "activatedAt": "2021-01-21T19:38:34Z",
+    "billing": {
+      "discount": {
+        "voucher": "vou_0SNlurA049MEWV0h2jfjkdiOdplN",
+        "expiresAt": "2021-02-20T19:38:34Z"
+      },
+      "invoiceGracePeriodDays": 3,
+      "invoiceOverduePeriodDays": 1,
+      "invoiceOverdueAction": null,
+      "restrictBehavior": null,
+      "restoreBehavior": null
+    },
+    "canceledAt": "2021-01-29T13:22:51Z",
+    "cancellationDetails": {
+      "cause": "cancellationRequested",
+      "userComment": "",
+      "userReason": "connectivityIssues"
+    },
+    "createdAt": "2021-01-21T19:32:13.0Z",
+    "currentPeriod": {
+      "number": 1,
+      "start": "2021-01-21T19:32:13.0Z",
+      "end": "2021-02-20T19:38:34.0Z"
+    },
+    "earliestEndAt": "2021-02-20T19:38:34Z",
+    "endedAt": "2021-02-20T19:38:34Z",
+    "firstUsageAt": "2021-01-21T19:38:34Z",
+    "phoneNumber": "+19591234567",
+    "plan": {
+      "object": "plan",
+      "id": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+      "name": "Gigs Global",
+      "status": "available",
+      "price": {
+        "amount": 999,
+        "currency": "USD"
+      }
+    },
+    "restrictedAt": "2021-02-21T19:38:34Z",
+    "restrictionDetails": {
+      "restrictBehavior": "incomingOnly",
+      "restoreBehavior": "resetPeriodAnchor",
+      "cause": "invoiceOverdue"
+    },
+    "sim": {
+      "object": "sim",
+      "id": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+      "metadata": {},
+      "createdAt": "2021-01-21T19:38:34.0Z",
+      "iccid": "89883070000007537119",
+      "provider": "p9",
+      "status": "inactive",
+      "type": "eSIM"
+    },
+    "status": "active",
+    "user": {
+      "object": "user",
+      "id": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+      "metadata": {},
+      "birthday": "2017-07-21",
+      "createdAt": "2021-01-21T19:38:34.0Z",
+      "email": "jerry@example.com",
+      "emailVerified": true,
+      "fullName": "Jerry Seinfeld",
+      "preferredLocale": "en-US",
+      "status": "active"
+    },
+    "userAddress": "adr_0SNlurA049MEWV5ELDmnaqVXgTFT"
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.subscription.created",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

@@ -1,4 +1,155 @@
 ---
 title: "com.gigs.porting.informationRequired"
-openapi-schema: "com.gigs.porting.informationRequired"
+description: "Event fired when information is required for a porting."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"}`
+</ResponseField>
+
+<ResponseField name="data" type="Porting">
+  Porting is required when a user wants to keep their phone number when changing their subscription. There are multiple steps involved between the user, their previous carrier, and the new subscriber
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.porting.informationRequired`.
+
+  Allowed values: `com.gigs.porting.informationRequired`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "porting",
+    "id": "prt_0SNlurA049MEWV39s2kSYqaat7ZS",
+    "accountNumber": "123456789",
+    "accountPinExists": true,
+    "address": {
+      "city": "New York City",
+      "country": "US",
+      "line1": "129 West 81st Street",
+      "line2": "Apartment 5",
+      "postalCode": "10024",
+      "state": "NY"
+    },
+    "behavior": "portIn",
+    "billingPinExists": true,
+    "birthday": "2017-07-21",
+    "canceledAt": "2021-01-21T19:39:53Z",
+    "completedAt": "2021-01-21T19:36:57Z",
+    "createdAt": "2021-01-21T19:12:28.0Z",
+    "declinedAttempts": 0,
+    "declinedCode": "portingPhoneNumberPortProtected",
+    "declinedMessage": "The phone number has port protection on the provider.",
+    "donorProvider": {
+      "object": "serviceProvider",
+      "id": "svp_0SNlurA01K6GY5L0XJffY8",
+      "country": "US",
+      "name": "AT&T",
+      "recipientProviders": [
+        "p3"
+      ]
+    },
+    "donorProviderApproval": true,
+    "expiredAt": "2021-01-21T19:39:53Z",
+    "firstName": "Jerry",
+    "lastDeclinedAt": "2021-01-21T19:31:13Z",
+    "lastName": "Seinfeld",
+    "lastRequestedAt": "2021-01-21T19:22:31Z",
+    "phoneNumber": "+19591234567",
+    "provider": "p9",
+    "recipientProvider": {
+      "object": "serviceProvider",
+      "id": "svp_0SNlurA01K6GY5L0XJffY8",
+      "country": "US",
+      "name": "AT&T",
+      "recipientProviders": [
+        "p3"
+      ]
+    },
+    "required": [
+      "accountNumber",
+      "accountPin",
+      "accountType",
+      "address",
+      "birthday",
+      "donorProvider",
+      "donorProviderApproval",
+      "firstName",
+      "lastName"
+    ],
+    "scheduledOn": "2021-01-21",
+    "status": "informationRequired",
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.porting.informationRequired",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

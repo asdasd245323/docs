@@ -1,4 +1,272 @@
 ---
 title: "com.gigs.quote.created"
-openapi-schema: "com.gigs.quote.created"
+description: "Fired when a quote has been created."
 ---
+
+Quotes provide a preview of the invoices, including taxes and fees, that will occur when creating a subscription or add-on.
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"},{"type":"apiKey","apiKey":"apk_0SNlurA049MEWV4wRq2ql6SYZxiY"},{"type":"member","member":"mbr_0SNlurA020zhzt0CwsIr53"},{"type":"system"}`
+</ResponseField>
+
+<ResponseField name="data" type="Quote">
+  <Expandable title="properties">
+    <ResponseField name="object" type="string">
+      Type of object is always `quote`.
+    </ResponseField>
+    <ResponseField name="id" type="string">
+      Unique identifier for the quote.
+    </ResponseField>
+    <ResponseField name="address" type="string">
+      Unique identifier for the address.
+    </ResponseField>
+    <ResponseField name="createdAt" type="string">
+      The date and time the quote was created.
+    </ResponseField>
+    <ResponseField name="discount" type="object">
+      <Expandable title="properties">
+        <ResponseField name="amount" type="number" />
+        <ResponseField name="currency" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="expiredAt" type="string">
+      The date and time the quote expires.
+    </ResponseField>
+    <ResponseField name="fees" type="object[]">
+      <Expandable title="properties">
+        <ResponseField name="amount" type="object">
+          <Expandable title="properties">
+            <ResponseField name="amount" type="number" />
+            <ResponseField name="currency" type="string" />
+          </Expandable>
+        </ResponseField>
+        <ResponseField name="name" type="string" />
+        <ResponseField name="type" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="lineItems" type="object[]">
+      <Expandable title="properties">
+        <ResponseField name="addon" type="string" />
+        <ResponseField name="creditedPlan" type="string" />
+        <ResponseField name="discount" type="object">
+          <Expandable title="properties">
+            <ResponseField name="amount" type="number" />
+            <ResponseField name="currency" type="string" />
+          </Expandable>
+        </ResponseField>
+        <ResponseField name="plan" type="string" />
+        <ResponseField name="subtotal" type="object">
+          <Expandable title="properties">
+            <ResponseField name="amount" type="number" />
+            <ResponseField name="currency" type="string" />
+          </Expandable>
+        </ResponseField>
+        <ResponseField name="tax" type="object">
+          <Expandable title="properties">
+            <ResponseField name="amount" type="number" />
+            <ResponseField name="currency" type="string" />
+          </Expandable>
+        </ResponseField>
+        <ResponseField name="taxes" type="object[]">
+           <Expandable title="properties">
+             <ResponseField name="amount" type="object">
+               <Expandable title="properties">
+                 <ResponseField name="amount" type="number" />
+                 <ResponseField name="currency" type="string" />
+               </Expandable>
+             </ResponseField>
+             <ResponseField name="inclusive" type="boolean" />
+             <ResponseField name="jurisdiction" type="string" />
+             <ResponseField name="name" type="string" />
+           </Expandable>
+        </ResponseField>
+        <ResponseField name="total" type="object">
+          <Expandable title="properties">
+            <ResponseField name="amount" type="number" />
+            <ResponseField name="currency" type="string" />
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="reason" type="string">
+      The reason for the quote.
+    </ResponseField>
+    <ResponseField name="subtotal" type="object">
+      <Expandable title="properties">
+        <ResponseField name="amount" type="number" />
+        <ResponseField name="currency" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="tax" type="object">
+      <Expandable title="properties">
+        <ResponseField name="amount" type="number" />
+        <ResponseField name="currency" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="taxExemptionReason" type="string">
+      The reason for tax exemption.
+    </ResponseField>
+    <ResponseField name="total" type="object">
+      <Expandable title="properties">
+        <ResponseField name="amount" type="number" />
+        <ResponseField name="currency" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="user" type="string">
+      Unique identifier for the user.
+    </ResponseField>
+    <ResponseField name="voucher" type="string">
+      Unique identifier for the voucher.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.quote.created`.
+
+  Allowed values: `com.gigs.quote.created`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "quote",
+    "id": "quo_0SNlurA049MEWV2X9NicYieFQ4Kc",
+    "address": "adr_0SNlurA049MEWV5ELDmnaqVXgTFT",
+    "createdAt": "2024-01-09T15:01:51.0Z",
+    "discount": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "expiredAt": "2024-02-01T11:12:13.0Z",
+    "fees": [
+      {
+        "amount": {
+          "amount": 999,
+          "currency": "USD"
+        },
+        "name": "Recovery Fee",
+        "type": "recoveryFee"
+      }
+    ],
+    "lineItems": [
+      {
+        "addon": "add_0SNlurA049MEWV4VxLfwJc7PJtHc",
+        "creditedPlan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+        "discount": {
+          "amount": 999,
+          "currency": "USD"
+        },
+        "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+        "subtotal": {
+          "amount": 999,
+          "currency": "USD"
+        },
+        "tax": {
+          "amount": 999,
+          "currency": "USD"
+        },
+        "taxes": [
+          {
+            "amount": {
+              "amount": 999,
+              "currency": "USD"
+            },
+            "inclusive": false,
+            "jurisdiction": "Federal",
+            "name": "Federal TRS Fund"
+          }
+        ],
+        "total": {
+          "amount": 999,
+          "currency": "USD"
+        }
+      }
+    ],
+    "reason": "other",
+    "subtotal": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "tax": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "taxExemptionReason": "calculationFailed",
+    "total": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+    "voucher": "vou_0SNlurA049MEWV0h2jfjkdiOdplN"
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.quote.created",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

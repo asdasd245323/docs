@@ -1,4 +1,131 @@
 ---
 title: "com.gigs.usageNotification.created"
-openapi-schema: "com.gigs.usageNotification.created"
+description: "Triggered when a new usage notification is created."
 ---
+
+The currently-supported types of usage notification are:
+
+- `started`, which is fired when the `subscription` is first used.
+- `throttled`, which is fired when the `subscription` has had its data usage throttled to a lower bandwidth.
+- `thresholdExceeded`, which is fired when the `subscription` has used 70%, 90% and 100% of its `data`, `sms` or `voice` allowance.
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"},{"type":"apiKey","apiKey":"apk_0SNlurA049MEWV4wRq2ql6SYZxiY"},{"type":"member","member":"mbr_0SNlurA020zhzt0CwsIr53"},{"type":"system"}`
+</ResponseField>
+
+<ResponseField name="data" type="UsageNotification">
+  <Expandable title="properties">
+    <ResponseField name="object" type="string">
+      Type of object is always `usageNotification`.
+    </ResponseField>
+    <ResponseField name="subscription" type="string">
+      Unique identifier for the subscription.
+    </ResponseField>
+    <ResponseField name="thresholdExceeded" type="object">
+      <Expandable title="properties">
+        <ResponseField name="thresholdPercentage" type="number" />
+        <ResponseField name="type" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="throttled" type="object">
+      <Expandable title="properties">
+        <ResponseField name="thresholdBytes" type="number" />
+        <ResponseField name="bandwidthBitsPerSecond" type="number" />
+        <ResponseField name="until" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="type" type="string">
+      Type of the usage notification.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.usageNotification.created`.
+
+  Allowed values: `com.gigs.usageNotification.created`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "usageNotification",
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+    "thresholdExceeded": null,
+    "throttled": {
+      "thresholdBytes": 10000000000,
+      "bandwidthBitsPerSecond": 512000,
+      "until": "2021-02-20T19:38:34Z"
+    },
+    "type": "throttled"
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.usageNotification.created",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

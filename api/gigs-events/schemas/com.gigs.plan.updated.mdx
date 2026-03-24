@@ -1,4 +1,162 @@
 ---
 title: "com.gigs.plan.updated"
-openapi-schema: "com.gigs.plan.updated"
+description: "Event fired when a plan is updated."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"}`
+</ResponseField>
+
+<ResponseField name="data" type="Plan">
+  Plans define the network options and parameters offered to the end user, e.g. 'Unlimited data, voice & text'. Plan allowances (data, sms, voice) and limits are configurable, and Gigs will work with you to find the best balance for your users.
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="previousData" type="object | null">
+  Present only for events of type `*.updated`. Contains the values fields in the schema had prior to the update.
+  
+  This field is the result of a shallow diff of the previous schema (i.e., if a nested field has changed, then the entire object will be included).
+  
+  Optional: This property may not always be included.
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.plan.updated`.
+
+  Allowed values: `com.gigs.plan.updated`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "plan",
+    "id": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+    "metadata": {},
+    "activationTrigger": "creation",
+    "allowances": {
+      "dataBytes": 10000000000,
+      "voiceSeconds": 30000,
+      "smsMessages": 100
+    },
+    "coverage": {
+      "object": "coverage",
+      "id": "de",
+      "countries": [
+        "DE",
+        "FR",
+        "US"
+      ],
+      "name": "Europe"
+    },
+    "createdAt": "2021-01-21T19:38:34.0Z",
+    "description": "A data plan you will love! Operates in most countries of the world.",
+    "firstPeriodTrigger": "creation",
+    "image": "https://i.gigscdn.com/pr/nTZpgaEj5dTQ2Jo/original.png",
+    "limits": {
+      "dataBytes": 100000000000,
+      "bandwidthBitsPerSecond": 100000000,
+      "throttling": {
+        "thresholdBytes": 10000000000,
+        "bandwidthBitsPerSecond": 512000
+      }
+    },
+    "name": "Gigs Global",
+    "price": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "provider": "p5",
+    "requirements": {
+      "address": "present",
+      "device": "none",
+      "user.birthday": "none",
+      "user.fullName": "present"
+    },
+    "simTypes": [
+      "eSIM",
+      "pSIM"
+    ],
+    "status": "available",
+    "validity": {
+      "minimumPeriods": 12,
+      "type": "recurring",
+      "unit": "day",
+      "value": 7
+    },
+    "data": 10000000000,
+    "dataUnit": "byte",
+    "sms": 100,
+    "smsUnit": "message",
+    "voice": 30000,
+    "voiceUnit": "second"
+  },
+  "datacontenttype": "application/json",
+  "previousData": {},
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.plan.updated",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

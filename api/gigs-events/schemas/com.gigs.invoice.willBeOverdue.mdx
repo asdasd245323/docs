@@ -1,4 +1,178 @@
 ---
-title: "com.gigs.invoice.willBeOverdue"
-openapi-schema: "com.gigs.invoice.willBeOverdue"
+title: com.gigs.invoice.willBeOverdue
+description: Triggered 3 days before an invoice will become overdue if it is not paid by then.
 ---
+
+<ResponseField name="object" type="string" required>
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string" required>
+  Unique identifier for the event.
+</ResponseField>
+
+<ResponseField name="actor" type="object" required>
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" required>
+      Allowed values: `user`, `apiKey`, `member`, `system`
+    </ResponseField>
+    <ResponseField name="user" type="string">
+      Present if type is `user`.
+    </ResponseField>
+    <ResponseField name="apiKey" type="string">
+      Present if type is `apiKey`.
+    </ResponseField>
+    <ResponseField name="member" type="string">
+      Present if type is `member`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  Invoices describe the amount due to a user for a given subscription period, including any relevant taxes and fees.
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" required default="application/json">
+  The RFC 2046 content-type.
+</ResponseField>
+
+<ResponseField name="project" type="string" required>
+  Unique identifier for the project where the event occurred.
+</ResponseField>
+
+<ResponseField name="source" type="string" required default="https://api.gigs.com">
+  URI identifying the event source.
+</ResponseField>
+
+<ResponseField name="specversion" type="string" required default="1.0">
+  The CloudEvents spec version.
+</ResponseField>
+
+<ResponseField name="time" type="string" required>
+  Time when the event occurred.
+</ResponseField>
+
+<ResponseField name="type" type="string" required>
+  Type is always `com.gigs.invoice.willBeOverdue`.
+
+  Allowed values: `com.gigs.invoice.willBeOverdue`
+</ResponseField>
+
+<ResponseField name="version" type="string" required default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "invoice",
+    "id": "inv_0SNlurA049MEWV1QTRqvd18YuG25",
+    "address": "adr_0SNlurA049MEWV5ELDmnaqVXgTFT",
+    "appliedBalance": {
+      "amount": 1199,
+      "currency": "USD"
+    },
+    "createdAt": "2024-01-09T15:01:51.0Z",
+    "discount": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "dueAt": "2024-02-01T11:12:13Z",
+    "fees": [
+      {
+        "amount": {
+          "amount": 999,
+          "currency": "USD"
+        },
+        "name": "Recovery Fee",
+        "type": "recoveryFee"
+      }
+    ],
+    "fileUrl": "https://files.gigs.com/invoices/inv_0SNlurA049MEWV1QTRqvd18YuG25.pdf?signature=abc123",
+    "finalizedAt": "2024-02-01T11:12:13Z",
+    "lineItems": [
+      {
+        "object": "invoiceLineItem",
+        "id": "lin_0SNlurA049MEWV11QUKZGDMxJmKe",
+        "addon": "add_0SNlurA049MEWV4VxLfwJc7PJtHc",
+        "creditedPlan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+        "discount": {
+          "amount": 999,
+          "currency": "USD"
+        },
+        "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+        "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+        "subscriptionAddon": "sad_0SNlurA049MEWV2UNWPbDfW5B40U",
+        "subscriptionChange": "sch_0SNlurA049MEWV3bE0SMtbIEJApp",
+        "subtotal": {
+          "amount": 999,
+          "currency": "USD"
+        },
+        "tax": {
+          "amount": 999,
+          "currency": "USD"
+        },
+        "taxes": [
+          {
+            "object": "invoiceTax",
+            "id": "itx_0SNlurA049MEWV5Mw7cjrxFUo2Y3",
+            "amount": {
+              "amount": 999,
+              "currency": "USD"
+            },
+            "inclusive": false,
+            "jurisdiction": "Federal",
+            "name": "Federal TRS Fund"
+          }
+        ],
+        "total": {
+          "amount": 999,
+          "currency": "USD"
+        }
+      }
+    ],
+    "overdueAt": "2024-02-01T11:13:13Z",
+    "paidAt": "2024-02-01T11:13:13Z",
+    "payment": "pay_0SNlurA049MEWV2HRA0slWFuS8DV",
+    "period": {
+      "number": 1,
+      "start": "2021-01-21T19:32:13.0Z",
+      "end": "2021-02-20T19:38:34.0Z"
+    },
+    "reason": "other",
+    "status": "draft",
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+    "subtotal": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "tax": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "taxExemptionReason": "calculationFailed",
+    "total": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "voucher": "vou_0SNlurA049MEWV0h2jfjkdiOdplN"
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.invoice.willBeOverdue",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

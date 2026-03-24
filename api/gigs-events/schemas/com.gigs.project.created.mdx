@@ -1,4 +1,151 @@
 ---
 title: "com.gigs.project.created"
-openapi-schema: "com.gigs.project.created"
+description: "Event fired when a project is created."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"}`
+</ResponseField>
+
+<ResponseField name="data" type="Project">
+  A project is where all of the user, subscription, plan, device, and SIM information lives.
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.project.created`.
+
+  Allowed values: `com.gigs.project.created`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "project",
+    "id": "gigs",
+    "billing": {
+      "advanceInvoicingDays": 7,
+      "invoiceGracePeriodDays": 3,
+      "invoiceOverdueDays": 3,
+      "invoiceOverduePeriodDays": 1,
+      "invoiceOverdueAction": "end",
+      "currency": "USD",
+      "restrictBehavior": null,
+      "restoreBehavior": null,
+      "paymentBehavior": "manual",
+      "taxBehavior": "exclusive",
+      "recoveryFeePercentage": 10,
+      "recoveryFeeAmount": {
+        "amount": 150,
+        "currency": "USD"
+      }
+    },
+    "consent": {
+      "deliveryMethods": [
+        "emailLink"
+      ]
+    },
+    "createdAt": "2021-01-21T19:32:13.0Z",
+    "image": "https://a.gigscdn.net/p/gigs/icon.png",
+    "legal": {
+      "name": "Gigs Inc.",
+      "city": "New York City",
+      "country": "US",
+      "line1": "129 West 81st Street",
+      "line2": "Apartment 5",
+      "postalCode": "10024",
+      "state": "NY"
+    },
+    "locales": [
+      "en-US"
+    ],
+    "name": "Gigs Connect",
+    "organization": {
+      "object": "organization",
+      "id": "org_0SNlurA04kOdemVEMVZQBF",
+      "createdAt": "2021-02-01T13:21:30.0Z",
+      "name": "Gigs"
+    },
+    "payments": {
+      "currency": "USD",
+      "mode": "live"
+    },
+    "subscriptionOwner": "user",
+    "support": {
+      "email": "support@gigs.com",
+      "phoneNumber": "+12345678900"
+    },
+    "tax": {
+      "country": "US"
+    },
+    "type": "live"
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.project.created",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

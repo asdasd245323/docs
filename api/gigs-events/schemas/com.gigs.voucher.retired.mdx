@@ -1,4 +1,148 @@
 ---
 title: "com.gigs.voucher.retired"
-openapi-schema: "com.gigs.voucher.retired"
+description: "Fired when a voucher has been retired."
 ---
+
+Vouchers describe the discounts to apply to quotes and subscriptions.
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"},{"type":"apiKey","apiKey":"apk_0SNlurA049MEWV4wRq2ql6SYZxiY"},{"type":"member","member":"mbr_0SNlurA020zhzt0CwsIr53"},{"type":"system"}`
+</ResponseField>
+
+<ResponseField name="data" type="Voucher">
+  <Expandable title="properties">
+    <ResponseField name="object" type="string">
+      Type of object is always `voucher`.
+    </ResponseField>
+    <ResponseField name="id" type="string">
+      Unique identifier for the voucher.
+    </ResponseField>
+    <ResponseField name="createdAt" type="string">
+      The date and time the voucher was created.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      The name of the voucher.
+    </ResponseField>
+    <ResponseField name="priceDiscount" type="object">
+      <Expandable title="properties">
+        <ResponseField name="amount" type="number" />
+        <ResponseField name="currency" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="priceDiscountPercentage" type="number">
+      The percentage discount.
+    </ResponseField>
+    <ResponseField name="recurrence" type="object">
+      <Expandable title="properties">
+        <ResponseField name="type" type="string" />
+        <ResponseField name="durationInMonths" type="number" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="redemptions" type="number">
+      The number of redemptions.
+    </ResponseField>
+    <ResponseField name="retiredReason" type="string">
+      The reason the voucher was retired.
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      The status of the voucher.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.voucher.retired`.
+
+  Allowed values: `com.gigs.voucher.retired`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "voucher",
+    "id": "vou_0SNlurA049MEWV0h2jfjkdiOdplN",
+    "createdAt": "2021-02-14T19:38:34.0Z",
+    "name": "Black Friday",
+    "priceDiscount": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "priceDiscountPercentage": 30.12,
+    "recurrence": {
+      "type": "once",
+      "durationInMonths": 1
+    },
+    "redemptions": 2,
+    "retiredReason": null,
+    "status": "available"
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.voucher.retired",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

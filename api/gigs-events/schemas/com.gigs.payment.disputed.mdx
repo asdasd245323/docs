@@ -1,4 +1,142 @@
 ---
 title: "com.gigs.payment.disputed"
-openapi-schema: "com.gigs.payment.disputed"
+description: "Event fired when a payment is disputed."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"}`
+</ResponseField>
+
+<ResponseField name="data" type="Payment">
+  Payments describe the amount charged for an order or subscription using a given payment method.
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.payment.disputed`.
+
+  Allowed values: `com.gigs.payment.disputed`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "payment",
+    "id": "pay_0SNlurA049MEWV2HRA0slWFuS8DV",
+    "amount": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "attemptedAt": "2021-02-14T19:38:34.0Z",
+    "createdAt": "2021-02-14T19:38:34.0Z",
+    "disputeClosedAt": "2021-02-14T19:38:34Z",
+    "disputeOutcome": null,
+    "failedAttempts": 3,
+    "failureCode": "paymentCardDeclined",
+    "failureMessage": "The card has been declined.",
+    "method": {
+      "object": "paymentMethod",
+      "id": "pm_1IHCiiI2m82Dc6YnhqGWH6JX",
+      "brand": "visa",
+      "createdAt": "2021-02-14T19:38:34.0Z",
+      "last4": "4242",
+      "provider": "stripe",
+      "status": "available",
+      "type": "card",
+      "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+    },
+    "reason": "subscriptionCreation",
+    "references": [
+      {
+        "object": "order",
+        "id": "ord_0SNlurA049MEWV0SiRFOw0dmChqN"
+      }
+    ],
+    "refunded": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "refundedAt": "2021-02-14T19:38:34Z",
+    "status": "pending",
+    "user": {
+      "object": "user",
+      "id": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+      "metadata": {},
+      "birthday": "2017-07-21",
+      "createdAt": "2021-01-21T19:38:34.0Z",
+      "email": "jerry@example.com",
+      "emailVerified": true,
+      "fullName": "Jerry Seinfeld",
+      "preferredLocale": "en-US",
+      "status": "active"
+    }
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.payment.disputed",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

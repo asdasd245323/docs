@@ -1,4 +1,183 @@
 ---
-title: "com.gigs.usageBalance.thresholdExceeded"
-openapi-schema: "com.gigs.usageBalance.thresholdExceeded"
+title: "com.gigs.usageBalance.thresholdReached"
+description: "Fires when a usage balance reaches a configured threshold."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"},{"type":"apiKey","apiKey":"apk_0SNlurA049MEWV4wRq2ql6SYZxiY"},{"type":"member","member":"mbr_0SNlurA020zhzt0CwsIr53"},{"type":"system"}`
+</ResponseField>
+
+<ResponseField name="data" type="UsageBalance">
+  A usage balance represents the amount of usage consumed from an [Allowance](https://developers.gigs.com/core/allowances#the-allowance-resource) for a given [Subscription](https://developers.gigs.com/core/subscriptions#the-subscription-resource) in a certain Period.
+
+  <Expandable title="properties">
+    <ResponseField name="object" type="string">
+      Type of object is always `usageBalance`.
+    </ResponseField>
+    <ResponseField name="id" type="string">
+      Unique identifier for the usage balance.
+    </ResponseField>
+    <ResponseField name="allowance" type="Allowance">
+      <Expandable title="properties">
+        <ResponseField name="object" type="string" />
+        <ResponseField name="id" type="string" />
+        <ResponseField name="name" type="string" />
+        <ResponseField name="type" type="string" />
+        <ResponseField name="coverage" type="Coverage" />
+        <ResponseField name="limit" type="number" />
+        <ResponseField name="unit" type="string" />
+        <ResponseField name="priority" type="number" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="subscription" type="string">
+      Unique identifier for the subscription.
+    </ResponseField>
+    <ResponseField name="source" type="object">
+      <Expandable title="properties">
+        <ResponseField name="type" type="string" />
+        <ResponseField name="subscriptionPeriod" type="number" />
+        <ResponseField name="subscriptionAddon" type="string" />
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="unit" type="string">
+      The unit of the usage balance.
+    </ResponseField>
+    <ResponseField name="used" type="number">
+      The amount of usage consumed.
+    </ResponseField>
+    <ResponseField name="limit" type="number">
+      The usage limit.
+    </ResponseField>
+    <ResponseField name="remaining" type="number">
+      The remaining usage.
+    </ResponseField>
+    <ResponseField name="usedPercent" type="number">
+      The percentage of usage consumed.
+    </ResponseField>
+    <ResponseField name="remainingPercent" type="number">
+      The percentage of usage remaining.
+    </ResponseField>
+    <ResponseField name="usableFrom" type="string">
+      The date and time the usage balance becomes usable.
+    </ResponseField>
+    <ResponseField name="usableUntil" type="string">
+      The date and time the usage balance expires.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.usageBalance.thresholdReached`.
+
+  Allowed values: `com.gigs.usageBalance.thresholdReached`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "usageBalance",
+    "id": "ubl_0V9n0zo90CE0NuvcsN0j88",
+    "allowance": {
+      "object": "allowance",
+      "id": "alw_0SNlurA049MEWV3OMTRrGKbd99GH",
+      "name": "Roaming data in Europe",
+      "type": "data",
+      "coverage": {
+        "object": "coverage",
+        "id": "de",
+        "countries": [
+          "DE",
+          "FR",
+          "US"
+        ],
+        "name": "Europe"
+      },
+      "limit": 500,
+      "unit": "bytes",
+      "priority": 1
+    },
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+    "source": {
+      "type": "subscriptionPeriod",
+      "subscriptionPeriod": 4,
+      "subscriptionAddon": null
+    },
+    "unit": "bytes",
+    "used": 230,
+    "limit": 500,
+    "remaining": 270,
+    "usedPercent": 46,
+    "remainingPercent": 54,
+    "usableFrom": "2026-01-03T13:41:24Z",
+    "usableUntil": "2026-02-03T13:41:24Z"
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.usageBalance.thresholdReached",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

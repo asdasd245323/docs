@@ -1,4 +1,122 @@
 ---
 title: "com.gigs.subscriptionChange.failed"
-openapi-schema: "com.gigs.subscriptionChange.failed"
+description: "Fired when a subscription change has failed and could not be applied."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"},{"type":"apiKey","apiKey":"apk_0SNlurA049MEWV4wRq2ql6SYZxiY"},{"type":"member","member":"mbr_0SNlurA020zhzt0CwsIr53"},{"type":"system"}`
+</ResponseField>
+
+<ResponseField name="data" type="SubscriptionChange">
+  A subscription change represents a pending or applied plan modification for an existing subscription.
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.subscriptionChange.failed`.
+
+  Allowed values: `com.gigs.subscriptionChange.failed`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "subscriptionChange",
+    "id": "sch_0SNlurA049MEWV2gSfSxi",
+    "metadata": {},
+    "createdAt": "2021-01-21T19:32:13.0Z",
+    "currentPlan": {
+      "object": "plan",
+      "id": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+      "name": "Gigs Global",
+      "status": "available",
+      "price": {
+        "amount": 999,
+        "currency": "USD"
+      }
+    },
+    "effectiveAt": "2021-02-20T19:38:34Z",
+    "newPlan": {
+      "object": "plan",
+      "id": "pln_0SNlurA049MEWV3V0q7gjQbM4EVp",
+      "name": "Gigs Premium",
+      "status": "available",
+      "price": {
+        "amount": 1999,
+        "currency": "USD"
+      }
+    },
+    "phase": "scheduled",
+    "status": "pending",
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.subscriptionChange.failed",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>

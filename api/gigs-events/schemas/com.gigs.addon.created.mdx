@@ -1,4 +1,136 @@
 ---
 title: "com.gigs.addon.created"
-openapi-schema: "com.gigs.addon.created"
+description: "Event fired when an add-on is created."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `event`.
+
+  Allowed values: `event`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the event.
+
+  Example: `"evt_0SNlurA049MEWV5gNTcQ5A07h3Ol"`
+</ResponseField>
+
+<ResponseField name="actor" type="Actor">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" />
+    <ResponseField name="user" type="string" />
+    <ResponseField name="apiKey" type="string" />
+    <ResponseField name="member" type="string" />
+  </Expandable>
+
+  Example: `{"type":"user","user":"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"}`
+</ResponseField>
+
+<ResponseField name="data" type="Add-on">
+  Add-ons define features or top-ups that can be used to extend the functionality offered to the end user through their subscription's plan.
+</ResponseField>
+
+<ResponseField name="datacontenttype" type="string" default="application/json">
+  The RFC 2046 content-type.
+
+  Example: `"application/json"`
+</ResponseField>
+
+<ResponseField name="project" type="string">
+  Unique identifier for the project where the event occurred.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="source" type="string" default="https://api.gigs.com">
+  URI identifying the event source.
+
+  Example: `"https://api.gigs.com"`
+</ResponseField>
+
+<ResponseField name="specversion" type="string" default="1.0">
+  The CloudEvents spec version.
+
+  Example: `"1.0"`
+</ResponseField>
+
+<ResponseField name="time" type="string">
+  Time when the event occurred.
+
+  Example: `"2022-03-16T14:12:42Z"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Type is always `com.gigs.addon.created`.
+
+  Allowed values: `com.gigs.addon.created`
+</ResponseField>
+
+<ResponseField name="version" type="string" default="2026-01-29">
+  API version used to serialize the data and the event itself.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "event",
+  "id": "evt_0SNlurA049MEWV5gNTcQ5A07h3Ol",
+  "actor": {
+    "type": "user",
+    "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+  },
+  "data": {
+    "object": "addon",
+    "id": "add_0SNlurA049MEWV4VxLfwJc7PJtHc",
+    "metadata": {},
+    "activationTrigger": "creation",
+    "allowances": {
+      "dataBytes": 10000000000,
+      "voiceSeconds": 30000,
+      "smsMessages": 100
+    },
+    "coverage": {
+      "object": "coverage",
+      "id": "de",
+      "countries": [
+        "DE",
+        "FR",
+        "US"
+      ],
+      "name": "Europe"
+    },
+    "createdAt": "2021-01-21T19:12:28.0Z",
+    "description": "Disable international roaming.",
+    "name": "1GB Data Top-up",
+    "plans": [
+      "pln_0SNlurA049MEWV3V0q7gjQbM4EVo"
+    ],
+    "price": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "provider": "p5",
+    "recurrenceType": "oneTime",
+    "status": "draft",
+    "type": "topUp",
+    "validity": {
+      "unit": "day",
+      "value": 7
+    },
+    "data": 10000000000,
+    "dataUnit": "byte",
+    "sms": 100,
+    "smsUnit": "message",
+    "voice": 30000,
+    "voiceUnit": "second"
+  },
+  "datacontenttype": "application/json",
+  "project": "gigs",
+  "source": "https://api.gigs.com",
+  "specversion": "1.0",
+  "time": "2022-03-16T14:12:42.0Z",
+  "type": "com.gigs.addon.created",
+  "version": "2026-01-29"
+}
+```
+</RequestExample>
