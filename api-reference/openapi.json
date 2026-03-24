@@ -21,7 +21,9 @@
         "summary": "Create a connect session",
         "description": "Creates a new Connect Session for the given parameters.\n\nRelated guide: [Connect Sessions](https://developers.gigs.com/docs/connect/connect-sessions/about)\n\n#### Preview\nThis endpoint is currently in preview and might change in the future.\n\nWe're excited to hear your feedback and ideas. Please send an email to support@gigs.com to share your thoughts.",
         "operationId": "connectSessionsCreate",
-        "tags": ["Connect Sessions"],
+        "tags": [
+          "Connect Sessions"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -62,7 +64,9 @@
         "summary": "Retrieve a connect session",
         "description": "Retrieves the details of an existing Connect Session.\n\n#### Preview\nThis endpoint is currently in preview and might change in the future.\n\nWe're excited to hear your feedback and ideas. Please send an email to support@gigs.com to share your thoughts.",
         "operationId": "connectSessionsRetrieve",
-        "tags": ["Connect Sessions"],
+        "tags": [
+          "Connect Sessions"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -99,7 +103,9 @@
         "summary": "Update a connect session",
         "description": "Updates the Connect Session with the given parameters.\n\nThe `user` or `userDetails` attributes can only be set when the session is not associated with a user yet.\n\nRelated guide: [Connect Sessions](https://developers.gigs.com/docs/connect/connect-sessions/about)\n\n#### Preview\nThis endpoint is currently in preview and might change in the future.\n\nWe're excited to hear your feedback and ideas. Please send an email to support@gigs.com to share your thoughts.",
         "operationId": "connectSessionsUpdate",
-        "tags": ["Connect Sessions"],
+        "tags": [
+          "Connect Sessions"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -150,7 +156,9 @@
       "get": {
         "summary": "List all add-ons",
         "operationId": "addonsList",
-        "tags": ["Add-ons"],
+        "tags": [
+          "Add-ons"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -174,7 +182,9 @@
       "get": {
         "summary": "Retrieve an add-on",
         "operationId": "addonsRetrieve",
-        "tags": ["Add-ons"],
+        "tags": [
+          "Add-ons"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -199,7 +209,9 @@
       "patch": {
         "summary": "Update an add-on",
         "operationId": "addonsUpdate",
-        "tags": ["Add-ons"],
+        "tags": [
+          "Add-ons"
+        ],
         "description": "Updates an add-on's name and description.",
         "parameters": [
           {
@@ -237,7 +249,9 @@
       "post": {
         "summary": "Archive an add-on",
         "operationId": "addonsArchive",
-        "tags": ["Add-ons"],
+        "tags": [
+          "Add-ons"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -264,7 +278,9 @@
       "post": {
         "summary": "Publish an add-on",
         "operationId": "addonsPublish",
-        "tags": ["Add-ons"],
+        "tags": [
+          "Add-ons"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -291,7 +307,9 @@
       "get": {
         "summary": "List all devices",
         "operationId": "devicesList",
-        "tags": ["Devices"],
+        "tags": [
+          "Devices"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -313,7 +331,9 @@
       "post": {
         "summary": "Create a device",
         "operationId": "devicesCreate",
-        "tags": ["Devices"],
+        "tags": [
+          "Devices"
+        ],
         "description": "Creates a new device with the given parameters.",
         "parameters": [
           {
@@ -348,7 +368,9 @@
       "get": {
         "summary": "Retrieve a device",
         "operationId": "devicesRetrieve",
-        "tags": ["Devices"],
+        "tags": [
+          "Devices"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -373,7 +395,9 @@
       "delete": {
         "summary": "Delete a device",
         "operationId": "devicesDelete",
-        "tags": ["Devices"],
+        "tags": [
+          "Devices"
+        ],
         "description": "Retrieves the details of an existing device and deletes it.",
         "parameters": [
           {
@@ -399,7 +423,9 @@
       "patch": {
         "summary": "Update a device",
         "operationId": "devicesUpdate",
-        "tags": ["Devices"],
+        "tags": [
+          "Devices"
+        ],
         "description": "Updates the given properties of an existing device.",
         "parameters": [
           {
@@ -437,7 +463,9 @@
       "post": {
         "summary": "Search for devices",
         "operationId": "devicesSearch",
-        "tags": ["Devices"],
+        "tags": [
+          "Devices"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -471,7 +499,9 @@
       "get": {
         "summary": "List all device model brands",
         "operationId": "deviceModelBrandsList",
-        "tags": ["Device Models"],
+        "tags": [
+          "Device Models"
+        ],
         "responses": {
           "200": {
             "description": "Returns a list of device model brands.",
@@ -490,7 +520,9 @@
       "get": {
         "summary": "List all device models",
         "operationId": "deviceModelsList",
-        "tags": ["Device Models"],
+        "tags": [
+          "Device Models"
+        ],
         "responses": {
           "200": {
             "description": "Returns a list of device models.",
@@ -509,7 +541,9 @@
       "post": {
         "summary": "Search for device models",
         "operationId": "deviceModelsSearch",
-        "tags": ["Device Models"],
+        "tags": [
+          "Device Models"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -538,7 +572,9 @@
       "get": {
         "summary": "Retrieve a device model",
         "operationId": "deviceModelsRetrieve",
-        "tags": ["Device Models"],
+        "tags": [
+          "Device Models"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/deviceModel"
@@ -562,7 +598,9 @@
       "post": {
         "summary": "Lookup network availability by location",
         "operationId": "networkAvailabilitiesLookup",
-        "tags": ["Network Availabilities"],
+        "tags": [
+          "Network Availabilities"
+        ],
         "description": "Looks up network availability information based on geographic coordinates (latitude/longitude) or address. Returns network availability data only for US locations.",
         "parameters": [
           {
@@ -597,7 +635,9 @@
       "get": {
         "summary": "List all plans",
         "operationId": "plansList",
-        "tags": ["Plans"],
+        "tags": [
+          "Plans"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -621,7 +661,9 @@
       "post": {
         "summary": "Search for Plans",
         "operationId": "plansSearch",
-        "tags": ["Plans"],
+        "tags": [
+          "Plans"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -655,7 +697,9 @@
       "get": {
         "summary": "Retrieve a plan",
         "operationId": "plansRetrieve",
-        "tags": ["Plans"],
+        "tags": [
+          "Plans"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -680,7 +724,9 @@
       "patch": {
         "summary": "Update a plan",
         "operationId": "plansUpdate",
-        "tags": ["Plans"],
+        "tags": [
+          "Plans"
+        ],
         "description": "Updates the specified plan by setting the values of the parameters passed.",
         "parameters": [
           {
@@ -718,7 +764,9 @@
       "post": {
         "summary": "Archive a plan",
         "operationId": "plansArchive",
-        "tags": ["Plans"],
+        "tags": [
+          "Plans"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -745,7 +793,9 @@
       "post": {
         "summary": "Publish a plan",
         "operationId": "plansPublish",
-        "tags": ["Plans"],
+        "tags": [
+          "Plans"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -772,7 +822,9 @@
       "get": {
         "summary": "List all plan documents",
         "operationId": "planDocumentsList",
-        "tags": ["Plan Documents"],
+        "tags": [
+          "Plan Documents"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -796,7 +848,9 @@
       "get": {
         "summary": "Retrieve a plan document",
         "operationId": "planDocumentsRetrieve",
-        "tags": ["Plan Documents"],
+        "tags": [
+          "Plan Documents"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -823,7 +877,9 @@
       "get": {
         "summary": "List all portings",
         "operationId": "portingsList",
-        "tags": ["Portings"],
+        "tags": [
+          "Portings"
+        ],
         "description": "Returns a list of portings. The portings returned are sorted by creation date, with the most recently created portings appearing first.",
         "parameters": [
           {
@@ -902,7 +958,9 @@
       "post": {
         "summary": "Create a porting",
         "operationId": "portingsCreate",
-        "tags": ["Portings"],
+        "tags": [
+          "Portings"
+        ],
         "description": "Creates a new porting. It will be created in draft status and can be later used to create an order or subscription for the same provider.",
         "parameters": [
           {
@@ -943,7 +1001,9 @@
       "post": {
         "summary": "Search for portings",
         "operationId": "portingsSearch",
-        "tags": ["Portings"],
+        "tags": [
+          "Portings"
+        ],
         "description": "Searches for existing portings matching the given parameters.",
         "parameters": [
           {
@@ -981,7 +1041,9 @@
       "get": {
         "summary": "Retrieve a Porting",
         "operationId": "portingsRetrieve",
-        "tags": ["Portings"],
+        "tags": [
+          "Portings"
+        ],
         "description": "Retrieves the details of an existing porting.",
         "parameters": [
           {
@@ -1010,7 +1072,9 @@
       "delete": {
         "summary": "Delete a draft porting",
         "operationId": "portingsDelete",
-        "tags": ["Portings"],
+        "tags": [
+          "Portings"
+        ],
         "description": "Deletes a porting that is in the draft state.",
         "parameters": [
           {
@@ -1042,7 +1106,9 @@
       "patch": {
         "summary": "Update a porting",
         "operationId": "portingsUpdate",
-        "tags": ["Portings"],
+        "tags": [
+          "Portings"
+        ],
         "description": "Updates a porting with the given parameters. Depending on the status of the porting, some fields may not be updated anymore.",
         "parameters": [
           {
@@ -1089,7 +1155,9 @@
       "post": {
         "summary": "Cancel a porting",
         "operationId": "portingsCancel",
-        "tags": ["Portings"],
+        "tags": [
+          "Portings"
+        ],
         "description": "Cancels a porting. A porting can be cancelled if it is in the pending, declined or informationRequired state, or in the requested state and scheduled for a future date.",
         "parameters": [
           {
@@ -1123,7 +1191,9 @@
       "get": {
         "summary": "List all service providers",
         "operationId": "serviceProvidersList",
-        "tags": ["Service Providers"],
+        "tags": [
+          "Service Providers"
+        ],
         "description": "Returns a list of service providers. It is recommended that callers provide either a recipient provider or country to filter for relevant service providers.",
         "parameters": [
           {
@@ -1163,7 +1233,9 @@
       "get": {
         "summary": "Retrieve a service provider",
         "operationId": "serviceProvidersRetrieve",
-        "tags": ["Service Providers"],
+        "tags": [
+          "Service Providers"
+        ],
         "description": "Retrieves the details of a service provider.",
         "parameters": [
           {
@@ -1191,7 +1263,9 @@
       "get": {
         "summary": "List all port outs",
         "operationId": "portOutsList",
-        "tags": ["Port Outs"],
+        "tags": [
+          "Port Outs"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1215,7 +1289,11 @@
               "items": {
                 "type": "string"
               },
-              "default": ["initiated", "issued", "processing"]
+              "default": [
+                "initiated",
+                "issued",
+                "processing"
+              ]
             },
             "description": "A comma-separated list of statuses to filter the port outs by."
           },
@@ -1266,7 +1344,9 @@
       "post": {
         "summary": "Create port out",
         "operationId": "portOutsCreate",
-        "tags": ["Port Outs"],
+        "tags": [
+          "Port Outs"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1300,7 +1380,9 @@
       "get": {
         "summary": "Retrieve port out",
         "operationId": "portOutsRetrieve",
-        "tags": ["Port Outs"],
+        "tags": [
+          "Port Outs"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1327,7 +1409,9 @@
       "get": {
         "summary": "Retrieve port out credentials",
         "operationId": "portOutsRetrieveCredentials",
-        "tags": ["Port Outs"],
+        "tags": [
+          "Port Outs"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1354,7 +1438,9 @@
       "post": {
         "summary": "Expire existing port out credentials",
         "operationId": "portOutsExpire",
-        "tags": ["Port Outs"],
+        "tags": [
+          "Port Outs"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1381,7 +1467,9 @@
       "post": {
         "summary": "Simulate port out completion by network provider",
         "operationId": "portOutsSimulate",
-        "tags": ["Port Outs"],
+        "tags": [
+          "Port Outs"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1408,7 +1496,9 @@
       "get": {
         "summary": "List all projects",
         "operationId": "projectsList",
-        "tags": ["Projects"],
+        "tags": [
+          "Projects"
+        ],
         "parameters": [
           {
             "name": "organization",
@@ -1469,7 +1559,9 @@
       "get": {
         "summary": "Retrieve a project",
         "operationId": "projectsRetrieve",
-        "tags": ["Projects"],
+        "tags": [
+          "Projects"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1493,7 +1585,9 @@
       "get": {
         "summary": "Retrieve the project credentials",
         "operationId": "projectsRetrieveCredentials",
-        "tags": ["Projects"],
+        "tags": [
+          "Projects"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1517,7 +1611,9 @@
       "get": {
         "summary": "Retrieve an eSIM profile",
         "operationId": "simsRetrieveESimProfile",
-        "tags": ["SIMs"],
+        "tags": [
+          "SIMs"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1544,7 +1640,9 @@
       "get": {
         "summary": "List all SIMs",
         "operationId": "simsList",
-        "tags": ["SIMs"],
+        "tags": [
+          "SIMs"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1577,7 +1675,10 @@
             "description": "The type for the sim to be filtered by.",
             "schema": {
               "type": "string",
-              "enum": ["eSIM", "pSIM"]
+              "enum": [
+                "eSIM",
+                "pSIM"
+              ]
             }
           },
           {
@@ -1631,7 +1732,9 @@
       "get": {
         "summary": "Retrieve a SIM",
         "operationId": "simsRetrieve",
-        "tags": ["SIMs"],
+        "tags": [
+          "SIMs"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1656,7 +1759,9 @@
       "patch": {
         "summary": "Update a SIM",
         "operationId": "simsUpdate",
-        "tags": ["SIMs"],
+        "tags": [
+          "SIMs"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1693,7 +1798,9 @@
       "get": {
         "summary": "Retrieve the SIM credentials",
         "operationId": "simsCredentials",
-        "tags": ["SIMs"],
+        "tags": [
+          "SIMs"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1720,7 +1827,9 @@
       "post": {
         "summary": "Search for SIMs",
         "operationId": "simsSearch",
-        "tags": ["SIMs"],
+        "tags": [
+          "SIMs"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1754,7 +1863,9 @@
       "get": {
         "summary": "List all subscriptions",
         "operationId": "subscriptionsList",
-        "tags": ["Subscriptions"],
+        "tags": [
+          "Subscriptions"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1828,7 +1939,9 @@
       "post": {
         "summary": "Create a subscription",
         "operationId": "subscriptionsCreate",
-        "tags": ["Subscriptions"],
+        "tags": [
+          "Subscriptions"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1862,7 +1975,9 @@
       "get": {
         "summary": "Retrieve a subscription",
         "operationId": "subscriptionsRetrieve",
-        "tags": ["Subscriptions"],
+        "tags": [
+          "Subscriptions"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1887,7 +2002,9 @@
       "patch": {
         "summary": "Update a subscription",
         "operationId": "subscriptionsUpdate",
-        "tags": ["Subscriptions"],
+        "tags": [
+          "Subscriptions"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1924,7 +2041,9 @@
       "post": {
         "summary": "Cancel an active subscription",
         "operationId": "subscriptionsCancel",
-        "tags": ["Subscriptions"],
+        "tags": [
+          "Subscriptions"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1961,7 +2080,9 @@
       "post": {
         "summary": "Port a phone number into a subscription",
         "operationId": "subscriptionsPortIn",
-        "tags": ["Subscriptions"],
+        "tags": [
+          "Subscriptions"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -1998,7 +2119,9 @@
       "post": {
         "summary": "End a subscription immediately",
         "operationId": "subscriptionsEnd",
-        "tags": ["Subscriptions"],
+        "tags": [
+          "Subscriptions"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -2025,7 +2148,9 @@
       "post": {
         "summary": "Resume a canceled subscription",
         "operationId": "subscriptionsResume",
-        "tags": ["Subscriptions"],
+        "tags": [
+          "Subscriptions"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -2052,7 +2177,9 @@
       "post": {
         "summary": "Search for subscriptions",
         "operationId": "subscriptionsSearch",
-        "tags": ["Subscriptions"],
+        "tags": [
+          "Subscriptions"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -2086,7 +2213,9 @@
       "get": {
         "summary": "List all subscription add-ons",
         "operationId": "subscriptionAddonsList",
-        "tags": ["Subscription Add-ons"],
+        "tags": [
+          "Subscription Add-ons"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -2160,7 +2289,9 @@
       "post": {
         "summary": "Create a subscription add-on",
         "operationId": "subscriptionAddonsCreate",
-        "tags": ["Subscription Add-ons"],
+        "tags": [
+          "Subscription Add-ons"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -2194,7 +2325,9 @@
       "get": {
         "summary": "Retrieve a subscription add-on",
         "operationId": "subscriptionAddonsRetrieve",
-        "tags": ["Subscription Add-ons"],
+        "tags": [
+          "Subscription Add-ons"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -2219,7 +2352,9 @@
       "delete": {
         "summary": "End a subscription add-on",
         "operationId": "subscriptionAddonsEnd",
-        "tags": ["Subscription Add-ons"],
+        "tags": [
+          "Subscription Add-ons"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -2246,7 +2381,9 @@
       "get": {
         "summary": "List all subscription changes",
         "operationId": "subscriptionChangesList",
-        "tags": ["Subscription Changes"],
+        "tags": [
+          "Subscription Changes"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -2313,7 +2450,9 @@
       "post": {
         "summary": "Create a subscription change",
         "operationId": "subscriptionChangesCreate",
-        "tags": ["Subscription Changes"],
+        "tags": [
+          "Subscription Changes"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -2347,7 +2486,9 @@
       "get": {
         "summary": "Retrieve a subscription change",
         "operationId": "subscriptionChangesRetrieve",
-        "tags": ["Subscription Changes"],
+        "tags": [
+          "Subscription Changes"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -2372,7 +2513,9 @@
       "delete": {
         "summary": "Delete a subscription change",
         "operationId": "subscriptionChangesDelete",
-        "tags": ["Subscription Changes"],
+        "tags": [
+          "Subscription Changes"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/project"
@@ -2399,7 +2542,9 @@
       "get": {
         "summary": "List subscription usage records",
         "description": "Lists usage records in ascending order for a subscription, defaulting to `daily` aggregation for the latest subscription period. If none of the `start`, `end`, or `period` parameters is provided, records are returned for the latest subscription period.",
-        "tags": ["Usage"],
+        "tags": [
+          "Usage"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -2478,7 +2623,7 @@
               }
             }
           },
-          "redirects": {
+          "422": {
             "description": "Error details",
             "content": {
               "application/json": {
@@ -2494,8 +2639,10 @@
     "/testing/projects/{project}/subscriptions/{subscription}/usage": {
       "post": {
         "summary": "Simulate subscription usage",
-        "description": "Simulates usage on a subscription with a test SIM. Can be used to test usage notifications. Subscription must be in status \"active\".\n\n#### Preview\nThis endpoint is currently in preview and might change in the future.\nWe\u2019re excited to hear your feedback and ideas. Please send an email to support@gigs.com to share your thoughts.",
-        "tags": ["Usage"],
+        "description": "Simulates usage on a subscription with a test SIM. Can be used to test usage notifications. Subscription must be in status \"active\".\n\n#### Preview\nThis endpoint is currently in preview and might change in the future.\nWe’re excited to hear your feedback and ideas. Please send an email to support@gigs.com to share your thoughts.",
+        "tags": [
+          "Usage"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -2543,8 +2690,10 @@
     "/projects/{project}/usageBalances": {
       "get": {
         "summary": "List all usage balances",
-        "description": "Returns a list of usage balances for the given project. The list can be filtered by subscription, subscription period, or subscription add-on. When filtering by subscription without specifying subscriptionPeriod or subscriptionAddon, all usage balances for the subscription are returned regardless of source type or period.\n\n#### Preview\nThis endpoint is currently in preview and might change in the future.\nWe\u2019re excited to hear your feedback and ideas. Please send an email to support@gigs.com to share your thoughts.",
-        "tags": ["Usage Balances"],
+        "description": "Returns a list of usage balances for the given project. The list can be filtered by subscription, subscription period, or subscription add-on. When filtering by subscription without specifying subscriptionPeriod or subscriptionAddon, all usage balances for the subscription are returned regardless of source type or period.\n\n#### Preview\nThis endpoint is currently in preview and might change in the future.\nWe’re excited to hear your feedback and ideas. Please send an email to support@gigs.com to share your thoughts.",
+        "tags": [
+          "Usage Balances"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -2574,7 +2723,7 @@
           {
             "name": "subscriptionAddon",
             "in": "query",
-            "description": "Filter usage balances by Subscription Add-on ID. Can be combined with `subscription` but not with `subscriptionPeriod`. A usage balance is sourced from either a subscription period or a subscription add-on, never both \u2014 combining these will return an error.",
+            "description": "Filter usage balances by Subscription Add-on ID. Can be combined with `subscription` but not with `subscriptionPeriod`. A usage balance is sourced from either a subscription period or a subscription add-on, never both — combining these will return an error.",
             "schema": {
               "type": "string"
             }
@@ -2597,8 +2746,10 @@
     "/projects/{project}/usageBalances/{usageBalance}": {
       "get": {
         "summary": "Retrieve a usage balance",
-        "description": "Returns the details of an existing usage balance.\n\n#### Preview\nThis endpoint is currently in preview and might change in the future.\nWe\u2019re excited to hear your feedback and ideas. Please send an email to support@gigs.com to share your thoughts.",
-        "tags": ["Usage Balances"],
+        "description": "Returns the details of an existing usage balance.\n\n#### Preview\nThis endpoint is currently in preview and might change in the future.\nWe’re excited to hear your feedback and ideas. Please send an email to support@gigs.com to share your thoughts.",
+        "tags": [
+          "Usage Balances"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -2637,7 +2788,9 @@
       "get": {
         "summary": "List all users",
         "description": "Returns a list of users. The users returned are sorted by creation date, with the most recently created users appearing first.",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -2692,7 +2845,9 @@
       "post": {
         "summary": "Create a user",
         "description": "Creates a new user with the given parameters.",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -2732,7 +2887,9 @@
       "get": {
         "summary": "Retrieve a user",
         "description": "Retrieves the details of an existing user. You need only supply the unique user identifier that was returned upon user creation.",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -2769,7 +2926,9 @@
       "delete": {
         "summary": "Delete a user",
         "description": "Retrieves the details of an existing user and deletes it.",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -2806,7 +2965,9 @@
       "patch": {
         "summary": "Update a user",
         "description": "Updates the specified user by setting the values of the parameters passed.",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -2855,7 +3016,9 @@
       "post": {
         "summary": "Search for users",
         "description": "Searches for existing users matching the given parameters.",
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -2895,7 +3058,9 @@
       "get": {
         "summary": "Retrieve a user address",
         "description": "Retrieves the details of an existing address for a given user.",
-        "tags": ["User Addresses"],
+        "tags": [
+          "User Addresses"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -2941,7 +3106,9 @@
       "delete": {
         "summary": "Delete a user address",
         "description": "Retrieves the details of an existing user address and deletes it.",
-        "tags": ["User Addresses"],
+        "tags": [
+          "User Addresses"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -2989,7 +3156,9 @@
       "get": {
         "summary": "List all user addresses",
         "description": "Returns a list of addresses owned by the given user. The addresses returned are sorted by creation date, with the most recently created addresses appearing first.",
-        "tags": ["User Addresses"],
+        "tags": [
+          "User Addresses"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3026,7 +3195,9 @@
       "post": {
         "summary": "Create a user address",
         "description": "Create a new address for the given user with the provided parameters.\n\nIf any validations fail during the user address creation process, detailed information will be provided in the error response body. If applicable, suggested alternative values for properties that do not pass the validations will also be included.\n\nPlease note that there is a maximum limit of 10 active addresses permitted per user. Attempts to exceed this limit will result in an error response. Addresses must also be unique for a given user.",
-        "tags": ["User Addresses"],
+        "tags": [
+          "User Addresses"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3075,7 +3246,9 @@
       "get": {
         "summary": "List all credit notes",
         "description": "Returns a list of credit notes.",
-        "tags": ["Credit Notes"],
+        "tags": [
+          "Credit Notes"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3135,7 +3308,9 @@
                   "properties": {
                     "object": {
                       "type": "string",
-                      "enum": ["list"]
+                      "enum": [
+                        "list"
+                      ]
                     },
                     "items": {
                       "type": "array",
@@ -3161,7 +3336,9 @@
       "post": {
         "summary": "Create a credit note",
         "description": "Creates a new credit note for an invoice.",
-        "tags": ["Credit Notes"],
+        "tags": [
+          "Credit Notes"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3178,7 +3355,9 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["invoice"],
+                "required": [
+                  "invoice"
+                ],
                 "properties": {
                   "invoice": {
                     "type": "string"
@@ -3252,7 +3431,9 @@
       "get": {
         "summary": "Retrieve a credit note",
         "description": "Retrieves the details of an existing credit note.",
-        "tags": ["Credit Notes"],
+        "tags": [
+          "Credit Notes"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3289,7 +3470,9 @@
       "post": {
         "summary": "Void a credit note",
         "description": "Marks the credit note as void.",
-        "tags": ["Credit Notes"],
+        "tags": [
+          "Credit Notes"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3326,7 +3509,9 @@
       "get": {
         "summary": "List all invoices",
         "description": "Returns a list of invoices.",
-        "tags": ["Invoices"],
+        "tags": [
+          "Invoices"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3417,7 +3602,9 @@
                   "properties": {
                     "object": {
                       "type": "string",
-                      "enum": ["list"]
+                      "enum": [
+                        "list"
+                      ]
                     },
                     "items": {
                       "type": "array",
@@ -3445,7 +3632,9 @@
       "get": {
         "summary": "Retrieve an invoice",
         "description": "Retrieves the details of an existing invoice.",
-        "tags": ["Invoices"],
+        "tags": [
+          "Invoices"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3482,7 +3671,9 @@
       "post": {
         "summary": "Pay an invoice",
         "description": "Marks the invoice as paid.",
-        "tags": ["Invoices"],
+        "tags": [
+          "Invoices"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3519,7 +3710,9 @@
       "post": {
         "summary": "Create a quote",
         "description": "Creates a quote for the given plan or add-on.",
-        "tags": ["Quotes"],
+        "tags": [
+          "Quotes"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3536,7 +3729,9 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["user"],
+                "required": [
+                  "user"
+                ],
                 "properties": {
                   "addon": {
                     "type": "string",
@@ -3584,7 +3779,9 @@
       "get": {
         "summary": "Retrieve a quote",
         "description": "Retrieves the details of an existing quote.",
-        "tags": ["Quotes"],
+        "tags": [
+          "Quotes"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3621,7 +3818,9 @@
       "get": {
         "summary": "List all vouchers",
         "description": "Returns a list of vouchers. The vouchers returned are sorted by creation date, with the most recently created vouchers appearing first.",
-        "tags": ["Vouchers"],
+        "tags": [
+          "Vouchers"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3639,7 +3838,9 @@
               "items": {
                 "type": "string"
               },
-              "default": ["available"]
+              "default": [
+                "available"
+              ]
             }
           },
           {
@@ -3682,7 +3883,9 @@
                   "properties": {
                     "object": {
                       "type": "string",
-                      "enum": ["list"]
+                      "enum": [
+                        "list"
+                      ]
                     },
                     "items": {
                       "type": "array",
@@ -3708,7 +3911,9 @@
       "post": {
         "summary": "Create a voucher",
         "description": "Creates a new voucher in the specified project.",
-        "tags": ["Vouchers"],
+        "tags": [
+          "Vouchers"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3725,7 +3930,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["name", "recurrence"],
+                "required": [
+                  "name",
+                  "recurrence"
+                ],
                 "properties": {
                   "name": {
                     "type": "string"
@@ -3748,7 +3956,9 @@
                   },
                   "recurrence": {
                     "type": "object",
-                    "required": ["type"],
+                    "required": [
+                      "type"
+                    ],
                     "properties": {
                       "type": {
                         "type": "string"
@@ -3782,7 +3992,9 @@
       "get": {
         "summary": "Retrieve a voucher",
         "description": "Retrieves the details of an existing voucher.",
-        "tags": ["Vouchers"],
+        "tags": [
+          "Vouchers"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3819,7 +4031,9 @@
       "post": {
         "summary": "Retire a voucher",
         "description": "Retires the voucher. This marks the voucher as no longer redeemable for new subscriptions.",
-        "tags": ["Vouchers"],
+        "tags": [
+          "Vouchers"
+        ],
         "parameters": [
           {
             "name": "project",
@@ -3992,7 +4206,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["addon"]
+            "enum": [
+              "addon"
+            ]
           },
           "id": {
             "type": "string"
@@ -4006,7 +4222,11 @@
           },
           "status": {
             "type": "string",
-            "enum": ["draft", "available", "archived"]
+            "enum": [
+              "draft",
+              "available",
+              "archived"
+            ]
           }
         }
       },
@@ -4015,7 +4235,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -4047,7 +4269,10 @@
             "properties": {
               "unit": {
                 "type": "string",
-                "enum": ["day", "month"],
+                "enum": [
+                  "day",
+                  "month"
+                ],
                 "description": "The time unit, either day or month.",
                 "example": "day"
               },
@@ -4058,7 +4283,10 @@
                 "example": 7
               }
             },
-            "required": ["unit", "value"]
+            "required": [
+              "unit",
+              "value"
+            ]
           },
           "metadata": {
             "type": "object",
@@ -4074,7 +4302,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["device"]
+            "enum": [
+              "device"
+            ]
           },
           "id": {
             "type": "string"
@@ -4094,7 +4324,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -4106,7 +4338,9 @@
       },
       "CreateDevice": {
         "type": "object",
-        "required": ["imei"],
+        "required": [
+          "imei"
+        ],
         "properties": {
           "imei": {
             "type": "string",
@@ -4178,7 +4412,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["deviceModel"]
+            "enum": [
+              "deviceModel"
+            ]
           },
           "id": {
             "type": "string"
@@ -4196,7 +4432,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -4211,7 +4449,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["deviceModelBrands"]
+            "enum": [
+              "deviceModelBrands"
+            ]
           },
           "items": {
             "type": "array",
@@ -4223,7 +4463,9 @@
       },
       "SearchDevice": {
         "type": "object",
-        "required": ["imei"],
+        "required": [
+          "imei"
+        ],
         "properties": {
           "imei": {
             "type": "string"
@@ -4232,7 +4474,9 @@
       },
       "SearchDeviceModel": {
         "type": "object",
-        "required": ["imei"],
+        "required": [
+          "imei"
+        ],
         "properties": {
           "imei": {
             "type": "string"
@@ -4244,7 +4488,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["networkAvailability"]
+            "enum": [
+              "networkAvailability"
+            ]
           },
           "availability": {
             "type": "array",
@@ -4359,7 +4605,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["plan"]
+            "enum": [
+              "plan"
+            ]
           },
           "id": {
             "type": "string"
@@ -4377,7 +4625,12 @@
           },
           "status": {
             "type": "string",
-            "enum": ["draft", "available", "archived", "pending"]
+            "enum": [
+              "draft",
+              "available",
+              "archived",
+              "pending"
+            ]
           }
         }
       },
@@ -4386,7 +4639,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -4459,7 +4714,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["planDocument"]
+            "enum": [
+              "planDocument"
+            ]
           },
           "id": {
             "type": "string"
@@ -4480,7 +4737,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -4495,7 +4754,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["porting"]
+            "enum": [
+              "porting"
+            ]
           },
           "id": {
             "type": "string",
@@ -4523,7 +4784,10 @@
           },
           "behavior": {
             "type": "string",
-            "enum": ["cancelOnly", "portIn"],
+            "enum": [
+              "cancelOnly",
+              "portIn"
+            ],
             "description": "The behavior of the porting.",
             "example": "portIn"
           },
@@ -4694,7 +4958,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -4716,7 +4982,11 @@
       },
       "CreatePorting": {
         "type": "object",
-        "required": ["phoneNumber", "provider", "user"],
+        "required": [
+          "phoneNumber",
+          "provider",
+          "user"
+        ],
         "properties": {
           "accountNumber": {
             "type": "string",
@@ -4742,7 +5012,10 @@
           "behavior": {
             "type": "string",
             "nullable": true,
-            "enum": ["cancelOnly", "portIn"],
+            "enum": [
+              "cancelOnly",
+              "portIn"
+            ],
             "default": "portIn",
             "description": "The behavior of the porting.",
             "example": "portIn"
@@ -4829,7 +5102,10 @@
           },
           "behavior": {
             "type": "string",
-            "enum": ["cancelOnly", "portIn"],
+            "enum": [
+              "cancelOnly",
+              "portIn"
+            ],
             "description": "The behavior of the porting.",
             "example": "portIn"
           },
@@ -4883,7 +5159,9 @@
       },
       "SearchPortings": {
         "type": "object",
-        "required": ["phoneNumber"],
+        "required": [
+          "phoneNumber"
+        ],
         "properties": {
           "phoneNumber": {
             "type": "string",
@@ -4897,7 +5175,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["serviceProvider"]
+            "enum": [
+              "serviceProvider"
+            ]
           },
           "id": {
             "type": "string",
@@ -4920,7 +5200,9 @@
             "items": {
               "type": "string"
             },
-            "example": ["p3"]
+            "example": [
+              "p3"
+            ]
           }
         }
       },
@@ -4929,7 +5211,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -4966,7 +5250,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["portOut"]
+            "enum": [
+              "portOut"
+            ]
           },
           "id": {
             "type": "string",
@@ -4974,7 +5260,10 @@
           },
           "behavior": {
             "type": "string",
-            "enum": ["cancelOnly", "portOut"],
+            "enum": [
+              "cancelOnly",
+              "portOut"
+            ],
             "example": "portOut"
           },
           "completedAt": {
@@ -4994,7 +5283,10 @@
           "failureReason": {
             "type": "string",
             "nullable": true,
-            "enum": ["consentNotGiven", "consentRequestCanceled"],
+            "enum": [
+              "consentNotGiven",
+              "consentRequestCanceled"
+            ],
             "example": "consentNotGiven"
           },
           "status": {
@@ -5021,12 +5313,17 @@
       },
       "CreatePortOut": {
         "type": "object",
-        "required": ["subscription"],
+        "required": [
+          "subscription"
+        ],
         "properties": {
           "behavior": {
             "type": "string",
             "nullable": true,
-            "enum": ["cancelOnly", "portOut"],
+            "enum": [
+              "cancelOnly",
+              "portOut"
+            ],
             "default": "portOut",
             "example": "portOut"
           },
@@ -5041,7 +5338,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -5064,7 +5363,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["portOutCredentials"]
+            "enum": [
+              "portOutCredentials"
+            ]
           },
           "accountNumber": {
             "type": "string",
@@ -5086,7 +5387,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["organization"]
+            "enum": [
+              "organization"
+            ]
           },
           "id": {
             "type": "string",
@@ -5107,7 +5410,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["project"]
+            "enum": [
+              "project"
+            ]
           },
           "id": {
             "type": "string",
@@ -5139,7 +5444,9 @@
             "items": {
               "type": "string"
             },
-            "example": ["en-US"]
+            "example": [
+              "en-US"
+            ]
           },
           "name": {
             "type": "string",
@@ -5154,7 +5461,10 @@
           },
           "subscriptionOwner": {
             "type": "string",
-            "enum": ["user", "company"]
+            "enum": [
+              "user",
+              "company"
+            ]
           },
           "support": {
             "type": "object",
@@ -5166,7 +5476,10 @@
           },
           "type": {
             "type": "string",
-            "enum": ["live", "test"],
+            "enum": [
+              "live",
+              "test"
+            ],
             "example": "live"
           }
         }
@@ -5176,7 +5489,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -5199,7 +5514,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["projectCredentials"]
+            "enum": [
+              "projectCredentials"
+            ]
           },
           "paymentsKey": {
             "type": "string",
@@ -5213,7 +5530,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["sim"],
+            "enum": [
+              "sim"
+            ],
             "description": "Type of object is always `sim`."
           },
           "id": {
@@ -5242,12 +5561,19 @@
           },
           "status": {
             "type": "string",
-            "enum": ["inactive", "active", "retired"],
+            "enum": [
+              "inactive",
+              "active",
+              "retired"
+            ],
             "description": "The status of the SIM."
           },
           "type": {
             "type": "string",
-            "enum": ["eSIM", "pSIM"],
+            "enum": [
+              "eSIM",
+              "pSIM"
+            ],
             "description": "The type of the SIM."
           }
         }
@@ -5257,7 +5583,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["eSimProfile"],
+            "enum": [
+              "eSimProfile"
+            ],
             "description": "Type of object is always `eSimProfile`."
           },
           "sim": {
@@ -5265,7 +5593,13 @@
           },
           "status": {
             "type": "string",
-            "enum": ["deleted", "disabled", "enabled", "installed", "unknown"],
+            "enum": [
+              "deleted",
+              "disabled",
+              "enabled",
+              "installed",
+              "unknown"
+            ],
             "description": "The current status of the eSimProfile."
           },
           "updatedAt": {
@@ -5281,7 +5615,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -5304,7 +5640,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["simCredentials"]
+            "enum": [
+              "simCredentials"
+            ]
           },
           "activationCode": {
             "type": "string",
@@ -5335,7 +5673,9 @@
       },
       "SearchSims": {
         "type": "object",
-        "required": ["iccid"],
+        "required": [
+          "iccid"
+        ],
         "properties": {
           "iccid": {
             "type": "string",
@@ -5347,10 +5687,16 @@
             "nullable": true,
             "items": {
               "type": "string",
-              "enum": ["eSIM", "pSIM"]
+              "enum": [
+                "eSIM",
+                "pSIM"
+              ]
             },
             "description": "Optional type of the SIM card, either `eSIM`, `pSIM` or both.",
-            "default": ["eSIM", "pSIM"]
+            "default": [
+              "eSIM",
+              "pSIM"
+            ]
           }
         }
       },
@@ -5438,7 +5784,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["subscription"],
+            "enum": [
+              "subscription"
+            ],
             "description": "Type of object is always `subscription`."
           },
           "id": {
@@ -5510,7 +5858,13 @@
           },
           "status": {
             "type": "string",
-            "enum": ["pending", "initiated", "active", "restricted", "ended"]
+            "enum": [
+              "pending",
+              "initiated",
+              "active",
+              "restricted",
+              "ended"
+            ]
           },
           "user": {
             "type": "object"
@@ -5526,7 +5880,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -5546,7 +5902,10 @@
       },
       "CreateSubscription": {
         "type": "object",
-        "required": ["plan", "user"],
+        "required": [
+          "plan",
+          "user"
+        ],
         "properties": {
           "billing": {
             "type": "object"
@@ -5602,7 +5961,9 @@
       },
       "PortInSubscription": {
         "type": "object",
-        "required": ["porting"],
+        "required": [
+          "porting"
+        ],
         "properties": {
           "porting": {
             "type": "string"
@@ -5634,7 +5995,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["subscriptionAddon"],
+            "enum": [
+              "subscriptionAddon"
+            ],
             "description": "Type of object is always `subscriptionAddon`."
           },
           "id": {
@@ -5668,7 +6031,12 @@
           },
           "status": {
             "type": "string",
-            "enum": ["pending", "initiated", "active", "ended"],
+            "enum": [
+              "pending",
+              "initiated",
+              "active",
+              "ended"
+            ],
             "description": "The current status of the subscription add-on."
           },
           "subscription": {
@@ -5686,7 +6054,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -5706,7 +6076,10 @@
       },
       "CreateSubscriptionAddon": {
         "type": "object",
-        "required": ["addon", "subscription"],
+        "required": [
+          "addon",
+          "subscription"
+        ],
         "properties": {
           "addon": {
             "type": "string",
@@ -5731,7 +6104,10 @@
           },
           "when": {
             "type": "string",
-            "enum": ["now", "renewal"],
+            "enum": [
+              "now",
+              "renewal"
+            ],
             "default": "renewal"
           }
         }
@@ -5741,7 +6117,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["subscriptionChange"],
+            "enum": [
+              "subscriptionChange"
+            ],
             "description": "Type of object is always `subscriptionChange`."
           },
           "id": {
@@ -5777,7 +6155,13 @@
           },
           "status": {
             "type": "string",
-            "enum": ["pending", "initiated", "applied", "failed", "deleted"]
+            "enum": [
+              "pending",
+              "initiated",
+              "applied",
+              "failed",
+              "deleted"
+            ]
           },
           "subscription": {
             "type": "string",
@@ -5790,7 +6174,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -5810,7 +6196,9 @@
       },
       "CreateSubscriptionChange": {
         "type": "object",
-        "required": ["subscription"],
+        "required": [
+          "subscription"
+        ],
         "properties": {
           "plan": {
             "type": "string",
@@ -5825,7 +6213,10 @@
           },
           "when": {
             "type": "string",
-            "enum": ["now", "renewal"],
+            "enum": [
+              "now",
+              "renewal"
+            ],
             "default": "renewal"
           }
         }
@@ -5835,7 +6226,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -5858,7 +6251,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["usageRecord"],
+            "enum": [
+              "usageRecord"
+            ],
             "description": "Type of object is always `usageRecord`."
           },
           "data": {
@@ -5888,7 +6283,11 @@
               "roaming": {
                 "type": "string",
                 "description": "The roaming mode the usage occurred in.",
-                "enum": ["none", "international", "domestic"]
+                "enum": [
+                  "none",
+                  "international",
+                  "domestic"
+                ]
               },
               "subscription": {
                 "type": "string",
@@ -6001,7 +6400,11 @@
             "type": "string",
             "nullable": true,
             "default": "none",
-            "enum": ["none", "international", "domestic"],
+            "enum": [
+              "none",
+              "international",
+              "domestic"
+            ],
             "description": "The roaming mode to assign to the simulated usage."
           },
           "usageBalance": {
@@ -6021,7 +6424,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["coverage"]
+            "enum": [
+              "coverage"
+            ]
           },
           "id": {
             "type": "string"
@@ -6042,7 +6447,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["allowance"]
+            "enum": [
+              "allowance"
+            ]
           },
           "id": {
             "type": "string"
@@ -6072,7 +6479,10 @@
         "properties": {
           "type": {
             "type": "string",
-            "enum": ["subscriptionPeriod", "subscriptionAddon"],
+            "enum": [
+              "subscriptionPeriod",
+              "subscriptionAddon"
+            ],
             "description": "The entity type providing the allowance."
           },
           "subscriptionPeriod": {
@@ -6092,7 +6502,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["usageBalance"],
+            "enum": [
+              "usageBalance"
+            ],
             "description": "Type of object is always `usageBalance`."
           },
           "id": {
@@ -6113,7 +6525,11 @@
           },
           "unit": {
             "type": "string",
-            "enum": ["bytes", "seconds", "messages"],
+            "enum": [
+              "bytes",
+              "seconds",
+              "messages"
+            ],
             "description": "The unit the usage is counted in."
           },
           "used": {
@@ -6155,7 +6571,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -6178,7 +6596,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["user"],
+            "enum": [
+              "user"
+            ],
             "description": "Type of object is always `user`."
           },
           "id": {
@@ -6223,7 +6643,11 @@
           },
           "status": {
             "type": "string",
-            "enum": ["active", "blocked", "deleted"],
+            "enum": [
+              "active",
+              "blocked",
+              "deleted"
+            ],
             "description": "The current status of the user."
           }
         }
@@ -6233,7 +6657,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -6253,7 +6679,9 @@
       },
       "CreateUser": {
         "type": "object",
-        "required": ["email"],
+        "required": [
+          "email"
+        ],
         "properties": {
           "birthday": {
             "type": "string",
@@ -6322,7 +6750,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["userAddress"],
+            "enum": [
+              "userAddress"
+            ],
             "description": "Type of object is always `userAddress`."
           },
           "id": {
@@ -6380,7 +6810,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["list"]
+            "enum": [
+              "list"
+            ]
           },
           "items": {
             "type": "array",
@@ -6400,7 +6832,11 @@
       },
       "CreateUserAddress": {
         "type": "object",
-        "required": ["city", "country", "line1"],
+        "required": [
+          "city",
+          "country",
+          "line1"
+        ],
         "properties": {
           "city": {
             "type": "string",
@@ -6437,7 +6873,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["paymentMethod"],
+            "enum": [
+              "paymentMethod"
+            ],
             "description": "Type of object is always `paymentMethod`."
           },
           "id": {
@@ -6474,18 +6912,27 @@
           },
           "provider": {
             "type": "string",
-            "enum": ["stripe"],
+            "enum": [
+              "stripe"
+            ],
             "description": "The provider of the payment method. Currently only `stripe` is supported."
           },
           "status": {
             "type": "string",
-            "enum": ["available", "requiresConfirmation"],
+            "enum": [
+              "available",
+              "requiresConfirmation"
+            ],
             "description": "The status of the payment method. It can have one of the following values:\n\n    - `available`: The payment method is available for processing payments.\n    - `requiresConfirmation`: The payment method requires user confirmation before being able to process payments.",
             "example": "available"
           },
           "type": {
             "type": "string",
-            "enum": ["card", "applePay", "googlePay"],
+            "enum": [
+              "card",
+              "applePay",
+              "googlePay"
+            ],
             "description": "Type of the payment method.",
             "example": "card"
           },
@@ -6502,7 +6949,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["payment"],
+            "enum": [
+              "payment"
+            ],
             "description": "Type of object is always `payment`."
           },
           "id": {
@@ -6550,7 +6999,10 @@
           "disputeOutcome": {
             "type": "string",
             "nullable": true,
-            "enum": ["lost", "won"],
+            "enum": [
+              "lost",
+              "won"
+            ],
             "description": "The outcome of a payment dispute. Only present if the payment is disputed."
           },
           "failedAttempts": {
@@ -6572,12 +7024,20 @@
             "example": "The card has been declined."
           },
           "method": {
-            "nullable": true,
-            "$ref": "#/components/schemas/PaymentMethod"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentMethod"
+              }
+            ],
+            "nullable": true
           },
           "reason": {
             "type": "string",
-            "enum": ["subscriptionCreation", "subscriptionRenewal", "other"],
+            "enum": [
+              "subscriptionCreation",
+              "subscriptionRenewal",
+              "other"
+            ],
             "description": "The reason for this payment. It can have one of the following values:\n\n    - `subscriptionCreation`: The payment is due to a new subscription.\n    - `subscriptionRenewal`: The payment is due to a recurring subscription renewal.\n    - `other`: The invoice is not related to a subscription but due an e.g. one-time addon."
           },
           "references": {
@@ -6588,7 +7048,11 @@
               "properties": {
                 "object": {
                   "type": "string",
-                  "enum": ["order", "subscription", "subscriptionAddon"],
+                  "enum": [
+                    "order",
+                    "subscription",
+                    "subscriptionAddon"
+                  ],
                   "description": "The type of the referenced object."
                 },
                 "id": {
@@ -6640,7 +7104,11 @@
             "description": "The status of the payment. It can have one of the following values:\n\n    - `pending`: The payment has been created but not yet processed by the payment provider.\n    - `succeeded`: The payment was completed successfully.\n    - `failed`: The payment failed. Payments are retried automatically for up to 3 weeks.\n    - `refunded`: The payment was fully refunded. Partially refunded payments do not have this status.\n    - `disputed`: The payment is under dispute.\n    - `requiresConfirmation`: The payment requires user confirmation before being processed.\n    - `requiresPaymentMethod`: The payment is awaiting for a payment method to be attached."
           },
           "user": {
-            "$ref": "#/components/schemas/User",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ],
             "description": "Users are end consumers of subscriptions. Users can have multiple devices, SIMs, and subscriptions."
           }
         }
@@ -6650,7 +7118,10 @@
         "properties": {
           "theme": {
             "type": "string",
-            "enum": ["light", "dark"],
+            "enum": [
+              "light",
+              "dark"
+            ],
             "description": "The theme setting that will influence the visual appearance during the Connect Session.",
             "example": "light"
           }
@@ -6703,7 +7174,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["connectSession"],
+            "enum": [
+              "connectSession"
+            ],
             "description": "Type of object is always `connectSession`."
           },
           "id": {
@@ -6739,7 +7212,9 @@
       },
       "CreateConnectSession": {
         "type": "object",
-        "required": ["intent"],
+        "required": [
+          "intent"
+        ],
         "properties": {
           "appearance": {
             "$ref": "#/components/schemas/Appearance"
@@ -6805,7 +7280,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["creditNote"],
+            "enum": [
+              "creditNote"
+            ],
             "description": "Type of object is always `creditNote`."
           },
           "id": {
@@ -6819,7 +7296,10 @@
           },
           "creditTo": {
             "type": "string",
-            "enum": ["outOfBand", "userBalance"],
+            "enum": [
+              "outOfBand",
+              "userBalance"
+            ],
             "description": "Specifies where the credit amount should be credited to."
           },
           "fees": {
@@ -6836,7 +7316,9 @@
                 },
                 "type": {
                   "type": "string",
-                  "enum": ["recoveryFee"],
+                  "enum": [
+                    "recoveryFee"
+                  ],
                   "description": "The type of the fee."
                 }
               }
@@ -6889,19 +7371,34 @@
           },
           "status": {
             "type": "string",
-            "enum": ["issued", "voided"],
+            "enum": [
+              "issued",
+              "voided"
+            ],
             "description": "The status of the credit note."
           },
           "subtotal": {
-            "$ref": "#/components/schemas/Price",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Price"
+              }
+            ],
             "description": "The total amount credited before any taxes or fees."
           },
           "tax": {
-            "$ref": "#/components/schemas/Price",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Price"
+              }
+            ],
             "description": "The sum of the amounts in taxes credited for each line item."
           },
           "total": {
-            "$ref": "#/components/schemas/Price",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Price"
+              }
+            ],
             "description": "The total amount credited after taxes and fees."
           },
           "voidedAt": {
@@ -6917,7 +7414,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["invoice"],
+            "enum": [
+              "invoice"
+            ],
             "description": "Type of object is always `invoice`."
           },
           "id": {
@@ -6930,7 +7429,11 @@
             "nullable": true
           },
           "appliedBalance": {
-            "$ref": "#/components/schemas/Price",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Price"
+              }
+            ],
             "description": "The amount of user balance applied to pay this invoice."
           },
           "createdAt": {
@@ -6939,7 +7442,11 @@
             "description": "Time when the invoice was created."
           },
           "discount": {
-            "$ref": "#/components/schemas/Price",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Price"
+              }
+            ],
             "description": "The total discount applied. This is the sum of the discounts of each line item."
           },
           "dueAt": {
@@ -6961,7 +7468,9 @@
                 },
                 "type": {
                   "type": "string",
-                  "enum": ["recoveryFee"]
+                  "enum": [
+                    "recoveryFee"
+                  ]
                 }
               }
             },
@@ -6985,7 +7494,9 @@
               "properties": {
                 "object": {
                   "type": "string",
-                  "enum": ["invoiceLineItem"]
+                  "enum": [
+                    "invoiceLineItem"
+                  ]
                 },
                 "id": {
                   "type": "string"
@@ -7030,7 +7541,9 @@
                     "properties": {
                       "object": {
                         "type": "string",
-                        "enum": ["invoiceTax"]
+                        "enum": [
+                          "invoiceTax"
+                        ]
                       },
                       "id": {
                         "type": "string"
@@ -7104,7 +7617,12 @@
           },
           "status": {
             "type": "string",
-            "enum": ["draft", "finalized", "paid", "voided"]
+            "enum": [
+              "draft",
+              "finalized",
+              "paid",
+              "voided"
+            ]
           },
           "subscription": {
             "type": "string"
@@ -7139,7 +7657,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["quote"]
+            "enum": [
+              "quote"
+            ]
           },
           "id": {
             "type": "string",
@@ -7231,7 +7751,11 @@
           },
           "reason": {
             "type": "string",
-            "enum": ["subscriptionCreation", "subscriptionChange", "other"]
+            "enum": [
+              "subscriptionCreation",
+              "subscriptionChange",
+              "other"
+            ]
           },
           "subtotal": {
             "$ref": "#/components/schemas/Price"
@@ -7266,7 +7790,9 @@
         "properties": {
           "object": {
             "type": "string",
-            "enum": ["voucher"],
+            "enum": [
+              "voucher"
+            ],
             "description": "Type of object is always `voucher`."
           },
           "id": {
@@ -7307,7 +7833,11 @@
             "properties": {
               "type": {
                 "type": "string",
-                "enum": ["once", "repeating", "forever"],
+                "enum": [
+                  "once",
+                  "repeating",
+                  "forever"
+                ],
                 "description": "Whether and how the voucher discount recurs."
               },
               "durationInMonths": {
@@ -7335,7 +7865,252 @@
           },
           "status": {
             "type": "string",
-            "enum": ["available", "retired"]
+            "enum": [
+              "available",
+              "retired"
+            ]
+          }
+        }
+      },
+      "Metadata": {
+        "type": "object",
+        "description": "Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them.",
+        "additionalProperties": {
+          "type": "string"
+        },
+        "example": {
+          "key": "value"
+        }
+      },
+      "Actor": {
+        "type": "object",
+        "description": "Represents the entity that performed an action.",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "actor"
+            ],
+            "description": "Type of object is always `actor`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the actor."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "apiKey",
+              "connectSession",
+              "system",
+              "user"
+            ],
+            "description": "The type of the actor. It can have one of the following values:\n\n    - `apiKey`: An API key was used to perform the action.\n    - `connectSession`: A Connect Session was used to perform the action.\n    - `system`: The action was performed by the system.\n    - `user`: The action was performed by a user."
+          }
+        }
+      },
+      "APIKey": {
+        "type": "object",
+        "description": "API keys are used to authenticate requests to the API.",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "apiKey"
+            ],
+            "description": "Type of object is always `apiKey`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the API key.",
+            "example": "key_0SNlurA049MEWV2gCMqaZ51kT3di"
+          },
+          "name": {
+            "type": "string",
+            "description": "An optional name for the API key.",
+            "example": "My API Key"
+          },
+          "project": {
+            "type": "string",
+            "description": "Unique identifier for the project that the API key belongs to.",
+            "example": "prj_0SNlurA049MEWV5gEMDTl0H27X8m"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when the API key was created.",
+            "example": "2021-01-21T19:38:34Z"
+          }
+        }
+      },
+      "Coverage": {
+        "type": "object",
+        "description": "Represents the coverage details for a plan, including supported countries and networks.",
+        "properties": {
+          "countries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of ISO 3166-1 alpha-2 country codes where the plan provides coverage.",
+            "example": [
+              "US",
+              "DE",
+              "GB"
+            ]
+          },
+          "networks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the network."
+                },
+                "country": {
+                  "type": "string",
+                  "description": "The ISO 3166-1 alpha-2 country code for the network."
+                }
+              }
+            },
+            "description": "List of networks included in the coverage."
+          }
+        }
+      },
+      "DeprecatedPortOutCredentials": {
+        "type": "object",
+        "description": "Deprecated port out credentials. Use PortOutCredentials instead.",
+        "deprecated": true,
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "deprecatedPortOutCredentials"
+            ],
+            "description": "Type of object is always `deprecatedPortOutCredentials`."
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "The account number."
+          },
+          "accountPin": {
+            "type": "string",
+            "description": "The account PIN."
+          }
+        }
+      },
+      "DeviceModelBrands": {
+        "type": "object",
+        "description": "Represents a device model brand.",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "deviceModelBrand"
+            ],
+            "description": "Type of object is always `deviceModelBrand`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the device model brand.",
+            "example": "dmbr_0SNlurA049MEWV4xLkqm3NZKS3Dl"
+          },
+          "name": {
+            "type": "string",
+            "description": "The display name of the device model brand.",
+            "example": "Apple"
+          }
+        }
+      },
+      "Period": {
+        "type": "object",
+        "description": "Represents a time period with a start and end date.",
+        "properties": {
+          "number": {
+            "type": "integer",
+            "description": "The period number."
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The start date and time of the period."
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The end date and time of the period."
+          }
+        }
+      },
+      "PropertyErrorDetail": {
+        "type": "object",
+        "description": "Provides additional details about a property validation error.",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "A human-readable error message describing the validation error."
+          },
+          "path": {
+            "type": "string",
+            "description": "The path to the property that caused the validation error."
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of validation error.",
+            "example": "required"
+          }
+        }
+      },
+      "VirtualNumber": {
+        "type": "object",
+        "description": "A virtual number assigned to a subscription.",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "virtualNumber"
+            ],
+            "description": "Type of object is always `virtualNumber`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the virtual number.",
+            "example": "vn_0SNlurA049MEWV4xLkqm3NZKS3Dl"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when the virtual number was created."
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "The phone number in E.164 format.",
+            "example": "+14155552671"
+          },
+          "project": {
+            "type": "string",
+            "description": "Unique identifier for the project."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "active",
+              "canceled",
+              "ended"
+            ],
+            "description": "The status of the virtual number."
+          },
+          "subscription": {
+            "type": "string",
+            "description": "Unique identifier for the subscription.",
+            "nullable": true
+          },
+          "user": {
+            "type": "string",
+            "description": "Unique identifier for the user.",
+            "nullable": true
           }
         }
       }
