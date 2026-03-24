@@ -1,0 +1,94 @@
+/* Global Light Effect - Centered radial glow on all pages */
+
+/* Light effect overlay using multiple fixed backgrounds */
+html {
+    position: relative;
+}
+
+/* Primary centered light effect - true center */
+html::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse 600px 600px at 50% 50%,
+            rgba(22, 163, 74, 0.06) 0%,
+            rgba(22, 163, 74, 0.03) 30%,
+            rgba(22, 163, 74, 0.01) 50%,
+            transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: lightPulse 10s ease-in-out infinite;
+}
+
+/* Secondary ambient glow layer */
+html::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse 1000px 800px at 50% 50%,
+            rgba(22, 163, 74, 0.02) 0%,
+            rgba(7, 201, 131, 0.01) 40%,
+            transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Subtle pulsing animation */
+@keyframes lightPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Dark mode - slightly enhanced glow visibility */
+.dark html::before,
+[data-theme="dark"] html::before,
+html.dark::before {
+    background: radial-gradient(ellipse 600px 600px at 50% 50%,
+            rgba(22, 163, 74, 0.08) 0%,
+            rgba(22, 163, 74, 0.04) 30%,
+            rgba(22, 163, 74, 0.015) 50%,
+            transparent 70%);
+}
+
+.dark html::after,
+[data-theme="dark"] html::after,
+html.dark::after {
+    background: radial-gradient(ellipse 1000px 800px at 50% 50%,
+            rgba(22, 163, 74, 0.03) 0%,
+            rgba(7, 201, 131, 0.015) 40%,
+            transparent 60%);
+}
+
+@media (prefers-color-scheme: dark) {
+    html::before {
+        background: radial-gradient(ellipse 600px 600px at 50% 50%,
+                rgba(22, 163, 74, 0.08) 0%,
+                rgba(22, 163, 74, 0.04) 30%,
+                rgba(22, 163, 74, 0.015) 50%,
+                transparent 70%);
+    }
+
+    html::after {
+        background: radial-gradient(ellipse 1000px 800px at 50% 50%,
+                rgba(22, 163, 74, 0.03) 0%,
+                rgba(7, 201, 131, 0.015) 40%,
+                transparent 60%);
+    }
+}
