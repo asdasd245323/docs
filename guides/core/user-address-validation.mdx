@@ -3,7 +3,7 @@ title: "User Address Validation"
 description: "How user addresses are validated on the Gigs API."
 ---
 
-User addresses are always validated when they're submitted to the [address creation endpoint](/api/core/user-addresses#create-a-user-address) on the Gigs API. Typically, basic checks are performed, such as:
+User addresses are always validated when they're submitted to the [address creation endpoint](/api/gig-core-api/user-addresses/create-a-user-address) on the Gigs API. Typically, basic checks are performed, such as:
 
 - Are the required fields (such as `line1`, `city`, and `country`) present?
 - Is the country code valid?
@@ -14,16 +14,16 @@ Whether the validation is strict or not, if an address is considered invalid, ou
 
 Below we cover a number of possible validation errors, with examples of API responses.
 
-## [Prerequisites](/api/guides/core/user-address-validation#prerequisites)
+## Prerequisites
 
 For this guide, we'll assume you know how to:
 
 - [Get an API key](/api/introduction#1-getting-an-api-key)
 - [Make an API request](/api/introduction#2-making-an-api-request)
 
-## [Examples](/api/guides/core/user-address-validation#examples)
+## Examples
 
-All examples use the [address creation endpoint](/api/core/user-addresses#create-a-user-address) to add an address for a user with id `USER_ID`. As explained in the [error handling guide](/api/error-handling), all error responses contain a machine-readable `code` field, and a human-readable description in `message`.
+All examples use the [address creation endpoint](/api/gig-core-api/user-addresses/create-a-user-address) to add an address for a user with id `USER_ID`. As explained in the [error handling guide](/api/error-handling), all error responses contain a machine-readable `code` field, and a human-readable description in `message`.
 
 For address validation, these top-level error fields don't provide enough useful and actionable information, so more details can be found within the `details` field. These contain error descriptions specific to each address field and, when possible, suggestions on how to fix each one. The format is as follows:
 
@@ -53,9 +53,9 @@ For address validation, these top-level error fields don't provide enough useful
 
 Note how in the example a suggestion is given to correct `city`, but none is given to correct `line1`. This is the case when there is not enough information to find a suitable suggestion, or when there is no known address with a similar `line1`.
 
-You can see the full error schema in the [address creation endpoint reference](/api/core/user-addresses#create-a-user-address). Below we give more concrete examples of address validation errors.
+You can see the full error schema in the [address creation endpoint reference](/api/gig-core-api/user-addresses/create-a-user-address). Below we give more concrete examples of address validation errors.
 
-### [Missing required information](/api/guides/core/user-address-validation#missing-required-information)
+### Missing required information
 
 In the following example, both `city` and `line1` are missing.
 
@@ -87,7 +87,7 @@ The response body lists the fields that are missing:
 }
 ```
 
-### [Partially correct fields](/api/guides/core/user-address-validation#partially-correct-fields)
+### Partially correct fields
 
 In the next example, `line1` and `city` are sent, but both are partially incorrect (`Market Avenue` should be `Market Street`, and `San Francesco` should be `San Francisco`):
 
@@ -139,7 +139,7 @@ Since the fields are partially correct, and given additional information like po
 
 A new request can then be made using the provided suggestions, and it should pass validation.
 
-### [Missing secondary information](/api/guides/core/user-address-validation#missing-secondary-information)
+### Missing secondary information
 
 Some addresses are only considered valid when provided with secondary information (`line2`). This kind of information cannot be guessed from other fields, so in those cases, no suggestion is provided in the response.
 
@@ -184,7 +184,7 @@ The response will indicate through the `addressPropertyIncomplete` code, that th
 
 Note that not all addresses require the secondary information, but the error responses should make it clear when they do.
 
-## [Support](/api/guides/core/user-address-validation#support)
+## Support
 
 Do you have still have questions or feedback to provide? We'd love to read them on [support@gigs.com](mailto:support@gigs.com).
 

@@ -7,12 +7,12 @@ Most operations and status changes in our resources are accompanied by an event 
 
 | Type | Description |
 | --- | --- |
-| [`com.gigs.subscription.activated`](/api/events/schemas/com.gigs.subscription.activated) | Indicates a created subscription has been activated by the network provider and is ready to use. |
-| [`com.gigs.subscription.renewed`](/api/events/schemas/com.gigs.subscription.renewed) | Indicates a subscription has been renewed. |
-| [`com.gigs.porting.requested`](/api/events/schemas/com.gigs.porting.requested) | Created when a request for porting a number is sent to the network provider. |
-| [`com.gigs.device.updated`](/api/events/schemas/com.gigs.device.updated) | Triggered whenever there is any change to a device resource. |
-| [`com.gigs.subscriptionChange.applied`](/api/events/schemas/com.gigs.subscriptionChange.applied) | A scheduled requested change to a subscription has been successfully applied. |
-| [`com.gigs.usageThreshold.exceeded`](/api/events/schemas/com.gigs.usageThreshold.exceeded) | Indicates some threshold was exceeded in the subscription allowance. For example, it could indicate that 50% of the data limit for a specific subscription has been used. |
+| [`com.gigs.subscription.activated`](/api/gigs-events/schemas/com.gigs.subscription.activated) | Indicates a created subscription has been activated by the network provider and is ready to use. |
+| [`com.gigs.subscription.renewed`](/api/gigs-events/schemas/com.gigs.subscription.renewed) | Indicates a subscription has been renewed. |
+| [`com.gigs.porting.requested`](/api/gigs-events/schemas/com.gigs.porting.requested) | Created when a request for porting a number is sent to the network provider. |
+| [`com.gigs.device.updated`](/api/gigs-events/schemas/com.gigs.device.updated) | Triggered whenever there is any change to a device resource. |
+| [`com.gigs.subscriptionChange.activated`](/api/gigs-events/schemas/com.gigs.subscriptionChange.activated) | A scheduled requested change to a subscription has been successfully applied. |
+| [`com.gigs.usageThreshold.exceeded`](/api/gigs-events/schemas/com.gigs.usageThreshold.exceeded) | Indicates some threshold was exceeded in the subscription allowance. For example, it could indicate that 50% of the data limit for a specific subscription has been used. |
 
 All events have payloads with relevant details in a `data` field. In addition, the `*.updated` events also have a `previousData` field with previous values from all fields that changed as part of the update.
 
@@ -22,9 +22,9 @@ Below we will explain how you can access these events by using the Gigs dashboar
 
 #### List of events
 
-A full list of events and what payloads they contain can be found in the [Gigs Events section](/api/events/schemas/com.gigs.apiKey.created) of our documentation.
+A full list of events and what payloads they contain can be found in the [Gigs Events section](/api/gigs-events/schemas/com.gigs.apiKey.created) of our documentation.
 
-## [Dashboard](/api/guides/core/events/events-webhooks#dashboard)
+## Dashboard
 
 All events can be accessed in the [events section of Gigs dashboard](https://dashboard.gigs.com/events), where they can be filtered by resource and type. In addition, most resource pages have a "Recent Activity" section showing the latest events related to it. That's not just events that impacted the resource directly, but also ones that affected linked resources.
 
@@ -37,13 +37,13 @@ For instance, in a subscription page, it's possible to see directly related even
 
 Whether in the full event list, or in the "Recent Activity" section, by clicking on the event it's possible to see its full payload.
 
-## [Webhooks](/api/guides/core/events/events-webhooks#webhooks)
+## Webhooks
 
 To be able to be notified of an event, as soon as it happens, you can also configure a webhook endpoint in the [developers section of the Gigs dashboard](https://dashboard.gigs.com/developers).
 
-The events sent are the same ones visible in Gigs dashboard, and documented in the [Gigs Events section](/api/events/schemas/com.gigs.apiKey.created) of our API documentation.
+The events sent are the same ones visible in Gigs dashboard, and documented in the [Gigs Events section](/api/gigs-events/schemas/com.gigs.apiKey.created) of our API documentation.
 
-### [Adding an endpoint](/api/guides/core/events/events-webhooks#adding-an-endpoint)
+### Adding an endpoint
 
 To configure a webhook endpoint, you should click on the "Manage Webhooks" link, which opens a specific dashboard tailored to this feature. This is managed by a third-party provider called Svix.
 
@@ -51,7 +51,7 @@ Once there, you can add an endpoint and set the URL where the requests should be
 
 It's important that the server which receives the webhook requests verifies them. The reasoning and details on how the verification should be done can be found [here](https://docs.svix.com/receiving/verifying-payloads/why). The verification can be done either through one of the [Svix-provided client applications](https://docs.svix.com/receiving/verifying-payloads/how), or manually, by verifying the request headers (`webhook-id`, `webhook-signature`, and `webhook-timestamp`), as detailed [here](https://docs.svix.com/receiving/verifying-payloads/how-manual).
 
-### [Alerting and resending messages](/api/guides/core/events/events-webhooks#alerting-and-resending-messages)
+### Alerting and resending messages
 
 When you add the endpoint, we also recommend you set up alerting, which is available in your Svix dashboard. This way you get notified when Svix fails to deliver an event after performing [all the retries](https://docs.svix.com/retries). Note, however, that these notifications are sent only at most once per day to prevent spamming. You will also get notified if Svix disables the endpoint after continuous delivery failures over a period of 5 days. If you want to deliver this to your Slack channel, you can use the [Slack email integration](https://slack.com/help/articles/206819278-Send-emails-to-Slack).
 
@@ -68,7 +68,7 @@ To do this, go to your endpoint in Svix dashboard, filter by "Failed" messages a
 
 You can also resend all the failed message at once by using the "Recover failed messages" action in the "More" context menu in the right top corner of the dashboard for your endpoint. The action "Bulk replay messages" allows more customization.
 
-### [Order of events](/api/guides/core/events/events-webhooks#order-of-events)
+### Order of events
 
 Note that the order of events you receive in your endpoint cannot be strictly guaranteed. Svix processes and sends multiple events in parallel so if Gigs publishes events close to each other, you may receive and process them in a different order. See [this article](https://www.svix.com/blog/guaranteeing-webhook-ordering) for more details.
 

@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Gigs API",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
@@ -12,6 +12,7 @@
     "tabs": [
       {
         "tab": "Reference",
+        "icon": "code",
         "groups": [
           {
             "group": "Explore the API",
@@ -443,6 +444,7 @@
       },
       {
         "tab": "Guides",
+        "icon": "book-open",
         "groups": [
           {
             "group": "Subcription",
@@ -530,21 +532,21 @@
     "global": {}
   },
   "logo": {
-    "light": "/logo/logo.png",
-    "dark": "/logo/logo.png"
+    "light": "/logo/light.png",
+    "dark": "/logo/dark.png"
   },
   "openapi": "api-reference/openapi.json",
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@gigs.com"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://gigs.com/"
     }
   },
   "contextual": {

@@ -7,9 +7,9 @@ Learn some of the details around [SIMs](https://en.wikipedia.org/wiki/SIM_card) 
 
 The following sections assume you have an [API key](/api/authentication), your first project and familiarized your self with some basics of the Gigs API. All of this is covered by working through the [introduction](/api/introduction) guide.
 
-## [pSIM vs eSIM](/api/guides/core/sims#p-sim-vs-e-sim)
+## pSIM vs eSIM
 
-At this time, the Gigs API supports two types of SIMs: embedded (`eSIM`) and physical (`pSIM`). A plan dictates what kind of SIMs it supports. A plan that only supports `pSIM`s will require you to distribute known SIMs to your users, or install them in your devices prior to shipping them out. A quick call to the [plans endpoint](/api/core/plans#list-all-plans) can provide these details:
+At this time, the Gigs API supports two types of SIMs: embedded (`eSIM`) and physical (`pSIM`). A plan dictates what kind of SIMs it supports. A plan that only supports `pSIM`s will require you to distribute known SIMs to your users, or install them in your devices prior to shipping them out. A quick call to the [plans endpoint](/api/gig-core-api/plans/list) can provide these details:
 
 ### Retrieving plan details with the Gigs Core API - cURL.
 
@@ -52,7 +52,7 @@ From the above, `${GIGS_PROJECT}` and `${PLAN_ID}` are unique identifiers for yo
 }
 ```
 
-From the above plan we can see that it supports both `pSIM` and `eSIM`s in Germany (DE). You will need to have your `pSIM`s associated to your Gigs project before pairing them with a compatible plan. The SIMs linked to a project can be retrieved via the [SIMs endpoint](/api/core/sims#list-all-sims):
+From the above plan we can see that it supports both `pSIM` and `eSIM`s in Germany (DE). You will need to have your `pSIM`s associated to your Gigs project before pairing them with a compatible plan. The SIMs linked to a project can be retrieved via the [SIMs endpoint](/api/gig-core-api/sims/list-all-sims):
 
 ### Listing project SIMs with the Gigs Core API - cURL.
 
@@ -84,17 +84,17 @@ An example response for requesting all SIMs linked to a specific project:
 }
 ```
 
-eSIMs do not share the same requirement of being associated to a specific project before being used. An eSIM is provisioned on demand via the Gigs API and returned to the caller. You can follow along with our guide on [creating a subscription](/api/guides/create-subscription) for more details regarding connectivity supplied via eSIMs.
+eSIMs do not share the same requirement of being associated to a specific project before being used. An eSIM is provisioned on demand via the Gigs API and returned to the caller. You can follow along with our guide on [creating a subscription](/guides/create-subscription) for more details regarding connectivity supplied via eSIMs.
 
 #### Provisioning Time
 
 Depending on the network provider it can take several minutes before a SIM is fully provisioned.
 
-## [Test SIMs](/api/guides/core/sims#test-sims)
+## Test SIMs
 
-We provide placeholder SIMs which allow you to test various flows in the API. See our [testing guide](/api/guides/core/testing/test-sims) for more information.
+We provide placeholder SIMs which allow you to test various flows in the API. See our [testing guide](/guides/core/testing/test-sims) for more information.
 
-Follow our ["Create a subscription"](/api/guides/create-subscription) guide for more details regarding subscriptions.
+Follow our ["Create a subscription"](/guides/create-subscription) guide for more details regarding subscriptions.
 
 If you have any further questions or need any assistance please reach out to [support@gigs.com](mailto:support@gigs.com).
 

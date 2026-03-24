@@ -66,9 +66,9 @@ curl --request "POST" \
 
 ## Prefill Required Porting Information
 
-By default, the `completePorting` intent collects all required information. If your application already knows this data, you can prefill it by [creating a User](/api/projects/${GIGS_PROJECT}/users) or [creating an Address](/api/projects/${GIGS_PROJECT}/addresses).
+By default, the `completePorting` intent collects all required information. If your application already knows this data, you can prefill it by [creating a User](/api/gig-core-api/users/create-a-user) or [creating an Address](/api/gig-core-api/user-addresses/create-a-user-address).
 
-Alternatively, when [creating the Porting](/api/projects/${GIGS_PROJECT}/portings), you can pass this information directly:
+Alternatively, when [creating the Porting](/api/gig-core-api/portings/create), you can pass this information directly:
 
 ```bash
 curl --request "POST" \
@@ -102,5 +102,5 @@ Users can abort the porting flow. When this happens, they are redirected to the 
 
 ## Where to go from here
 
-- Read the [Connect Sessions API Documentation](/api/projects/${GIGS_PROJECT}/connectSessions)
+- Read the [Connect Sessions API Documentation](/api/gigs-connect/connect-sessions/create-a-connect-session)
 - Reach out to [support@gigs.com](mailto:support@gigs.com) for assistance

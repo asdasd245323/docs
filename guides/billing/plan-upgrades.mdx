@@ -13,7 +13,7 @@ The user has access to full allowance of the new plan as soon as the invoice is 
 
 ### Create a subscription change for immediate upgrade
 
-Create a [subscription change](/api/projects/${GIGS_PROJECT}/subscriptionChanges) with `"when": "now"` and the new plan ID.
+Create a [subscription change](/api/gig-core-api/subscription-changes/create-a-subscription-change) with `"when": "now"` and the new plan ID.
 
 ```bash Creating a subscription change for an immediate upgrade
 curl --request POST \
@@ -32,7 +32,7 @@ An invoice is generated immediately. The subscription change remains in `initiat
 
 ### Collect the invoice payment
 
-After receiving a successful response on subscription change creation, the invoice is already available. Get the invoice by [listing invoices](/api/projects/${GIGS_PROJECT}/invoices) filtered by the subscription change.
+After receiving a successful response on subscription change creation, the invoice is already available. Get the invoice by [listing invoices](/api/gigs-billing/invoices/list-all-invoices) filtered by the subscription change.
 
 ```bash Getting the invoice for a subscription change
 curl --request GET \
@@ -41,13 +41,13 @@ curl --request GET \
   --header "Authorization: Bearer ${GIGS_TOKEN}"
 ```
 
-Alternatively, subscribe to the `invoice.finalized` [event](/events/schemas/com.gigs.invoice.finalized), which is triggered as soon as the subscription change is created.
+Alternatively, subscribe to the `invoice.finalized` [event](/api/gigs-events/schemas/com.gigs.invoice.finalized), which is triggered as soon as the subscription change is created.
 
 Payment collection is fully under your control. Process the payment using your preferred method.
 
 ### Pay the invoice
 
-After confirming successful payment, you need to mark the invoice as [paid](/api/projects/${GIGS_PROJECT}/invoices/inv_0SNlurA049MEWV1QTRqvd18YuG25/pay).
+After confirming successful payment, you need to mark the invoice as [paid](/api/gigs-billing/invoices/pay-an-invoice).
 
 ```bash Marking an invoice as paid
 curl --request POST \
@@ -64,7 +64,7 @@ Scheduled upgrades take effect at the next renewal period. The renewal invoice r
 
 ### Create a subscription change for scheduled upgrade
 
-Create a [subscription change](/api/projects/${GIGS_PROJECT}/subscriptionChanges) and specify the new plan to schedule the upgrade.
+Create a [subscription change](/api/gig-core-api/subscription-changes/create-a-subscription-change) and specify the new plan to schedule the upgrade.
 
 ```bash Scheduling a subscription change for a plan upgrade
 curl --request POST \

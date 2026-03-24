@@ -3,17 +3,17 @@ title: "Making Changes to an Existing Subscription"
 description: "How to change a subscription's plan or SIM using the Gigs API."
 ---
 
-After a subscription has been created on Gigs, a user may wish to make changes to certain attributes of the subscription, such as changing the plan or the SIM. This is enabled through an entity known as a [subscription change](/api/core/subscription-changes#retrieve-a-subscription-change).
+After a subscription has been created on Gigs, a user may wish to make changes to certain attributes of the subscription, such as changing the plan or the SIM. This is enabled through an entity known as a [subscription change](/api/gig-core-api/subscription-changes/retrieve-a-subscription-change).
 
 A subscription change can be created to change a subscription's plan or SIM.
 
 ## Subscription change process
 
-The example steps below show the process for changing a subscription's SIM. The steps are identical for a plan change, the parameters supplied when creating the subscription change are the only difference. See [the API docs for creating a new subscription change](/api/core/subscription-changes#create-a-subscription-change) for more detail.
+The example steps below show the process for changing a subscription's SIM. The steps are identical for a plan change, the parameters supplied when creating the subscription change are the only difference. See [the API docs for creating a new subscription change](/api/gig-core-api/subscription-changes/create-a-subscription-change) for more detail.
 
 ### 1. Create a new subscription change
 
-To change the SIM associated to a subscription, [create a new subscription change](/api/core/subscription-changes#create-a-subscription-change):
+To change the SIM associated to a subscription, [create a new subscription change](/api/gig-core-api/subscription-changes/create-a-subscription-change):
 
 ### Create a subscription change
 
@@ -55,7 +55,7 @@ The response will contain the newly created subscription change:
 
 ### 2. Monitor subscription change status
 
-After the subscription change has been created, the changes will be applied asynchronously once when the scheduled time is reached. Once a subscription change has been applied, the status will change from `"pending"` to `"applied"`. [Retrieve the subscription change](/api/core/subscription-changes#retrieve-a-subscription-change) to view its status:
+After the subscription change has been created, the changes will be applied asynchronously once when the scheduled time is reached. Once a subscription change has been applied, the status will change from `"pending"` to `"applied"`. [Retrieve the subscription change](/api/gig-core-api/subscription-changes/retrieve-a-subscription-change) to view its status:
 
 ### Retrieve a subscription change
 
@@ -102,7 +102,7 @@ Some properties of a subscription can be updated directly without the use of a s
 
 In some regions this address is used as a service address for the subscription. It should be kept up to date for regulatory compliance and correct tax calculations.
 
-You can update the subscription directly with the `userAddress` property and the ID of the [new user address](/api/core/user-addresses#create-a-user-address).
+You can update the subscription directly with the `userAddress` property and the ID of the [new user address](/api/gig-core-api/user-addresses/create-a-user-address).
 
 ### Update subscription service address
 

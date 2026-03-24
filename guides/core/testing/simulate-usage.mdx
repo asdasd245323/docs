@@ -3,7 +3,7 @@ title: "Simulate Usage"
 description: "How to simulate usage for testing purposes."
 ---
 
-To test usage notifications, [simulate usage](/api/guides/core/testing/simulate-usage#simulate-subscription-usage) on any active test subscription.
+To test usage notifications, [simulate usage](#simulate-subscription-usage) on any active test subscription.
 
 ```bash
 curl --request "POST" \
@@ -22,7 +22,7 @@ curl --request "POST" \
 In the request body you can pass `data` used in bytes, `voice` usage in seconds, `sms` sent and received or `country`.
 The country refers to the country code to assign to the simulated usage. If not provided, the usage will be assigned to the home country of the provider.
 
-The response contains the subscriptions' daily aggregated usage for the requested country. To see the full list of usages, [list the usages](/api/core/usage#list-subscription-usage-records) instead.
+The response contains the subscriptions' daily aggregated usage for the requested country. To see the full list of usages, [list the usages](/api/gig-core-api/usage/list-subscription-usage-records) instead.
 
 ```json
 {

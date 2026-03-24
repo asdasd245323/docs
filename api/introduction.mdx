@@ -92,7 +92,7 @@ If the request is successful, you should receive a response similar to the follo
 }
 ```
 
-From the truncated response its clear to see that there is currently only one project with an `id` of `"gigs"`. A full list of the return attributes for the `/projects` endpoint can be seen in our [projects documentation](/core/projects).
+From the truncated response its clear to see that there is currently only one project with an `id` of `"gigs"`. A full list of the return attributes for the `/projects` endpoint can be seen in our [projects documentation](/api/gig-core-api/projects/list-all-projects).
 
 Let's use the above project `id` to get a list of plans associated to this project. We will pass in the `id` via the `${GIGS_PROJECT}` variable:
 
@@ -133,7 +133,7 @@ A successful request will result in the following truncated response:
 }
 ```
 
-A full breakdown of the plans response can be seen in our [plans documentation](/core/plans).
+A full breakdown of the plans response can be seen in our [plans documentation](/api/gig-core-api/plans/list).
 
 ## Next steps
 
@@ -146,21 +146,21 @@ Depending on your use case you might want to...
   <Card
     title="Activate your first eSIM subscription"
     icon="rocket"
-    href="/docs/create-a-subscription"
+    href="/guides/create-subscription"
   >
     for one of your customers with just 3 API calls!
   </Card>
   <Card
     title="Explore Gigs events and webhooks"
     icon="anchor"
-    href="/docs/core/events/events-webhooks"
+    href="/guides/core/events/events-webhooks"
   >
     to see how resources change and be notified about these changes.
   </Card>
   <Card
     title="Activate SIM cards inside devices"
     icon="mobile"
-    href="/docs/core/activate-physical-sims"
+    href="/guides/core/activate-physical-sims"
   >
     that were inserted into devices before shipping them.
   </Card>

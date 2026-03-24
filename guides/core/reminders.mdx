@@ -5,14 +5,14 @@ description: "Lifecycle Reminders are automated, time-based signals that help yo
 
 Lifecycle Reminders are automated, time-based signals, that help you identify when users are stuck in critical steps of the subscription activation process. Gigs handles the monitoring and sends you webhook notifications when users need a nudge.
 
-## [When to Use Lifecycle Reminders](/api/guides/core/reminders#when-to-use-lifecycle-reminders)
+## When to Use Lifecycle Reminders
 
 With lifecycle reminders, you can:
 
 - Send custom notifications (email, SMS, push notifications) to your users
 - Trigger in-app prompts or onboarding guides
 
-## [How They Work](/api/guides/core/reminders#how-they-work)
+## How They Work
 
 Lifecycle Reminders are **derived signals**, not raw events. Gigs monitors the state of subscriptions, portings, and eSIM profiles, and fires reminder webhooks at specific time thresholds when a blocking condition persists. Once the condition is cleared (e.g., the eSIM gets installed), all future reminders are automatically cancelled.
 
@@ -49,9 +49,9 @@ To receive lifecycle reminders, you need to:
 
 Once configured, you'll start receiving reminder notifications when users are stuck in the activation funnel.
 
-## [Testing](/api/guides/core/reminders#testing)
+## Testing
 
-To test lifecycle reminders in your development environment, see the [testing guide](/api/guides/core/testing/test-reminders).
+To test lifecycle reminders in your development environment, see the [testing guide](/guides/core/testing/test-reminders).
 
 © Copyright 2026 All rights reserved.
 

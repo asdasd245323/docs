@@ -6,14 +6,14 @@ description: "How to use test SIMs."
 Test SIMs can be used for testing purposes or to get you going with the Gigs API while you are waiting on real SIMs to be made available to you.
 These SIMs use a test provider and behave like any other API SIM resource, but don't provide actual connectivity.
 
-## [How to Use Test SIMs](/api/guides/core/testing/test-sims#how-to-use-test-sims)
+## How to Use Test SIMs
 
 The following Gigs API endpoints support the use of test SIMs:
 
-- [Create a subscription](/api/guides/create-subscription)
-- [Create a device](/api/gig-core-api/devices/create)
-- [Update a device](/api/gig-core-api/devices/update)
-- [Search for SIMs](/api/guides/core/sims)
+- [Create a subscription](/guides/create-subscription)
+- [Create a device](/api/gig-core-api/devices/create-a-device)
+- [Update a device](/api/gig-core-api/devices/update-a-device)
+- [Search for SIMs](/guides/core/sims)
 
 A new test SIM instance will automatically be created when you use a special placeholder SIM in a POST request such as: `sim_test_psim`.
 This new test SIM instance will be generated with a unique resource ID as well a unique ICCID, starting with `8942424242` followed by 9 characters, for example: `"iccid": "89424242428486763002"`.
@@ -69,7 +69,7 @@ The response contains the unique `id` and `iccid` of the new SIM resource.
 
 **Example: Searching for a test SIM**
 
-To find the placeholder SIMs, you can search for them using the [SIM search endpoint](/api/guides/core/sims#search-for-sims) with the fixed ICCIDs, for example looking up the placeholder `eSIM` - `8942400090000000010`:
+To find the placeholder SIMs, you can search for them using the [SIM search endpoint](/api/gig-core-api/sims/search-for-sims) with the fixed ICCIDs, for example looking up the placeholder `eSIM` - `8942400090000000010`:
 
 ### Find the placeholder eSIM with the Gigs Core API - cURL.
 
@@ -105,7 +105,7 @@ The response provides the details of the placeholder eSIM with the placeholder S
 }
 ```
 
-## [Overview of Test SIMs](/api/guides/core/testing/test-sims#overview-of-test-sims)
+## Overview of Test SIMs
 
 For testing purposes, the Gigs API supports both embedded and physical SIMs with various behaviors and delays.
 Test SIMs with a delay mimic real-world subscription flows, whereas test SIMs without delays are ideal for automated testing.
