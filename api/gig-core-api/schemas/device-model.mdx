@@ -1,4 +1,55 @@
 ---
 title: "DeviceModel"
-openapi-schema: "DeviceModel"
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `deviceModel`.
+
+  Allowed values: `deviceModel`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the deviceModel.
+
+  Example: `"dmd_0SNlurA04OUskUGfGAn3Rh"`
+</ResponseField>
+
+<ResponseField name="brand" type="string">
+  The brand of the device model.
+
+  Example: `"Apple"`
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The device model's name.
+
+  Example: `"iPhone 12 Pro"`
+</ResponseField>
+
+<ResponseField name="simTypes" type="array">
+  List of SIM types supported by this device model.
+
+  Example: `["eSIM", "pSIM"]`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The type of the device model.
+
+  Allowed values: `car`, `iot`, `laptop`, `router`, `smartphone`, `feature-phone`, `smartwatch`, `tablet`, `wearable`, `other`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "deviceModel",
+  "id": "dmd_0SNlurA04OUskUGfGAn3Rh",
+  "brand": "Apple",
+  "name": "iPhone 12 Pro",
+  "simTypes": [
+    "eSIM",
+    "pSIM"
+  ],
+  "type": "smartphone"
+}
+```
+</RequestExample>

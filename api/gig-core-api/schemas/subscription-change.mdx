@@ -1,4 +1,178 @@
 ---
 title: "SubscriptionChange"
-openapi-schema: "SubscriptionChange"
+description: "Any change to a user’s subscription, such as swapping a SIM, or upgrading or downgrading a subscription."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `subscriptionChange`.
+
+  Allowed values: `subscriptionChange`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the subscription change.
+
+  Example: `"sch_0SNlurA049MEWV3bE0SMtbIEJApp"`
+</ResponseField>
+
+<ResponseField name="appliedAt" type="string | null">
+  Time when the subscription change was applied.
+
+  Example: `"2021-01-21T19:36:57Z"`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the subscription change was created.
+
+  Example: `"2021-01-21T19:12:28Z"`
+</ResponseField>
+
+<ResponseField name="failureCode" type="string | null">
+  An error code indicating the reason for a failed subscription change.
+
+  Example: `"consentNotGiven"`
+</ResponseField>
+
+<ResponseField name="plan" type="Plan | null">
+  The plan to which the subscription should be changed.
+</ResponseField>
+
+<ResponseField name="requestedChange" type="object">
+  Object with the requested changes.
+
+  <Expandable title="properties">
+    <ResponseField name="plan" type="string | null">
+      Unique identifier of the target plan, to which the subscription should be changed. The new plan must have the same type of validity as the one it's replacing. E.g. a `oneTime` plan cannot be replaced by a `recurring` one. If the new plan's validity has a different `unit` or `value` than the plan it's replacing, then the change must be scheduled for the next renewal. See property `"when"` for more information about scheduling options for subscription change.
+
+      Example: `"pln_0SNlurA049MEWV3V0q7gjQbM4EVo"`
+    </ResponseField>
+
+    <ResponseField name="sim" type="string | null">
+      Unique identifier of the target SIM, to which the subscription should be changed. Can also be set to "auto", in which case an eSIM will be automatically allocated.
+
+      Example: `"sim_0SNlurA049MEWV1BAAmWZULA4lf6"`
+    </ResponseField>
+
+    <ResponseField name="when" type="string">
+      When the change should take effect. If set to `"now"`, the change will take effect immediately. If set to `"renewal"`, the change will instead take effect at the next subscription renewal date. Plan changes can always happen on `"renewal"`, but only selected network providers allow `"now"` changes. SIM changes can only happen `"now"`.
+
+      Allowed values: `now`, `renewal`
+
+      Example: `"renewal"`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="scheduledAt" type="string | null">
+  Approximate time when the change should take place. This is typically set for changes scheduled at renewal. For changes that take effect immediately (when `requestedChange.when` is `"now"`), this may be null.
+
+  Example: `"2021-01-21T19:12:28Z"`
+</ResponseField>
+
+<ResponseField name="sim" type="Sim | null">
+  The SIM to which the subscription should be changed.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the subscription change. Note that the `initiated` status is currently only available when using the Billing API, where it implies that the subscription change invoice has not yet been paid.
+
+  Allowed values: `pending`, `initiated`, `applied`, `failed`, `deleted`
+</ResponseField>
+
+<ResponseField name="subscription" type="string | null">
+  Unique identifier of the subscription to be changed.
+
+  Example: `"sub_0SNlurA049MEWV2gSfSxi00xlPIi"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "subscriptionChange",
+  "id": "sch_0SNlurA049MEWV3bE0SMtbIEJApp",
+  "appliedAt": "2021-01-21T19:36:57Z",
+  "createdAt": "2021-01-21T19:12:28.0Z",
+  "failureCode": "consentNotGiven",
+  "plan": {
+    "object": "plan",
+    "id": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+    "metadata": {},
+    "activationTrigger": "creation",
+    "allowances": {
+      "dataBytes": 10000000000,
+      "voiceSeconds": 30000,
+      "smsMessages": 100
+    },
+    "coverage": {
+      "object": "coverage",
+      "id": "de",
+      "countries": {
+        "0": "DE",
+        "1": "FR",
+        "2": "US"
+      },
+      "name": "Europe"
+    },
+    "createdAt": "2021-01-21T19:38:34.0Z",
+    "description": "A data plan you will love! Operates in most countries of the world.",
+    "firstPeriodTrigger": "creation",
+    "image": "https://i.gigscdn.com/pr/nTZpgaEj5dTQ2Jo/original.png",
+    "limits": {
+      "dataBytes": 100000000000,
+      "bandwidthBitsPerSecond": 100000000,
+      "throttling": {
+        "thresholdBytes": 10000000000,
+        "bandwidthBitsPerSecond": 512000
+      }
+    },
+    "name": "Gigs Global",
+    "price": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "provider": "p5",
+    "requirements": {
+      "address": "present",
+      "device": "none",
+      "user.birthday": "none",
+      "user.fullName": "present"
+    },
+    "simTypes": {
+      "0": "eSIM",
+      "1": "pSIM"
+    },
+    "status": "available",
+    "validity": {
+      "minimumPeriods": 12,
+      "type": "recurring",
+      "unit": "day",
+      "value": 7
+    },
+    "data": 10000000000,
+    "dataUnit": "byte",
+    "sms": 100,
+    "smsUnit": "message",
+    "voice": 30000,
+    "voiceUnit": "second"
+  },
+  "requestedChange": {
+    "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+    "sim": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+    "when": "renewal"
+  },
+  "scheduledAt": "2021-01-21T19:12:28Z",
+  "sim": {
+    "object": "sim",
+    "id": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+    "metadata": {},
+    "createdAt": "2021-01-21T19:38:34.0Z",
+    "iccid": "89883070000007537119",
+    "provider": "p9",
+    "status": "inactive",
+    "type": "eSIM"
+  },
+  "status": "pending",
+  "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+}
+```
+</RequestExample>

@@ -1,4 +1,74 @@
 ---
 title: "Allowance"
-openapi-schema: "Allowance"
+description: "An allowance represents a specific usage limit (e.g., minutes, bytes, messages) the purchase of a product entitles a user to."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `allowance`.
+
+  Allowed values: `allowance`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the allowance.
+
+  Example: `"alw_0SNlurA049MEWV3OMTRrGKbd99GH"`
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The human-readable name of this allowance.
+
+  Example: `"Roaming data in Europe"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The type of usage permitted by this allowance.
+
+  Allowed values: `data`, `voice`, `sms`
+</ResponseField>
+
+<ResponseField name="coverage" type="Coverage">
+  The geographic coverage of the allowance.
+
+  <Expandable title="properties">
+    <ResponseField name="object" type="string" />
+    <ResponseField name="id" type="string" />
+    <ResponseField name="countries" type="array" />
+    <ResponseField name="name" type="string" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="limit" type="integer | null">
+  The amount of usage permitted by this allowance counted in `unit`. A value of `null` indicates an unlimited allowance.
+
+  Example: `500`
+</ResponseField>
+
+<ResponseField name="unit" type="string">
+  The unit the usage permitted by this allowance is counted in.
+
+  Allowed values: `bytes`, `seconds`, `messages`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "allowance",
+  "id": "alw_0SNlurA049MEWV3OMTRrGKbd99GH",
+  "name": "Roaming data in Europe",
+  "type": "data",
+  "coverage": {
+    "object": "coverage",
+    "id": "de",
+    "countries": [
+      "DE",
+      "FR",
+      "US"
+    ],
+    "name": "Europe"
+  },
+  "limit": 500,
+  "unit": "bytes"
+}
+```
+</RequestExample>

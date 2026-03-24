@@ -1,4 +1,93 @@
 ---
 title: "VirtualNumber"
-openapi-schema: "VirtualNumber"
+description: "Virtual numbers are additional numbers that can be added for a user. Any calls made or texts sent to an active virtual number will be received by the primary number of the `subscription`. Note that this is an experimental feature that is only available in select projects."
 ---
+
+<Warning>
+  **Preview**
+
+  This schema is currently in preview and might change in the future.
+
+  We’re excited to hear your feedback and ideas. Please send an email to [support@gigs.com](mailto:support@gigs.com) to share your thoughts.
+</Warning>
+
+<ResponseField name="object" type="string">
+  Type of object is always `virtualNumber`.
+
+  Allowed values: `virtualNumber`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the virtual number.
+
+  Example: `"vnr_0SNlurA049MEWV29mxRtSMDnKtUD"`
+</ResponseField>
+
+<ResponseField name="activatedAt" type="string | null">
+  Time when the virtual number was activated.
+
+  Example: `"2020-01-01T00:00:07Z"`
+</ResponseField>
+
+<ResponseField name="canceledAt" type="string | null">
+  Time when the virtual number was canceled.
+
+  Example: `"2020-07-15T00:00:00Z"`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the virtual number was created.
+
+  Example: `"2020-01-01T00:00:00Z"`
+</ResponseField>
+
+<ResponseField name="endedAt" type="string | null">
+  Time when the virtual number will end or has ended. This field is populated in different scenarios:
+  - When a virtual number is canceled, this represents the future date when it will be terminated
+  - When a virtual number has already ended, this represents the past date when it was terminated
+
+  Example: `"2020-08-01T00:00:00Z"`
+</ResponseField>
+
+<ResponseField name="phoneNumber" type="string | null">
+  The virtual phone number.
+
+  Example: `"+447700900000"`
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the virtual number.
+
+  Allowed values: `active`, `ended`, `initiated`, `processing`
+
+  Example: `"active"`
+</ResponseField>
+
+<ResponseField name="subscription" type="string">
+  Unique identifier for the subscription this virtual number belongs to.
+
+  Example: `"sub_0SNlurA049MEWV2gSfSxi00xlPIi"`
+</ResponseField>
+
+<ResponseField name="user" type="string">
+  Unique identifier for the user this virtual number belongs to.
+
+  Example: `"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "virtualNumber",
+  "id": "vnr_0SNlurA049MEWV29mxRtSMDnKtUD",
+  "activatedAt": "2020-01-01T00:00:07Z",
+  "canceledAt": "2020-07-15T00:00:00Z",
+  "createdAt": "2020-01-01T01:01:01.0Z",
+  "endedAt": "2020-08-01T00:00:00Z",
+  "phoneNumber": "+447700900000",
+  "status": "active",
+  "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+  "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+}
+```
+</RequestExample>

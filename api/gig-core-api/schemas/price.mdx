@@ -1,4 +1,24 @@
 ---
 title: "Price"
-openapi-schema: "Price"
 ---
+
+<ResponseField name="amount" type="integer">
+  The price amount in the currency's minor unit, e.g. "cents" for many currencies.
+
+  Example: `999`
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Three-letter ISO 4217 currency code. Must be a supported currency.
+
+  Example: `"USD"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "amount": 999,
+  "currency": "USD"
+}
+```
+</RequestExample>

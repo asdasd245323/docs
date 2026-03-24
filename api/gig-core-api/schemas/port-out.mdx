@@ -1,4 +1,91 @@
 ---
 title: "PortOut"
-openapi-schema: "PortOut"
+description: "Port out is required when a user wants to keep their number when cancelling their subscription. There are multiple steps involved between the user, the current carrier, and the new carrier."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `portOut`.
+
+  Allowed values: `portOut`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the port out.
+
+  Example: `"pto_0SNlurA049MEWV4DWEaT4SaeDI8s"`
+</ResponseField>
+
+<ResponseField name="behavior" type="string">
+  The behavior of the port out.
+
+  A value of `portOut` indicates that using this port out will transfer the phone number to the recipient provider.
+
+  Port out with behavior `cancelOnly` will cancel the service without transferring the number. This behavior is currently only available for local plans in the United Kingdom.
+
+  Example: `"portOut"`
+
+  Allowed values: `cancelOnly`, `portOut`
+</ResponseField>
+
+<ResponseField name="completedAt" type="string | null">
+  Time when the port out is completed successfully.
+
+  Example: `"2022-02-21T19:38:34Z"`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the port out was created.
+
+  Example: `"2020-01-01T00:00:00Z"`
+</ResponseField>
+
+<ResponseField name="expiredAt" type="string | null">
+  Time when the port out expires and won't be valid anymore.
+
+  Example: `"2022-02-21T19:38:34Z"`
+</ResponseField>
+
+<ResponseField name="failureReason" type="string | null">
+  The reason for the port out failure.
+
+  Example: `"consentNotGiven"`
+
+  Allowed values: `consentNotGiven`, `consentRequestCanceled`
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the port out.
+
+  Example: `"issued"`
+
+  Allowed values: `completed`, `expired`, `failed`, `initiated`, `issued`, `processing`
+</ResponseField>
+
+<ResponseField name="subscription" type="string">
+  Unique identifier of the subscription affected.
+
+  Example: `"sub_0SNlurA049MEWV2gSfSxi00xlPIi"`
+</ResponseField>
+
+<ResponseField name="user" type="string">
+  Unique identifier for the user this port out credentials are for.
+
+  Example: `"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "portOut",
+  "id": "pto_0SNlurA049MEWV4DWEaT4SaeDI8s",
+  "behavior": "portOut",
+  "completedAt": "2022-02-21T19:38:34Z",
+  "createdAt": "2020-01-01T01:01:01.0Z",
+  "expiredAt": "2022-02-21T19:38:34Z",
+  "failureReason": "consentNotGiven",
+  "status": "issued",
+  "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+  "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+}
+```
+</RequestExample>

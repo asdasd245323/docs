@@ -1,4 +1,165 @@
 ---
 title: "UsageRecord"
-openapi-schema: "UsageRecord"
+description: "Usage records track subscription usage for users. This includes data, voice, and text usage. Note that there is a delay in usage data that varies between carriers."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `usageRecord`.
+
+Allowed values: `usageRecord`
+
+</ResponseField>
+
+<ResponseField name="data" type="integer">
+  Amount of data used in bytes.
+
+Example: `18883100`
+
+</ResponseField>
+
+<ResponseField name="dataDeviceBytes" type="integer">
+  **PREVIEW** - Amount of on-device data used in bytes.
+
+Optional: This property may not always be included.
+
+Example: `30029300`
+
+</ResponseField>
+
+<ResponseField name="dataTetheringBytes" type="integer">
+  **PREVIEW** - Amount of tethering data used in bytes.
+
+Optional: This property may not always be included.
+
+Example: `30029300`
+
+</ResponseField>
+
+<ResponseField name="end" type="string">
+  Timestamp representing the exclusive upper bound of the aggregation period (e.g. the end of a 24 hour period, subscription period or user-defined set of dates).
+
+Example: `"2021-02-15T00:00:00Z"`
+
+</ResponseField>
+
+<ResponseField name="labels" type="object">
+  An object containing optional metadata about the usage record.
+
+  <Expandable title="properties">
+    <ResponseField name="country" type="string">
+      The ISO 3166-1 alpha-2 country code of the country in which the usage occurred.
+
+      Optional: This property may not always be included.
+
+      Example: `"US"`
+    </ResponseField>
+
+    <ResponseField name="roaming" type="string">
+      **PREVIEW** - The roaming mode the usage occurred in.
+
+      Optional: This property may not always be included.
+
+      Allowed values: `none`, `international`, `domestic`
+    </ResponseField>
+
+    <ResponseField name="subscription" type="string">
+      The unique identifier for the subscription to which the usage is attributed.
+
+      Optional: This property may not always be included.
+
+      Example: `"sub_0SNlurA049MEWV2gSfSxi00xlPIi"`
+    </ResponseField>
+
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="sms" type="integer">
+  Amount of SMS messages sent and received.
+
+Example: `15`
+
+</ResponseField>
+
+<ResponseField name="smsInternationalMessages" type="integer">
+  **PREVIEW** - Amount of SMS messages sent internationally.
+
+Optional: This property may not always be included.
+
+Example: `6`
+
+</ResponseField>
+
+<ResponseField name="smsLocalMessages" type="integer">
+  **PREVIEW** - Amount of SMS messages sent locally.
+
+Optional: This property may not always be included.
+
+Example: `6`
+
+</ResponseField>
+
+<ResponseField name="start" type="string">
+  Timestamp representing the inclusive lower bound of the aggregation period (e.g. the start of a 24 hour period, subscription period or user-defined set of dates)
+
+Example: `"2021-02-14T00:00:00Z"`
+
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  **PREVIEW** - The time at which the aggregation was last updated.
+
+Optional: This property may not always be included.
+
+Example: `"2024-02-15T12:13:14Z"`
+
+</ResponseField>
+
+<ResponseField name="voice" type="integer">
+  Amount of voice usage in seconds.
+
+Example: `240`
+
+</ResponseField>
+
+<ResponseField name="voiceInternationalSeconds" type="integer">
+  **PREVIEW** - Amount of international voice usage in seconds.
+
+Optional: This property may not always be included.
+
+Example: `125`
+
+</ResponseField>
+
+<ResponseField name="voiceLocalSeconds" type="integer">
+  **PREVIEW** - Amount of local voice usage in seconds.
+
+Optional: This property may not always be included.
+
+Example: `6`
+
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "usageRecord",
+  "data": 18883100,
+  "dataDeviceBytes": 30029300,
+  "dataTetheringBytes": 30029300,
+  "end": "2021-02-15T01:01:01.0Z",
+  "labels": {
+    "country": "US",
+    "roaming": "none",
+    "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi"
+  },
+  "sms": 15,
+  "smsInternationalMessages": 6,
+  "smsLocalMessages": 6,
+  "start": "2021-02-14T01:01:01.0Z",
+  "updatedAt": "2024-02-15T12:13:14.0Z",
+  "voice": 240,
+  "voiceInternationalSeconds": 125,
+  "voiceLocalSeconds": 6
+}
+```
+</RequestExample>

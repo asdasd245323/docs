@@ -1,4 +1,24 @@
 ---
 title: "DeviceModelBrands"
-openapi-schema: "DeviceModelBrands"
 ---
+
+<ResponseField name="object" type="string">
+  List of device model brands.
+
+  Allowed values: `deviceModelBrands`
+</ResponseField>
+
+<ResponseField name="items" type="array">
+  A list of brands.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "deviceModelBrands",
+  "items": [
+    "Apple"
+  ]
+}
+```
+</RequestExample>

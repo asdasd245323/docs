@@ -1,4 +1,45 @@
 ---
 title: "ServiceProvider"
-openapi-schema: "ServiceProvider"
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `serviceProvider`.
+
+  Allowed values: `serviceProvider`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the service provider.
+
+  Example: `"svp_0SNlurA01K6GY5L0XJffY8"`
+</ResponseField>
+
+<ResponseField name="country" type="string">
+  The ISO 3166-1 alpha-2 country code of the service provider.
+
+  Example: `"US"`
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The name of the service provider, usually a brand name.
+
+  Example: `"AT&T"`
+</ResponseField>
+
+<ResponseField name="recipientProviders" type="array" default='["p3"]'>
+  List of network providers IDs that can receive portings from the service provider.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "serviceProvider",
+  "id": "svp_0SNlurA01K6GY5L0XJffY8",
+  "country": "US",
+  "name": "AT&T",
+  "recipientProviders": [
+    "p3"
+  ]
+}
+```
+</RequestExample>

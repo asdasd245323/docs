@@ -1,4 +1,49 @@
 ---
 title: "EsimProfile"
-openapi-schema: "eSimProfile"
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `eSimProfile`.
+
+  Allowed values: `eSimProfile`
+</ResponseField>
+
+<ResponseField name="sim" type="Sim">
+  A SIM is a unique card that identifies itself to a specific mobile network and provides voice, text, and data connectivity to a user’s device. There are two types of available SIMs: eSIM and pSIM. eSIMs can be activated and installed instantly on any eSIM compatible device, pSIMs (physical SIMs) must be provided to the user or installed into the device beforehand.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the eSimProfile.
+
+  This will be `unknown` when:
+  - the SIM's provider is not supported (i.e. it is not `p3`), or
+  - no lifecycle events have occurred for the given SIM.
+
+  Allowed values: `deleted`, `disabled`, `enabled`, `installed`, `unknown`
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Time at which the status was last updated.
+
+  Example: `"2024-03-13T15:36:01Z"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "eSimProfile",
+  "sim": {
+    "object": "sim",
+    "id": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+    "metadata": {},
+    "createdAt": "2021-01-21T19:38:34.0Z",
+    "iccid": "89883070000007537119",
+    "provider": "p9",
+    "status": "inactive",
+    "type": "eSIM"
+  },
+  "status": "deleted",
+  "updatedAt": "2024-03-13T15:36:01.0Z"
+}
+```
+</RequestExample>

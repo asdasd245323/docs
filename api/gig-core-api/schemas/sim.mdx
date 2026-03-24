@@ -1,4 +1,65 @@
 ---
 title: "Sim"
-openapi-schema: "Sim"
+description: "A SIM is a unique card that identifies itself to a specific mobile network and provides voice, text, and data connectivity to a user’s device. There are two types of available SIMs: eSIM and pSIM. eSIMs can be activated and installed instantly on any eSIM compatible device, pSIMs (physical SIMs) must be provided to the user or installed into the device beforehand."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `sim`.
+
+  Allowed values: `sim`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the SIM.
+
+  Example: `"sim_0SNlurA049MEWV1BAAmWZULA4lf6"`
+</ResponseField>
+
+<ResponseField name="metadata" type="Metadata">
+  A set of key-value pairs, to store [metadata](/docs/core/metadata) related to the resource.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the SIM was created.
+
+  Example: `"2021-01-21T19:38:34Z"`
+</ResponseField>
+
+<ResponseField name="iccid" type="string">
+  The ICCID (integrated circuit card identifier) associated with the SIM.
+
+  Example: `"89883070000007537119"`
+</ResponseField>
+
+<ResponseField name="provider" type="string">
+  The ID of the network provider of the SIM.
+
+  Example: `"p9"`
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The status of the SIM. Can be `active` or `inactive`.
+
+  Allowed values: `inactive`, `active`, `retired`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The type of the SIM. Can be `eSIM` or `pSIM`.
+
+  Allowed values: `eSIM`, `pSIM`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "sim",
+  "id": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+  "metadata": {},
+  "createdAt": "2021-01-21T19:38:34.0Z",
+  "iccid": "89883070000007537119",
+  "provider": "p9",
+  "status": "inactive",
+  "type": "eSIM"
+}
+```
+</RequestExample>

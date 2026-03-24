@@ -1,4 +1,38 @@
 ---
 title: "Organization"
-openapi-schema: "Organization"
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `organization`.
+
+  Allowed values: `organization`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the organization.
+
+  Example: `"org_0SNlurA04kOdemVEMVZQBF"`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the organization was created.
+
+  Example: `"2021-02-01T13:21:30Z"`
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Name for the organization.
+
+  Example: `"Gigs"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "organization",
+  "id": "org_0SNlurA04kOdemVEMVZQBF",
+  "createdAt": "2021-02-01T13:21:30.0Z",
+  "name": "Gigs"
+}
+```
+</RequestExample>

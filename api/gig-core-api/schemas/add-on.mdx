@@ -1,4 +1,199 @@
 ---
 title: "Add-on"
-openapi-schema: "Addon"
+description: "Add-ons define features or top-ups that can be used to extend the functionality offered to the end user through their subscription's plan."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `addon`.
+
+  Allowed values: `addon`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the add-on.
+
+  Example: `"add_0SNlurA049MEWV4VxLfwJc7PJtHc"`
+</ResponseField>
+
+<ResponseField name="metadata" type="Metadata">
+  A set of key-value pairs, to store [metadata](/docs/core/metadata) related to the resource.
+</ResponseField>
+
+<ResponseField name="activationTrigger" type="string">
+  Indicates when a subscription add-on will take effect.
+
+  - `creation`: As soon as it is created. The user does not need to take any further action.
+  - `networkLatch`: When the user's data session ends, which can be forced by power cycling the device.
+  - `usageStarted`: When the user starts using add-on allowance on their device.
+
+  Example: `"creation"`
+
+  Allowed values: `creation`, `networkLatch`, `usageStarted`
+</ResponseField>
+
+<ResponseField name="allowances" type="Allowances">
+  The allowances included in the add-on.
+
+  <Expandable title="properties">
+    <ResponseField name="dataBytes" type="integer | null">
+      The data allowance in bytes. A value of `null` indicates unlimited data.
+
+      Example: `10000000000`
+    </ResponseField>
+    <ResponseField name="voiceSeconds" type="integer | null">
+      The voice call allowance in seconds. A value of `null` indicates unlimited calls.
+
+      Example: `30000`
+    </ResponseField>
+    <ResponseField name="smsMessages" type="integer | null">
+      The SMS allowance in messages. A value of `null` indicates unlimited SMS.
+
+      Example: `100`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="coverage" type="Coverage | null">
+  The geographic coverage of the add-on. A value of `null` indicates that coverage is not applicable for this add-on.
+
+  <Expandable title="properties">
+    <ResponseField name="object" type="string" />
+    <ResponseField name="id" type="string" />
+    <ResponseField name="countries" type="object" />
+    <ResponseField name="name" type="string" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the add-on was created.
+
+  Example: `"2021-01-21T19:12:28Z"`
+</ResponseField>
+
+<ResponseField name="description" type="string | null">
+  The description of the add-on.
+
+  Example: `"Disable international roaming."`
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Name for the add-on.
+
+  Example: `"1GB Data Top-up"`
+</ResponseField>
+
+<ResponseField name="plans" type="array">
+  The plans this add-on is compatible with.
+</ResponseField>
+
+<ResponseField name="price" type="Price">
+  The price of the add-on.
+
+  <Expandable title="properties">
+    <ResponseField name="amount" type="integer">
+      The price amount in the currency's minor unit, e.g. "cents" for many currencies.
+
+      Example: `999`
+    </ResponseField>
+    <ResponseField name="currency" type="string">
+      Three-letter ISO 4217 currency code. Must be a supported currency.
+
+      Example: `"USD"`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="provider" type="string">
+  The ID of the network provider supported by this add-on.
+
+  Example: `"p5"`
+</ResponseField>
+
+<ResponseField name="recurrenceType" type="string">
+  The recurrence type the add-on.
+
+  Example: `"oneTime"`
+
+  Allowed values: `oneTime`
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the add-on.
+
+  Allowed values: `draft`, `available`, `archived`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The type of the add-on.
+
+  Example: `"topUp"`
+
+  Allowed values: `topUp`, `other`
+</ResponseField>
+
+<ResponseField name="validity" type="object | null">
+  The validity period of the add-on. When the add-on is activated, it will expire after this duration. Not all add-ons have a validity period.
+
+  <Expandable title="properties">
+    <ResponseField name="unit" type="string">
+      The time unit of the add-on, either `day` or `month`.
+
+      Allowed values: `day`, `month`
+    </ResponseField>
+    <ResponseField name="value" type="integer">
+      The amount of units (specified in the `unit` property).
+
+      Example: `7`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "addon",
+  "id": "add_0SNlurA049MEWV4VxLfwJc7PJtHc",
+  "metadata": {},
+  "activationTrigger": "creation",
+  "allowances": {
+    "dataBytes": 10000000000,
+    "voiceSeconds": 30000,
+    "smsMessages": 100
+  },
+  "coverage": {
+    "object": "coverage",
+    "id": "de",
+    "countries": {
+      "0": "DE",
+      "1": "FR",
+      "2": "US"
+    },
+    "name": "Europe"
+  },
+  "createdAt": "2021-01-21T19:12:28.0Z",
+  "description": "Disable international roaming.",
+  "name": "1GB Data Top-up",
+  "plans": [
+    "pln_0SNlurA049MEWV3V0q7gjQbM4EVo"
+  ],
+  "price": {
+    "amount": 999,
+    "currency": "USD"
+  },
+  "provider": "p5",
+  "recurrenceType": "oneTime",
+  "status": "draft",
+  "type": "topUp",
+  "validity": {
+    "unit": "day",
+    "value": 7
+  },
+  "data": 10000000000,
+  "dataUnit": "byte",
+  "sms": 100,
+  "smsUnit": "message",
+  "voice": 30000,
+  "voiceUnit": "second"
+}
+```
+</RequestExample>

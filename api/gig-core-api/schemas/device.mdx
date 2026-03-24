@@ -1,4 +1,127 @@
 ---
 title: "Device"
-openapi-schema: "Device"
+description: "Devices are the phones or smartwatches that will be tied to a user’s plan."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `device`.
+
+  Allowed values: `device`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the device.
+
+  Example: `"dev_0SNlurA049MEWV55CrA9qMvI2FVJ"`
+</ResponseField>
+
+<ResponseField name="metadata" type="Metadata">
+  A set of key-value pairs, to store [metadata](/docs/core/metadata) related to the resource.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the device was created.
+
+  Example: `"2021-02-14T19:38:34Z"`
+</ResponseField>
+
+<ResponseField name="imei" type="string | null">
+  The IMEI (international mobile equipment identity) of the device if provided.
+
+  Example: `"492388841798923"`
+</ResponseField>
+
+<ResponseField name="model" type="DeviceModel | null">
+  <Expandable title="properties">
+    <ResponseField name="object" type="string" />
+    <ResponseField name="id" type="string" />
+    <ResponseField name="brand" type="string" />
+    <ResponseField name="name" type="string" />
+    <ResponseField name="simTypes" type="array" />
+    <ResponseField name="type" type="string" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="name" type="string | null">
+  An optional custom name for the device.
+
+  Example: `"Anna's iPhone 12 Pro"`
+</ResponseField>
+
+<ResponseField name="sims" type="array">
+  List of SIMs added to this device.
+
+  <Expandable title="properties">
+    <ResponseField name="object" type="string" />
+    <ResponseField name="id" type="string" />
+    <ResponseField name="metadata" type="object" />
+    <ResponseField name="createdAt" type="string" />
+    <ResponseField name="iccid" type="string" />
+    <ResponseField name="provider" type="string" />
+    <ResponseField name="status" type="string" />
+    <ResponseField name="type" type="string" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="user" type="User | null">
+  <Expandable title="properties">
+    <ResponseField name="object" type="string" />
+    <ResponseField name="id" type="string" />
+    <ResponseField name="metadata" type="object" />
+    <ResponseField name="birthday" type="string" />
+    <ResponseField name="createdAt" type="string" />
+    <ResponseField name="email" type="string" />
+    <ResponseField name="emailVerified" type="boolean" />
+    <ResponseField name="fullName" type="string" />
+    <ResponseField name="preferredLocale" type="string" />
+    <ResponseField name="status" type="string" />
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "device",
+  "id": "dev_0SNlurA049MEWV55CrA9qMvI2FVJ",
+  "metadata": {},
+  "createdAt": "2021-02-14T19:38:34.0Z",
+  "imei": "492388841798923",
+  "model": {
+    "object": "deviceModel",
+    "id": "dmd_0SNlurA04OUskUGfGAn3Rh",
+    "brand": "Apple",
+    "name": "iPhone 12 Pro",
+    "simTypes": [
+      "eSIM",
+      "pSIM"
+    ],
+    "type": "smartphone"
+  },
+  "name": "Anna's iPhone 12 Pro",
+  "sims": [
+    {
+      "object": "sim",
+      "id": "sim_0SNlurA049MEWV1BAAmWZULA4lf6",
+      "metadata": {},
+      "createdAt": "2021-01-21T19:38:34.0Z",
+      "iccid": "89883070000007537119",
+      "provider": "p9",
+      "status": "inactive",
+      "type": "eSIM"
+    }
+  ],
+  "user": {
+    "object": "user",
+    "id": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+    "metadata": {},
+    "birthday": "2017-07-21",
+    "createdAt": "2021-01-21T19:38:34.0Z",
+    "email": "jerry@example.com",
+    "emailVerified": true,
+    "fullName": "Jerry Seinfeld",
+    "preferredLocale": "en-US",
+    "status": "active"
+  }
+}
+```
+</RequestExample>

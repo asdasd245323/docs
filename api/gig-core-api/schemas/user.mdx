@@ -1,4 +1,79 @@
 ---
 title: "User"
-openapi-schema: "User"
+description: "Users are end consumers of subscriptions. Users can have multiple devices, SIMs, and subscriptions."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `user`.
+
+  Allowed values: `user`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the user.
+
+  Example: `"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"`
+</ResponseField>
+
+<ResponseField name="metadata" type="Metadata">
+  A set of key-value pairs, to store metadata related to the resource.
+</ResponseField>
+
+<ResponseField name="birthday" type="string | null">
+  The birthday of the user.
+
+  Example: `"2017-07-21"`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the user was created.
+
+  Example: `"2021-01-21T19:38:34Z"`
+</ResponseField>
+
+<ResponseField name="email" type="string">
+  The primary email address of the user. Must be unique across all users.
+
+  Example: `"jerry@example.com"`
+</ResponseField>
+
+<ResponseField name="emailVerified" type="boolean">
+  Whether the user's primary email address is verified or not.
+
+  Example: `true`
+</ResponseField>
+
+<ResponseField name="fullName" type="string | null">
+  The user's full name. Required for some Plans.
+
+  Example: `"Jerry Seinfeld"`
+</ResponseField>
+
+<ResponseField name="preferredLocale" type="string">
+  The user's locale preference represented as an [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag).
+
+  Example: `"en-US"`
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the user.
+
+  Allowed values: `active`, `blocked`, `deleted`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "user",
+  "id": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d",
+  "metadata": {},
+  "birthday": "2017-07-21",
+  "createdAt": "2021-01-21T19:38:34.0Z",
+  "email": "jerry@example.com",
+  "emailVerified": true,
+  "fullName": "Jerry Seinfeld",
+  "preferredLocale": "en-US",
+  "status": "active"
+}
+```
+</RequestExample>

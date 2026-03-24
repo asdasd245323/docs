@@ -1,4 +1,225 @@
 ---
 title: "Project"
-openapi-schema: "Project"
+description: "A project is where all of the user, subscription, plan, device, and SIM information lives."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `project`.
+
+  Allowed values: `project`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Globally unique identifier for the project.
+
+  Example: `"gigs"`
+</ResponseField>
+
+<ResponseField name="billing" type="object | null">
+  Configuration parameters for the project use of billing. Present when the Billing API is enabled.
+
+  <Expandable title="properties">
+    <ResponseField name="advanceInvoicingDays" type="integer" />
+    <ResponseField name="invoiceGracePeriodDays" type="integer" />
+    <ResponseField name="invoiceOverdueDays" type="integer" />
+    <ResponseField name="invoiceOverduePeriodDays" type="integer" />
+    <ResponseField name="invoiceOverdueAction" type="string" />
+    <ResponseField name="currency" type="string" />
+    <ResponseField name="restrictBehavior" type="string | null" />
+    <ResponseField name="restoreBehavior" type="string | null" />
+    <ResponseField name="paymentBehavior" type="string" />
+    <ResponseField name="taxBehavior" type="string" />
+    <ResponseField name="recoveryFeePercentage" type="integer" />
+    <ResponseField name="recoveryFeeAmount" type="object" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="consent" type="object | null">
+  <Note>Status: PREVIEW</Note>
+
+  Configuration parameters for the project's user consent collection. When absent, user consent is not checked or required.
+
+  <Expandable title="properties">
+    <ResponseField name="deliveryMethods" type="array">
+      List of available delivery methods for consent requests.
+
+      Optional: This property may not always be included.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the project was created.
+
+  Example: `"2021-01-21T19:32:13Z"`
+</ResponseField>
+
+<ResponseField name="image" type="string | null">
+  <Note>Status: PREVIEW</Note>
+
+  Small-resolution project icon with an aspect ratio of `1:1`.
+
+  Example: `"https://a.gigscdn.net/p/gigs/icon.png"`
+</ResponseField>
+
+<ResponseField name="legal" type="object | null">
+  The legal address for the company that manages the project.
+
+  <Expandable title="properties">
+    <ResponseField name="name" type="string" />
+    <ResponseField name="city" type="string" />
+    <ResponseField name="country" type="string" />
+    <ResponseField name="line1" type="string" />
+    <ResponseField name="line2" type="string" />
+    <ResponseField name="postalCode" type="string" />
+    <ResponseField name="state" type="string" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="locales" type="array">
+  List of supported locales represented as [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag), ordered by preference.
+
+  Example: `["en-US"]`
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  A human-readable name for the project.
+
+  Example: `"Gigs Connect"`
+</ResponseField>
+
+<ResponseField name="organization" type="Organization">
+  <Expandable title="properties">
+    <ResponseField name="object" type="string" />
+    <ResponseField name="id" type="string" />
+    <ResponseField name="createdAt" type="string" />
+    <ResponseField name="name" type="string" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="payments" type="object | null">
+  Configuration parameters for the project use of payments.
+
+  <Expandable title="properties">
+    <ResponseField name="currency" type="string">
+      Three-letter ISO 4217 currency code representing the currency of the project. Must be a supported currency.
+
+      Example: `"USD"`
+    </ResponseField>
+    <ResponseField name="mode" type="string">
+      <Warning>DEPRECATED: This property is deprecated and will be removed in the future. Use the root-level field `type` instead.</Warning>
+
+      The mode in which the payments operate.
+
+      Allowed values: `live`, `test`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="subscriptionOwner" type="string">
+  Indicates which entity will be registered as the owner of the subscription with the providers. When `company` is selected the legal address associated with the project will be used for the registration.
+
+  Allowed values: `user`, `company`
+</ResponseField>
+
+<ResponseField name="support" type="object | null">
+  Contact details for consumer support requests regarding the project.
+
+  <Expandable title="properties">
+    <ResponseField name="email" type="string | null">
+      A publicly available email address for consumer support requests regarding the project.
+
+      Example: `"support@gigs.com"`
+    </ResponseField>
+    <ResponseField name="phoneNumber" type="string | null">
+      A publicly available phone number in E.164 format for consumer support requests regarding the project.
+
+      Example: `"+12345678900"`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="tax" type="object | null">
+  Tax configuration for the project.
+
+  <Expandable title="properties">
+    <ResponseField name="country" type="string | null">
+      The ISO 3166-1 alpha-2 country code for tax purposes. This will be used as the fallback country for tax calculations when a more specific country cannot be determined (e.g. user address).
+
+      Example: `"US"`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Indicates whether this is a live or test project. In live projects, subscriptions are invoiced to your organization, and any payments and taxes are real. The type cannot be changed after project creation.
+
+  Example: `"live"`
+
+  Allowed values: `live`, `test`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "project",
+  "id": "gigs",
+  "billing": {
+    "advanceInvoicingDays": 7,
+    "invoiceGracePeriodDays": 3,
+    "invoiceOverdueDays": 3,
+    "invoiceOverduePeriodDays": 1,
+    "invoiceOverdueAction": "end",
+    "currency": "USD",
+    "restrictBehavior": null,
+    "restoreBehavior": null,
+    "paymentBehavior": "manual",
+    "taxBehavior": "exclusive",
+    "recoveryFeePercentage": 10,
+    "recoveryFeeAmount": {
+      "amount": 150,
+      "currency": "USD"
+    }
+  },
+  "consent": {
+    "deliveryMethods": [
+      "emailLink"
+    ]
+  },
+  "createdAt": "2021-01-21T19:32:13.0Z",
+  "image": "https://a.gigscdn.net/p/gigs/icon.png",
+  "legal": {
+    "name": "Gigs Inc.",
+    "city": "New York City",
+    "country": "US",
+    "line1": "129 West 81st Street",
+    "line2": "Apartment 5",
+    "postalCode": "10024",
+    "state": "NY"
+  },
+  "locales": [
+    "en-US"
+  ],
+  "name": "Gigs Connect",
+  "organization": {
+    "object": "organization",
+    "id": "org_0SNlurA04kOdemVEMVZQBF",
+    "createdAt": "2021-02-01T13:21:30.0Z",
+    "name": "Gigs"
+  },
+  "payments": {
+    "currency": "USD",
+    "mode": "live"
+  },
+  "subscriptionOwner": "user",
+  "support": {
+    "email": "support@gigs.com",
+    "phoneNumber": "+12345678900"
+  },
+  "tax": {
+    "country": "US"
+  },
+  "type": "live"
+}
+```
+</RequestExample>

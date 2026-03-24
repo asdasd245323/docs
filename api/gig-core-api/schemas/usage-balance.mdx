@@ -1,4 +1,146 @@
 ---
 title: "UsageBalance"
-openapi-schema: "UsageBalance"
+description: "A usage balance represents the amount of usage consumed from an Allowance for a given Subscription in a certain Period."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `usageBalance`.
+
+  Allowed values: `usageBalance`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the usage balance.
+
+  Example: `"ubl_0V9n0zo90CE0NuvcsN0j88"`
+</ResponseField>
+
+<ResponseField name="allowance" type="Allowance">
+  The Allowance this usage balance is tracking.
+</ResponseField>
+
+<ResponseField name="subscription" type="string">
+  Unique identifier of the Subscription the usage balance is related to.
+
+  Example: `"sub_0SNlurA049MEWV2gSfSxi00xlPIi"`
+</ResponseField>
+
+<ResponseField name="source" type="UsageBalanceSource">
+  The entity providing the allowance to the Subscription.
+
+  Example: `{"type":"subscriptionPeriod","subscriptionPeriod":4,"subscriptionAddon":null}`
+
+  <Expandable title="properties">
+    <ResponseField name="type" type="string">
+      The entity type providing the allowance.
+
+      Allowed values: `subscriptionPeriod`, `subscriptionAddon`
+    </ResponseField>
+
+    <ResponseField name="subscriptionPeriod" type="integer | null">
+      When the allowance is provided by the subscription's plan, the subscription period this usage balance is bound by.
+
+      Optional: This property may not always be included.
+
+      Example: `4`
+    </ResponseField>
+
+    <ResponseField name="subscriptionAddon" type="string | null">
+      When the allowance is provided by a Subscription Add-on, the subscription add-on this usage balance is provided by.
+
+      Optional: This property may not always be included.
+
+      Example: `"sad_0SNlurA049MEWV2UNWPbDfW5B40U"`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="unit" type="string">
+  The unit the usage is counted in.
+
+  Allowed values: `bytes`, `seconds`, `messages`
+</ResponseField>
+
+<ResponseField name="used" type="integer">
+  The amount of usage consumed, counted in `unit`.
+
+  Example: `230`
+</ResponseField>
+
+<ResponseField name="limit" type="integer | null">
+  The amount of usage permitted by the associated allowance counted in `unit`. A value of `null` indicates an unlimited allowance.
+
+  Example: `500`
+</ResponseField>
+
+<ResponseField name="remaining" type="integer | null">
+  The amount remaining that can still be consumed, counted in `unit`. A value of `null` indicates an unlimited allowance.
+
+  Example: `270`
+</ResponseField>
+
+<ResponseField name="usedPercent" type="integer | null">
+  The percentage of `limit` that has been used, expressed as an integer between 0 and 100. A value of `null` indicates an unlimited allowance.
+
+  Example: `46`
+</ResponseField>
+
+<ResponseField name="remainingPercent" type="integer | null">
+  The percentage of `limit` that has not been used, expressed as an integer between 0 and 100. A value of `null` indicates an unlimited allowance.
+
+  Example: `54`
+</ResponseField>
+
+<ResponseField name="usableFrom" type="string | null">
+  Timestamp representing the beginning of this usage balance's validity. A value of `null` indicates a pending balance that is not yet active, for example when a customer purchases an add-on ahead of use.
+
+  Example: `"2026-01-03T13:41:24Z"`
+</ResponseField>
+
+<ResponseField name="usableUntil" type="string | null">
+  Timestamp representing the end of this usage balance's validity. A value of `null` indicates a pending balance that is not yet active, for example when a customer purchases an add-on ahead of use.
+
+  Example: `"2026-02-03T13:41:24Z"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "usageBalance",
+  "id": "ubl_0V9n0zo90CE0NuvcsN0j88",
+  "allowance": {
+    "object": "allowance",
+    "id": "alw_0SNlurA049MEWV3OMTRrGKbd99GH",
+    "name": "Roaming data in Europe",
+    "type": "data",
+    "coverage": {
+      "object": "coverage",
+      "id": "de",
+      "countries": [
+        "DE",
+        "FR",
+        "US"
+      ],
+      "name": "Europe"
+    },
+    "limit": 500,
+    "unit": "bytes",
+    "priority": 1
+  },
+  "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+  "source": {
+    "type": "subscriptionPeriod",
+    "subscriptionPeriod": 4,
+    "subscriptionAddon": null
+  },
+  "unit": "bytes",
+  "used": 230,
+  "limit": 500,
+  "remaining": 270,
+  "usedPercent": 46,
+  "remainingPercent": 54,
+  "usableFrom": "2026-01-03T13:41:24Z",
+  "usableUntil": "2026-02-03T13:41:24Z"
+}
+```
+</RequestExample>

@@ -1,4 +1,42 @@
 ---
 title: "Actor"
-openapi-schema: "Actor"
 ---
+
+<ResponseField name="apiKey" type="string">
+  The unique identifier for the API key.
+
+  Optional: This property may not always be included.
+
+  Example: `"apk_0SNlurA049MEWV4wRq2ql6SYZxiY"`
+</ResponseField>
+
+<ResponseField name="member" type="string">
+  The unique identifier for the member.
+
+  Optional: This property may not always be included.
+
+  Example: `"mbr_0SNlurA020zhzt0CwsIr53"`
+</ResponseField>
+
+<ResponseField name="user" type="string">
+  The unique identifier for the user.
+
+  Optional: This property may not always be included.
+
+  Example: `"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The type of actor.
+
+  Allowed values: `apiKey`, `member`, `user`, `system`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "type": "user",
+  "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+}
+```
+</RequestExample>

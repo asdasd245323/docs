@@ -1,4 +1,42 @@
 ---
 title: "Coverage"
-openapi-schema: "Coverage"
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `coverage`.
+
+  Allowed values: `coverage`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the coverage configuration.
+
+  Example: `"de"`
+</ResponseField>
+
+<ResponseField name="countries" type="array">
+  List of countries in ISO 3166-1 alpha-2 format covered by this coverage configuration.
+
+  Example: `["DE", "FR", "US"]`
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  A human-readable identifier of the coverage configuration, might not be unique.
+
+  Example: `"Europe"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "coverage",
+  "id": "de",
+  "countries": [
+    "DE",
+    "FR",
+    "US"
+  ],
+  "name": "Europe"
+}
+```
+</RequestExample>

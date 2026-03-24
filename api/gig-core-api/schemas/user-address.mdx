@@ -1,4 +1,80 @@
 ---
 title: "UserAddress"
-openapi-schema: "UserAddress"
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `userAddress`.
+
+  Allowed values: `userAddress`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the address.
+
+  Example: `"adr_0SNlurA049MEWV5ELDmnaqVXgTFT"`
+</ResponseField>
+
+<ResponseField name="city" type="string">
+  The city/municipality of the address.
+
+  Example: `"New York City"`
+</ResponseField>
+
+<ResponseField name="country" type="string">
+  The ISO 3166-1 alpha-2 country code of the address.
+
+  Example: `"US"`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  The time the address was created.
+
+  Example: `"2021-01-21T19:38:34Z"`
+</ResponseField>
+
+<ResponseField name="line1" type="string">
+  The first line of the address, e.g. street and house number.
+
+  Example: `"129 West 81st Street"`
+</ResponseField>
+
+<ResponseField name="line2" type="string | null">
+  The second line of the address, e.g. apartment number.
+
+  Example: `"Apartment 5"`
+</ResponseField>
+
+<ResponseField name="postalCode" type="string | null">
+  The postal code of the address.
+
+  Example: `"10024"`
+</ResponseField>
+
+<ResponseField name="state" type="string | null">
+  The state/province/region of the address.
+
+  Example: `"NY"`
+</ResponseField>
+
+<ResponseField name="user" type="string">
+  Unique identifier for the address user.
+
+  Example: `"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "userAddress",
+  "id": "adr_0SNlurA049MEWV5ELDmnaqVXgTFT",
+  "city": "New York City",
+  "country": "US",
+  "createdAt": "2021-01-21T19:38:34.0Z",
+  "line1": "129 West 81st Street",
+  "line2": "Apartment 5",
+  "postalCode": "10024",
+  "state": "NY",
+  "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+}
+```
+</RequestExample>

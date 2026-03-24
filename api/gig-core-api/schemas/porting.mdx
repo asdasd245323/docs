@@ -1,4 +1,276 @@
 ---
 title: "Porting"
-openapi-schema: "Porting"
+description: "Porting is required when a user wants to keep their phone number when changing their subscription. There are multiple steps involved between the user, their previous carrier, and the new subscriber"
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `porting`.
+
+  Allowed values: `porting`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the porting.
+
+  Example: `"prt_0SNlurA049MEWV39s2kSYqaat7ZS"`
+</ResponseField>
+
+<ResponseField name="accountNumber" type="string | null">
+  The account number on the donor service provider.
+
+  Example: `"123456789"`
+</ResponseField>
+
+<ResponseField name="accountPinExists" type="boolean">
+  Whether the account PIN has been provided.
+
+  Example: `true`
+</ResponseField>
+
+<ResponseField name="address" type="object | null">
+  The address of the account holder on the donor service provider.
+
+  <Expandable title="properties">
+    <ResponseField name="city" type="string" />
+    <ResponseField name="country" type="string" />
+    <ResponseField name="line1" type="string" />
+    <ResponseField name="line2" type="string" />
+    <ResponseField name="postalCode" type="string" />
+    <ResponseField name="state" type="string" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="behavior" type="string">
+  The behavior of the porting.
+
+  A value of `portIn` indicates that this porting will transfer the phone number from the previous provider.
+
+  A porting with behavior `cancelOnly` will cancel the previous service without transferring the number. This behavior is currently only available for local plans in the United Kingdom.
+
+  Example: `"portIn"`
+
+  Allowed values: `cancelOnly`, `portIn`
+</ResponseField>
+
+<ResponseField name="billingPinExists" type="boolean">
+  Whether the billing PIN has been provided.
+
+  Example: `true`
+</ResponseField>
+
+<ResponseField name="birthday" type="string | null">
+  The birthday of the account holder on the donor service provider.
+
+  Example: `"2017-07-21"`
+</ResponseField>
+
+<ResponseField name="canceledAt" type="string | null">
+  Time when the porting was canceled.
+
+  Example: `"2021-01-21T19:39:53Z"`
+</ResponseField>
+
+<ResponseField name="completedAt" type="string | null">
+  Time when the porting was completed.
+
+  Example: `"2021-01-21T19:36:57Z"`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the porting was created.
+
+  Example: `"2021-01-21T19:12:28Z"`
+</ResponseField>
+
+<ResponseField name="declinedAttempts" type="integer">
+  The number of declined porting attempts so far.
+
+  Example: `0`
+</ResponseField>
+
+<ResponseField name="declinedCode" type="string | null">
+  The code reason for the declined porting.
+
+  Example: `"portingPhoneNumberPortProtected"`
+</ResponseField>
+
+<ResponseField name="declinedMessage" type="string | null">
+  The reason description for the declined porting.
+
+  Example: `"The phone number has port protection on the provider."`
+</ResponseField>
+
+<ResponseField name="donorProvider" type="ServiceProvider | null">
+  The service provider from whom the number is ported.
+
+  <Expandable title="properties">
+    <ResponseField name="object" type="string" />
+    <ResponseField name="id" type="string" />
+    <ResponseField name="country" type="string" />
+    <ResponseField name="name" type="string" />
+    <ResponseField name="recipientProviders" type="array" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="donorProviderApproval" type="boolean | null">
+  Whether the donor provider has approved or not the porting.
+
+  Example: `true`
+</ResponseField>
+
+<ResponseField name="expiredAt" type="string | null">
+  Time when the porting was expired.
+
+  Example: `"2021-01-21T19:39:53Z"`
+</ResponseField>
+
+<ResponseField name="firstName" type="string | null">
+  The first name of the account holder on the donor service provider.
+
+  Example: `"Jerry"`
+</ResponseField>
+
+<ResponseField name="lastDeclinedAt" type="string | null">
+  Time when the porting was last declined.
+
+  Example: `"2021-01-21T19:31:13Z"`
+</ResponseField>
+
+<ResponseField name="lastName" type="string | null">
+  The last name of the account holder on the donor service provider.
+
+  Example: `"Seinfeld"`
+</ResponseField>
+
+<ResponseField name="lastRequestedAt" type="string | null">
+  Time when the porting was last requested.
+
+  Example: `"2021-01-21T19:22:31Z"`
+</ResponseField>
+
+<ResponseField name="phoneNumber" type="string">
+  The phone number to port in E.164 string_format.
+
+  Example: `"+19591234567"`
+</ResponseField>
+
+<ResponseField name="provider" type="string">
+  The ID of the recipient network provider.
+
+  Example: `"p9"`
+</ResponseField>
+
+<ResponseField name="recipientProvider" type="ServiceProvider">
+  The service provider to whom the number is ported.
+
+  <Expandable title="properties">
+    <ResponseField name="object" type="string" />
+    <ResponseField name="id" type="string" />
+    <ResponseField name="country" type="string" />
+    <ResponseField name="name" type="string" />
+    <ResponseField name="recipientProviders" type="array" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="required" type="array">
+  List of fields required for the porting to be processable. The fields depend on the donor and recipient providers.
+
+  Example: `["accountNumber", "accountPin", "accountType", "address", "birthday", "donorProvider", "donorProviderApproval", "firstName", "lastName"]`
+</ResponseField>
+
+<ResponseField name="scheduledOn" type="string | null">
+  Date when the porting is scheduled to take effect.
+
+  This returns the provider-confirmed date when available, otherwise the user-requested date.
+
+  The ability to schedule portings is only available for local plans in the United Kingdom. Otherwise, this value will be null.
+
+  Example: `"2021-01-21"`
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the porting.
+
+  Allowed values: `draft`, `initiated`, `pending`, `informationRequired`, `requested`, `declined`, `completed`, `canceled`, `expired`, `failed`
+</ResponseField>
+
+<ResponseField name="subscription" type="string | null">
+  Unique identifier for the porting subscription.
+
+  Example: `"sub_0SNlurA049MEWV2gSfSxi00xlPIi"`
+</ResponseField>
+
+<ResponseField name="user" type="string">
+  Unique identifier for the user this porting is for.
+
+  Example: `"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "porting",
+  "id": "prt_0SNlurA049MEWV39s2kSYqaat7ZS",
+  "accountNumber": "123456789",
+  "accountPinExists": true,
+  "address": {
+    "city": "New York City",
+    "country": "US",
+    "line1": "129 West 81st Street",
+    "line2": "Apartment 5",
+    "postalCode": "10024",
+    "state": "NY"
+  },
+  "behavior": "portIn",
+  "billingPinExists": true,
+  "birthday": "2017-07-21",
+  "canceledAt": "2021-01-21T19:39:53Z",
+  "completedAt": "2021-01-21T19:36:57Z",
+  "createdAt": "2021-01-21T19:12:28.0Z",
+  "declinedAttempts": 0,
+  "declinedCode": "portingPhoneNumberPortProtected",
+  "declinedMessage": "The phone number has port protection on the provider.",
+  "donorProvider": {
+    "object": "serviceProvider",
+    "id": "svp_0SNlurA01K6GY5L0XJffY8",
+    "country": "US",
+    "name": "AT&T",
+    "recipientProviders": [
+      "p3"
+    ]
+  },
+  "donorProviderApproval": true,
+  "expiredAt": "2021-01-21T19:39:53Z",
+  "firstName": "Jerry",
+  "lastDeclinedAt": "2021-01-21T19:31:13Z",
+  "lastName": "Seinfeld",
+  "lastRequestedAt": "2021-01-21T19:22:31Z",
+  "phoneNumber": "+19591234567",
+  "provider": "p9",
+  "recipientProvider": {
+    "object": "serviceProvider",
+    "id": "svp_0SNlurA01K6GY5L0XJffY8",
+    "country": "US",
+    "name": "AT&T",
+    "recipientProviders": [
+      "p3"
+    ]
+  },
+  "required": [
+    "accountNumber",
+    "accountPin",
+    "accountType",
+    "address",
+    "birthday",
+    "donorProvider",
+    "donorProviderApproval",
+    "firstName",
+    "lastName"
+  ],
+  "scheduledOn": "2021-01-21",
+  "status": "draft",
+  "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+  "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+}
+```
+</RequestExample>

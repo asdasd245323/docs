@@ -1,4 +1,52 @@
 ---
 title: "APIKey"
-openapi-schema: "APIKey"
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `apiKey`.
+
+  Allowed values: `apiKey`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the API key.
+
+  Example: `"apk_0SNlurA049MEWV4wRq2ql6SYZxiY"`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the API key was created.
+
+  Example: `"2022-02-14T19:38:34Z"`
+</ResponseField>
+
+<ResponseField name="expiresAt" type="string | null">
+  Time when the API key expires and won't be valid anymore.
+
+  Example: `"2022-02-21T19:38:34Z"`
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Human readable name describing what the API key is used for.
+
+  Example: `"My first Gigs API integration"`
+</ResponseField>
+
+<ResponseField name="token" type="string">
+  The bearer token to be used in HTTP Authorization. The full token is only available in the create response. In all other responses a redacted token will be returned, as we do not store the full token ourselves.
+
+  Example: `"gpk_2W4IoEFH••••"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "apiKey",
+  "id": "apk_0SNlurA049MEWV4wRq2ql6SYZxiY",
+  "createdAt": "2022-02-14T19:38:34.0Z",
+  "expiresAt": "2022-02-21T19:38:34Z",
+  "name": "My first Gigs API integration",
+  "token": "gpk_2W4IoEFH••••"
+}
+```
+</RequestExample>

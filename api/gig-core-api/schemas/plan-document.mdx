@@ -1,4 +1,68 @@
 ---
 title: "PlanDocument"
-openapi-schema: "PlanDocument"
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `planDocument`.
+
+  Allowed values: `planDocument`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the given document.
+
+  Example: `"pdc_0SNlurA049MEWV1S6e1qVqBV2xge"`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  The time the document was created.
+
+  Example: `"2022-07-04T16:20:27.59Z"`
+</ResponseField>
+
+<ResponseField name="language" type="string | null">
+  The language of the document. The values follow the BCP 47 standard. That means, for instance, that a region can be specified in addition to the language.
+
+  Example: `"en-US"`
+
+  *Status:* PREVIEW
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The name of the document.
+
+  Example: `"My Plan Contract"`
+</ResponseField>
+
+<ResponseField name="plan" type="string">
+  Unique identifier for the plan associated to this document.
+
+  Example: `"pln_0SNlurA049MEWV3V0q7gjQbM4EVo"`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The MIME type for the given document.
+
+  Example: `"application/pdf"`
+</ResponseField>
+
+<ResponseField name="url" type="string">
+  The URL at which the document can be retrieved.
+
+  Example: `"https://a.gigscdn.net/p/my-project/01G74ZPB5PQTDESM4JGYR2CWB9.pdf"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "planDocument",
+  "id": "pdc_0SNlurA049MEWV1S6e1qVqBV2xge",
+  "createdAt": "2022-07-04T16:20:27.0Z",
+  "language": "en-US",
+  "name": "My Plan Contract",
+  "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+  "type": "application/pdf",
+  "url": "https://a.gigscdn.net/p/my-project/01G74ZPB5PQTDESM4JGYR2CWB9.pdf"
+}
+```
+</RequestExample>

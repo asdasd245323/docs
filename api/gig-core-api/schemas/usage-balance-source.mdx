@@ -1,4 +1,36 @@
 ---
 title: "UsageBalanceSource"
-openapi-schema: "UsageBalanceSource"
+description: "The entity providing the Allowance to the Subscription."
 ---
+
+<ResponseField name="type" type="string">
+  The entity type providing the allowance.
+
+  Allowed values: `subscriptionPeriod`, `subscriptionAddon`
+</ResponseField>
+
+<ResponseField name="subscriptionPeriod" type="integer | null">
+  When the allowance is provided by the subscription's plan, the subscription period this usage balance is bound by.
+
+  Optional: This property may not always be included.
+
+  Example: `4`
+</ResponseField>
+
+<ResponseField name="subscriptionAddon" type="string | null">
+  When the allowance is provided by a Subscription Add-on, the subscription add-on this usage balance is provided by.
+
+  Optional: This property may not always be included.
+
+  Example: `"sad_0SNlurA049MEWV2UNWPbDfW5B40U"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "type": "subscriptionPeriod",
+  "subscriptionPeriod": 4,
+  "subscriptionAddon": null
+}
+```
+</RequestExample>

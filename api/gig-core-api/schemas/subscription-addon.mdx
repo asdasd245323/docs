@@ -1,4 +1,175 @@
 ---
 title: "SubscriptionAddon"
-openapi-schema: "SubscriptionAddon"
+description: "Subscription add-ons are features or top-ups that extend the functionality offered to the end user through their subscription, as defined by the associated add-on."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `subscriptionAddon`.
+
+  Allowed values: `subscriptionAddon`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the subscription add-on.
+
+  Example: `"sad_0SNlurA049MEWV2UNWPbDfW5B40U"`
+</ResponseField>
+
+<ResponseField name="activatedAt" type="string | null">
+  Time when the subscription add-on was activated.
+
+  Example: `"2021-01-15T12:36:57Z"`
+</ResponseField>
+
+<ResponseField name="addon" type="Add-on">
+  The add-on associated to the subscription add-on.
+
+  <Expandable title="properties">
+    <ResponseField name="object" type="string" />
+    <ResponseField name="id" type="string" />
+    <ResponseField name="metadata" type="object" />
+    <ResponseField name="activationTrigger" type="string" />
+    <ResponseField name="allowances" type="object" />
+    <ResponseField name="coverage" type="object" />
+    <ResponseField name="createdAt" type="string" />
+    <ResponseField name="description" type="string" />
+    <ResponseField name="name" type="string" />
+    <ResponseField name="plans" type="array" />
+    <ResponseField name="price" type="object" />
+    <ResponseField name="provider" type="string" />
+    <ResponseField name="recurrenceType" type="string" />
+    <ResponseField name="status" type="string" />
+    <ResponseField name="type" type="string" />
+    <ResponseField name="validity" type="object" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="canceledAt" type="string | null">
+  Time when the subscription add-on was canceled.
+
+  Example: `"2021-01-22T19:39:53Z"`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the subscription add-on was created.
+
+  Example: `"2021-01-15T12:30:28Z"`
+</ResponseField>
+
+<ResponseField name="currentPeriod" type="Period | null">
+  Current subscription add-on period. Only present for active subscription add-ons.
+
+  <Expandable title="properties">
+    <ResponseField name="number" type="integer">
+      Sequence number of the period.
+
+      Optional: This property may not always be included.
+
+      Example: `1`
+    </ResponseField>
+    <ResponseField name="start" type="string">
+      Beginning of the period.
+
+      Optional: This property may not always be included.
+
+      Example: `"2021-01-21T19:32:13Z"`
+    </ResponseField>
+    <ResponseField name="end" type="string">
+      End of the period.
+
+      Optional: This property may not always be included.
+
+      Example: `"2021-02-20T19:38:34Z"`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="endedAt" type="string | null">
+  Time when the subscription add-on was ended. The value is `null` if the subscription add-on is not ended.
+
+  Example: `"2021-01-30T23:12:28Z"`
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the subscription add-on.
+
+  Allowed values: `pending`, `initiated`, `active`, `ended`
+</ResponseField>
+
+<ResponseField name="subscription" type="string">
+  Unique identifier of the subscription the add-on applies to.
+
+  Example: `"sub_0SNlurA049MEWV2gSfSxi00xlPIi"`
+</ResponseField>
+
+<ResponseField name="user" type="string">
+  Unique identifier of the user the subscription add-on belongs to.
+
+  Example: `"usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "subscriptionAddon",
+  "id": "sad_0SNlurA049MEWV2UNWPbDfW5B40U",
+  "activatedAt": "2021-01-15T12:36:57Z",
+  "addon": {
+    "object": "addon",
+    "id": "add_0SNlurA049MEWV4VxLfwJc7PJtHc",
+    "metadata": {},
+    "activationTrigger": "creation",
+    "allowances": {
+      "dataBytes": 10000000000,
+      "voiceSeconds": 30000,
+      "smsMessages": 100
+    },
+    "coverage": {
+      "object": "coverage",
+      "id": "de",
+      "countries": [
+        "DE",
+        "FR",
+        "US"
+      ],
+      "name": "Europe"
+    },
+    "createdAt": "2021-01-21T19:12:28.0Z",
+    "description": "Disable international roaming.",
+    "name": "1GB Data Top-up",
+    "plans": [
+      "pln_0SNlurA049MEWV3V0q7gjQbM4EVo"
+    ],
+    "price": {
+      "amount": 999,
+      "currency": "USD"
+    },
+    "provider": "p5",
+    "recurrenceType": "oneTime",
+    "status": "draft",
+    "type": "topUp",
+    "validity": {
+      "unit": "day",
+      "value": 7
+    },
+    "data": 10000000000,
+    "dataUnit": "byte",
+    "sms": 100,
+    "smsUnit": "message",
+    "voice": 30000,
+    "voiceUnit": "second"
+  },
+  "canceledAt": "2021-01-22T19:39:53Z",
+  "createdAt": "2021-01-15T12:30:28.0Z",
+  "currentPeriod": {
+    "number": 1,
+    "start": "2021-01-21T19:32:13.0Z",
+    "end": "2021-02-20T19:38:34.0Z"
+  },
+  "endedAt": "2021-01-30T23:12:28Z",
+  "status": "pending",
+  "subscription": "sub_0SNlurA049MEWV2gSfSxi00xlPIi",
+  "user": "usr_0SNlurA049MEWV4OpCwsNyC9Kn2d"
+}
+```
+</RequestExample>

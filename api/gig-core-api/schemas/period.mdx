@@ -1,4 +1,33 @@
 ---
 title: "Period"
-openapi-schema: "Period"
 ---
+
+<ResponseField name="number" type="integer">
+  Sequence number of the period.
+
+  Example: `1`
+
+  `>= 1`
+</ResponseField>
+
+<ResponseField name="start" type="string">
+  Beginning of the period.
+
+  Example: `"2021-01-21T19:32:13Z"`
+</ResponseField>
+
+<ResponseField name="end" type="string">
+  End of the period.
+
+  Example: `"2021-02-20T19:38:34Z"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "number": 1,
+  "start": "2021-01-21T19:32:13.0Z",
+  "end": "2021-02-20T19:38:34.0Z"
+}
+```
+</RequestExample>

@@ -1,4 +1,73 @@
 ---
 title: "Error"
-openapi-schema: "Error"
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `error`.
+
+  Allowed values: `error`
+</ResponseField>
+
+<ResponseField name="code" type="string">
+  An optional machine-readable description of the error. Present for errors that could be handled programmatically.
+
+  Optional: This property may not always be included.
+
+  Example: `"unknown"`
+</ResponseField>
+
+<ResponseField name="details" type="array">
+  **PREVIEW** - Optional array containing specific information for the current error.
+
+  Optional: This property may not always be included.
+</ResponseField>
+
+<ResponseField name="documentation" type="array">
+  An optional list of URLs providing further information to resolve the error.
+
+  Optional: This property may not always be included.
+</ResponseField>
+
+<ResponseField name="hint" type="string">
+  An optional explanation how to resolve the error.
+
+  Optional: This property may not always be included.
+
+  Example: `"Parameter iccid must match /^([0-9]{19}F?|[0-9]{20})$/i"`
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  A human readable description of the error.
+
+  Example: `"Invalid ICCID format."`
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The type of [error](https://developers.gigs.com/api/error-handling) returned.
+
+  Example: `"invalid"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "error",
+  "code": "unknown",
+  "details": [
+    {
+      "object": "propertyErrorDetail",
+      "code": "propertyRequired",
+      "message": "Invalid value for property.",
+      "property": "property1",
+      "suggestion": "alternative_value"
+    }
+  ],
+  "documentation": [
+    "https://developers.gigs.com/api/error-handling"
+  ],
+  "hint": "Parameter iccid must match /^([0-9]{19}F?|[0-9]{20})$/i",
+  "message": "Invalid ICCID format.",
+  "type": "invalid"
+}
+```
+</RequestExample>

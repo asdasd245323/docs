@@ -1,4 +1,102 @@
 ---
 title: "NetworkAvailability"
-openapi-schema: "NetworkAvailability"
 ---
+
+<Note>
+  **Preview**
+
+  This schema is currently in preview and might change in the future. We're excited to hear your feedback and ideas. Please send an email to [support@gigs.com](mailto:support@gigs.com) to share your thoughts.
+</Note>
+
+<ResponseField name="object" type="string">
+  Type of object is always `networkAvailability`.
+
+  Allowed values: `networkAvailability`
+</ResponseField>
+
+<ResponseField name="availability" type="array">
+  A list of availability details for the plans in the project.
+
+  <Expandable title="properties">
+    <ResponseField name="plan" type="string">
+      The unique identifier for the plan.
+
+      *Optional:* This property may not always be included.
+
+      Example: `"pln_0SNlurA049MEWV3V0q7gjQbM4EVo"`
+    </ResponseField>
+    <ResponseField name="provider" type="string">
+      The ID of the network provider supported by this plan.
+
+      *Optional:* This property may not always be included.
+
+      Example: `"p11"`
+    </ResponseField>
+    <ResponseField name="technologies" type="object">
+      The technologies supported by the network provider.
+
+      *Optional:* This property may not always be included.
+
+      Example: `{"4G":{"strength":"good","minDecibelMilliwatts":-90},"5G":{"strength":"fair","minDecibelMilliwatts":-100}}`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="location" type="object">
+  The location for which availability information is provided.
+
+  <Expandable title="properties">
+    <ResponseField name="address" type="NetworkAvailabilityAddress">
+      The address for which availability information is provided.
+
+      *Optional:* This property may not always be included.
+
+      *Status:* PREVIEW
+    </ResponseField>
+    <ResponseField name="coordinates" type="NetworkAvailabilityCoordinates">
+      The coordinates for which availability information is provided.
+
+      *Optional:* This property may not always be included.
+
+      *Status:* PREVIEW
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "networkAvailability",
+  "availability": [
+    {
+      "plan": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+      "provider": "p11",
+      "technologies": {
+        "4G": {
+          "strength": "good",
+          "minDecibelMilliwatts": -90
+        },
+        "5G": {
+          "strength": "fair",
+          "minDecibelMilliwatts": -100
+        }
+      }
+    }
+  ],
+  "location": {
+    "address": {
+      "city": "New York City",
+      "country": "US",
+      "line1": "129 West 81st Street",
+      "line2": "Apartment 5",
+      "postalCode": "10024",
+      "state": "NY"
+    },
+    "coordinates": {
+      "latitude": 40.7831,
+      "longitude": -73.9712
+    }
+  }
+}
+```
+</RequestExample>

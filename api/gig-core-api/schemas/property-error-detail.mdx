@@ -1,4 +1,45 @@
 ---
 title: "PropertyErrorDetail"
-openapi-schema: "PropertyErrorDetail"
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `propertyErrorDetail`.
+
+  Allowed values: `propertyErrorDetail`
+</ResponseField>
+
+<ResponseField name="code" type="string">
+  A machine-readable description of the error.
+
+  Example: `"propertyRequired"`
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  A human readable description of the error.
+
+  Example: `"Invalid value for property."`
+</ResponseField>
+
+<ResponseField name="property" type="string">
+  Name of the property associated with the error.
+
+  Example: `"property1"`
+</ResponseField>
+
+<ResponseField name="suggestion" type="string | null">
+  Suggested alternative value for the field.
+
+  Example: `"alternative_value"`
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "propertyErrorDetail",
+  "code": "propertyRequired",
+  "message": "Invalid value for property.",
+  "property": "property1",
+  "suggestion": "alternative_value"
+}
+```
+</RequestExample>

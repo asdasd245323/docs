@@ -1,4 +1,222 @@
 ---
 title: "Plan"
-openapi-schema: "Plan"
+description: "Plans define the network options and parameters offered to the end user, e.g. 'Unlimited data, voice & text'. Plan allowances (data, sms, voice) and limits are configurable, and Gigs will work with you to find the best balance for your users."
 ---
+
+<ResponseField name="object" type="string">
+  Type of object is always `plan`.
+
+  Allowed values: `plan`
+</ResponseField>
+
+<ResponseField name="id" type="string">
+  Unique identifier for the plan.
+
+  Example: `"pln_0SNlurA049MEWV3V0q7gjQbM4EVo"`
+</ResponseField>
+
+<ResponseField name="metadata" type="Metadata">
+  A set of key-value pairs, to store [metadata](/docs/core/metadata) related to the resource.
+</ResponseField>
+
+<ResponseField name="activationTrigger" type="string">
+  Indicates when a subscription will activate.
+  - `creation`: As soon as it is created. The user does not need to take any further action.
+  - `usageStarted`: When the user starts using subscription allowance on their device.
+
+  Example: `"creation"`
+
+  Allowed values: `creation`, `usageStarted`
+</ResponseField>
+
+<ResponseField name="allowances" type="Allowances">
+  Usage allowances included in the plan - i.e. how many bytes of data, voice minutes & sms messages the user has access to.
+
+  <Expandable title="properties">
+    <ResponseField name="dataBytes" type="integer | null">
+      The data allowance in bytes. A value of `null` indicates unlimited data.
+
+      Example: `10000000000`
+    </ResponseField>
+    <ResponseField name="voiceSeconds" type="integer | null">
+      The voice call allowance in seconds. A value of `null` indicates unlimited calls.
+
+      Example: `30000`
+    </ResponseField>
+    <ResponseField name="smsMessages" type="integer | null">
+      The SMS allowance in messages. A value of `null` indicates unlimited SMS.
+
+      Example: `100`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="coverage" type="Coverage">
+  The geographic coverage of the plan.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Time when the plan was created.
+
+  Example: `"2021-01-21T19:38:34Z"`
+</ResponseField>
+
+<ResponseField name="description" type="string | null">
+  The plan's description, meant to be displayable to the users.
+
+  Example: `"A data plan you will love! Operates in most countries of the world."`
+</ResponseField>
+
+<ResponseField name="firstPeriodTrigger" type="string">
+  Indicates when a subscription's first period will start.
+  - `creation`: As soon as the subscription is created.
+  - `activation`: When the subscription's status transitions from `pending` to `active`.
+
+  Example: `"creation"`
+
+  Allowed values: `activation`, `creation`
+
+  *Status:* PREVIEW
+</ResponseField>
+
+<ResponseField name="image" type="string | null">
+  The plan's image, meant to be displayable to the users.
+
+  Example: `"https://i.gigscdn.com/pr/nTZpgaEj5dTQ2Jo/original.png"`
+</ResponseField>
+
+<ResponseField name="limits" type="Limits">
+  Usage limits for the plan - i.e. the maximum available bandwidth, fair-use data limits and throttling threshold.
+
+  <Expandable title="properties">
+    <ResponseField name="dataBytes" type="integer | null">
+      The maximum amount of data that can be used in bytes. A value of `null` indicates unlimited data.
+
+      Example: `100000000000`
+    </ResponseField>
+    <ResponseField name="bandwidthBitsPerSecond" type="integer | null">
+      The maximum bandwidth in bits per second. A value of `null` indicates the maximum bandwidth this network allows.
+
+      Example: `100000000`
+    </ResponseField>
+    <ResponseField name="throttling" type="object | null">
+      The throttling configuration for the plan, if any.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The plan's name, meant to be displayable to the users.
+
+  Example: `"Gigs Global"`
+</ResponseField>
+
+<ResponseField name="price" type="Price">
+  The price of the plan.
+
+  <Expandable title="properties">
+    <ResponseField name="amount" type="integer">
+      The price amount in the currency's minor unit, e.g. "cents" for many currencies.
+
+      Example: `999`
+
+      `>= 0`
+    </ResponseField>
+    <ResponseField name="currency" type="string">
+      Three-letter ISO 4217 currency code. Must be a supported currency.
+
+      Example: `"USD"`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="provider" type="string">
+  The ID of the network provider supported by this plan.
+
+  Example: `"p5"`
+</ResponseField>
+
+<ResponseField name="requirements" type="object">
+  Required information that must be collected from the user in order to create a subscription with this plan.
+</ResponseField>
+
+<ResponseField name="simTypes" type="array">
+  List of SIM types supported by this plan. Can be `eSIM`, `pSIM`, or both.
+
+  Example: `["eSIM", "pSIM"]`
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Allowed values: `available`, `archived`, `pending`, `draft`
+</ResponseField>
+
+<ResponseField name="validity" type="Validity">
+  Plan validity information - i.e. subscription period length, and the minimum number of periods before the plan can be ended.
+</ResponseField>
+
+<RequestExample>
+```json Example
+{
+  "object": "plan",
+  "id": "pln_0SNlurA049MEWV3V0q7gjQbM4EVo",
+  "metadata": {},
+  "activationTrigger": "creation",
+  "allowances": {
+    "dataBytes": 10000000000,
+    "voiceSeconds": 30000,
+    "smsMessages": 100
+  },
+  "coverage": {
+    "object": "coverage",
+    "id": "de",
+    "countries": [
+      "DE",
+      "FR",
+      "US"
+    ],
+    "name": "Europe"
+  },
+  "createdAt": "2021-01-21T19:38:34.0Z",
+  "description": "A data plan you will love! Operates in most countries of the world.",
+  "firstPeriodTrigger": "creation",
+  "image": "https://i.gigscdn.com/pr/nTZpgaEj5dTQ2Jo/original.png",
+  "limits": {
+    "dataBytes": 100000000000,
+    "bandwidthBitsPerSecond": 100000000,
+    "throttling": {
+      "thresholdBytes": 10000000000,
+      "bandwidthBitsPerSecond": 512000
+    }
+  },
+  "name": "Gigs Global",
+  "price": {
+    "amount": 999,
+    "currency": "USD"
+  },
+  "provider": "p5",
+  "requirements": {
+    "address": "present",
+    "device": "none",
+    "user.birthday": "none",
+    "user.fullName": "present"
+  },
+  "simTypes": [
+    "eSIM",
+    "pSIM"
+  ],
+  "status": "available",
+  "validity": {
+    "minimumPeriods": 12,
+    "type": "recurring",
+    "unit": "day",
+    "value": 7
+  },
+  "data": 10000000000,
+  "dataUnit": "byte",
+  "sms": 100,
+  "smsUnit": "message",
+  "voice": 30000,
+  "voiceUnit": "second"
+}
+```
+</RequestExample>
