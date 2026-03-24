@@ -7,7 +7,7 @@
     "light": "#07C983",
     "dark": "#15803D"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.ico",
   "navigation": {
     "tabs": [
       {
@@ -57,9 +57,7 @@
               },
               {
                 "group": "Network Availabilities",
-                "pages": [
-                  "api/gig-core-api/network-availabilities"
-                ]
+                "pages": ["api/gig-core-api/network-availabilities"]
               },
               {
                 "group": "Plans",
@@ -252,9 +250,7 @@
               },
               {
                 "group": "Schemas",
-                "pages": [
-                  "api/gigs-connect/schemas/connect-session"
-                ]
+                "pages": ["api/gigs-connect/schemas/connect-session"]
               }
             ]
           },
@@ -450,9 +446,7 @@
         "groups": [
           {
             "group": "Subcription",
-            "pages": [
-              "guides/create-subscription"
-            ]
+            "pages": ["guides/create-subscription"]
           },
           {
             "group": "Billing",
