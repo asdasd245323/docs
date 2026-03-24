@@ -57,7 +57,9 @@
               },
               {
                 "group": "Network Availabilities",
-                "pages": ["api/gig-core-api/network-availabilities"]
+                "pages": [
+                  "api/gig-core-api/network-availabilities"
+                ]
               },
               {
                 "group": "Plans",
@@ -181,6 +183,47 @@
                   "api/gig-core-api/user-addresses/list-all-user-addresses",
                   "api/gig-core-api/user-addresses/create-a-user-address"
                 ]
+              },
+              {
+                "group": "Schemas",
+                "pages": [
+                  "api/gig-core-api/schemas/actor",
+                  "api/gig-core-api/schemas/add-on",
+                  "api/gig-core-api/schemas/allowance",
+                  "api/gig-core-api/schemas/apikey",
+                  "api/gig-core-api/schemas/coverage",
+                  "api/gig-core-api/schemas/device",
+                  "api/gig-core-api/schemas/device-model",
+                  "api/gig-core-api/schemas/device-model-brands",
+                  "api/gig-core-api/schemas/error",
+                  "api/gig-core-api/schemas/esim-profile",
+                  "api/gig-core-api/schemas/metadata",
+                  "api/gig-core-api/schemas/network-availability",
+                  "api/gig-core-api/schemas/organization",
+                  "api/gig-core-api/schemas/period",
+                  "api/gig-core-api/schemas/plan",
+                  "api/gig-core-api/schemas/plan-document",
+                  "api/gig-core-api/schemas/porting",
+                  "api/gig-core-api/schemas/port-out",
+                  "api/gig-core-api/schemas/deprecated-port-out-credentials",
+                  "api/gig-core-api/schemas/port-out-credentials",
+                  "api/gig-core-api/schemas/price",
+                  "api/gig-core-api/schemas/project",
+                  "api/gig-core-api/schemas/project-credentials",
+                  "api/gig-core-api/schemas/property-error-detail",
+                  "api/gig-core-api/schemas/service-provider",
+                  "api/gig-core-api/schemas/sim",
+                  "api/gig-core-api/schemas/sim-credentials",
+                  "api/gig-core-api/schemas/subscription",
+                  "api/gig-core-api/schemas/subscription-addon",
+                  "api/gig-core-api/schemas/subscription-change",
+                  "api/gig-core-api/schemas/usage-balance",
+                  "api/gig-core-api/schemas/usage-balance-source",
+                  "api/gig-core-api/schemas/usage-record",
+                  "api/gig-core-api/schemas/user",
+                  "api/gig-core-api/schemas/user-address",
+                  "api/gig-core-api/schemas/virtual-number"
+                ]
               }
             ]
           },
@@ -199,10 +242,19 @@
           {
             "group": "Gigs Connect API",
             "pages": [
-              "api/gigs-connect/connect-sessions",
+              {
+                "group": "Connect Sessions",
+                "pages": [
+                  "api/gigs-connect/connect-sessions/create-a-connect-session",
+                  "api/gigs-connect/connect-sessions/retrieve-a-connect-session",
+                  "api/gigs-connect/connect-sessions/update-a-connect-session"
+                ]
+              },
               {
                 "group": "Schemas",
-                "pages": ["api/gigs-connect/schemas/connect-session"]
+                "pages": [
+                  "api/gigs-connect/schemas/connect-session"
+                ]
               }
             ]
           },
@@ -233,7 +285,15 @@
                   "api/gigs-billing/quotes/retrieve-a-quote"
                 ]
               },
-              "api/gigs-billing/vouchers",
+              {
+                "group": "Vouchers",
+                "pages": [
+                  "api/gigs-billing/vouchers/list-all-vouchers",
+                  "api/gigs-billing/vouchers/create-a-voucher",
+                  "api/gigs-billing/vouchers/retrieve-a-voucher",
+                  "api/gigs-billing/vouchers/retire-a-voucher"
+                ]
+              },
               {
                 "group": "Schemas",
                 "pages": [
@@ -241,6 +301,128 @@
                   "api/gigs-billing/schemas/invoice",
                   "api/gigs-billing/schemas/quote",
                   "api/gigs-billing/schemas/voucher"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Gigs Events",
+            "pages": [
+              {
+                "group": "Schemas",
+                "pages": [
+                  "api/gigs-events/schemas/com.gigs.addon.archived",
+                  "api/gigs-events/schemas/com.gigs.addon.created",
+                  "api/gigs-events/schemas/com.gigs.addon.deleted",
+                  "api/gigs-events/schemas/com.gigs.addon.published",
+                  "api/gigs-events/schemas/com.gigs.addon.updated",
+                  "api/gigs-events/schemas/com.gigs.apiKey.created",
+                  "api/gigs-events/schemas/com.gigs.apiKey.deleted",
+                  "api/gigs-events/schemas/com.gigs.connectSession.created",
+                  "api/gigs-events/schemas/com.gigs.connectSession.updated",
+                  "api/gigs-events/schemas/com.gigs.creditNote.created",
+                  "api/gigs-events/schemas/com.gigs.creditNote.updated",
+                  "api/gigs-events/schemas/com.gigs.creditNote.voided",
+                  "api/gigs-events/schemas/com.gigs.device.created",
+                  "api/gigs-events/schemas/com.gigs.device.deleted",
+                  "api/gigs-events/schemas/com.gigs.device.updated",
+                  "api/gigs-events/schemas/com.gigs.eSimProfile.deleted",
+                  "api/gigs-events/schemas/com.gigs.eSimProfile.disabled",
+                  "api/gigs-events/schemas/com.gigs.eSimProfile.enabled",
+                  "api/gigs-events/schemas/com.gigs.eSimProfile.installed",
+                  "api/gigs-events/schemas/com.gigs.eSimProfile.updated",
+                  "api/gigs-events/schemas/com.gigs.installation.created",
+                  "api/gigs-events/schemas/com.gigs.installation.updated",
+                  "api/gigs-events/schemas/com.gigs.invoice.created",
+                  "api/gigs-events/schemas/com.gigs.invoice.finalized",
+                  "api/gigs-events/schemas/com.gigs.invoice.overdue",
+                  "api/gigs-events/schemas/com.gigs.invoice.paid",
+                  "api/gigs-events/schemas/com.gigs.invoice.updated",
+                  "api/gigs-events/schemas/com.gigs.invoice.voided",
+                  "api/gigs-events/schemas/com.gigs.invoice.willBeOverdue",
+                  "api/gigs-events/schemas/com.gigs.payment.created",
+                  "api/gigs-events/schemas/com.gigs.payment.disputeLost",
+                  "api/gigs-events/schemas/com.gigs.payment.disputeWon",
+                  "api/gigs-events/schemas/com.gigs.payment.disputed",
+                  "api/gigs-events/schemas/com.gigs.payment.failed",
+                  "api/gigs-events/schemas/com.gigs.payment.paymentMethodRequired",
+                  "api/gigs-events/schemas/com.gigs.payment.refunded",
+                  "api/gigs-events/schemas/com.gigs.payment.requiresConfirmation",
+                  "api/gigs-events/schemas/com.gigs.payment.succeeded",
+                  "api/gigs-events/schemas/com.gigs.paymentMethod.confirmed",
+                  "api/gigs-events/schemas/com.gigs.paymentMethod.created",
+                  "api/gigs-events/schemas/com.gigs.paymentMethod.deleted",
+                  "api/gigs-events/schemas/com.gigs.plan.archived",
+                  "api/gigs-events/schemas/com.gigs.plan.created",
+                  "api/gigs-events/schemas/com.gigs.plan.deleted",
+                  "api/gigs-events/schemas/com.gigs.plan.published",
+                  "api/gigs-events/schemas/com.gigs.plan.updated",
+                  "api/gigs-events/schemas/com.gigs.portOut.completed",
+                  "api/gigs-events/schemas/com.gigs.portOut.created",
+                  "api/gigs-events/schemas/com.gigs.portOut.expired",
+                  "api/gigs-events/schemas/com.gigs.portOut.failed",
+                  "api/gigs-events/schemas/com.gigs.portOut.issued",
+                  "api/gigs-events/schemas/com.gigs.portOut.processing",
+                  "api/gigs-events/schemas/com.gigs.portOut.updated",
+                  "api/gigs-events/schemas/com.gigs.portOutCredentials.issued",
+                  "api/gigs-events/schemas/com.gigs.porting.canceled",
+                  "api/gigs-events/schemas/com.gigs.porting.completed",
+                  "api/gigs-events/schemas/com.gigs.porting.created",
+                  "api/gigs-events/schemas/com.gigs.porting.declined",
+                  "api/gigs-events/schemas/com.gigs.porting.deleted",
+                  "api/gigs-events/schemas/com.gigs.porting.expired",
+                  "api/gigs-events/schemas/com.gigs.porting.failed",
+                  "api/gigs-events/schemas/com.gigs.porting.informationRequired",
+                  "api/gigs-events/schemas/com.gigs.porting.requested",
+                  "api/gigs-events/schemas/com.gigs.porting.updated",
+                  "api/gigs-events/schemas/com.gigs.project.created",
+                  "api/gigs-events/schemas/com.gigs.project.deleted",
+                  "api/gigs-events/schemas/com.gigs.project.updated",
+                  "api/gigs-events/schemas/com.gigs.quote.created",
+                  "api/gigs-events/schemas/com.gigs.sim.activated",
+                  "api/gigs-events/schemas/com.gigs.sim.created",
+                  "api/gigs-events/schemas/com.gigs.sim.deactivated",
+                  "api/gigs-events/schemas/com.gigs.sim.deleted",
+                  "api/gigs-events/schemas/com.gigs.sim.retired",
+                  "api/gigs-events/schemas/com.gigs.sim.updated",
+                  "api/gigs-events/schemas/com.gigs.subscription.activated",
+                  "api/gigs-events/schemas/com.gigs.subscription.canceled",
+                  "api/gigs-events/schemas/com.gigs.subscription.created",
+                  "api/gigs-events/schemas/com.gigs.subscription.ended",
+                  "api/gigs-events/schemas/com.gigs.subscription.renewed",
+                  "api/gigs-events/schemas/com.gigs.subscription.restored",
+                  "api/gigs-events/schemas/com.gigs.subscription.restricted",
+                  "api/gigs-events/schemas/com.gigs.subscription.resumed",
+                  "api/gigs-events/schemas/com.gigs.subscription.updated",
+                  "api/gigs-events/schemas/com.gigs.subscriptionAddon.activated",
+                  "api/gigs-events/schemas/com.gigs.subscriptionAddon.created",
+                  "api/gigs-events/schemas/com.gigs.subscriptionAddon.ended",
+                  "api/gigs-events/schemas/com.gigs.subscriptionAddon.renewed",
+                  "api/gigs-events/schemas/com.gigs.subscriptionAddon.updated",
+                  "api/gigs-events/schemas/com.gigs.subscriptionChange.activated",
+                  "api/gigs-events/schemas/com.gigs.subscriptionChange.canceled",
+                  "api/gigs-events/schemas/com.gigs.subscriptionChange.created",
+                  "api/gigs-events/schemas/com.gigs.subscriptionChange.failed",
+                  "api/gigs-events/schemas/com.gigs.subscriptionChange.processing",
+                  "api/gigs-events/schemas/com.gigs.subscriptionChange.updated",
+                  "api/gigs-events/schemas/com.gigs.usageBalance.thresholdExceeded",
+                  "api/gigs-events/schemas/com.gigs.usageNotification.created",
+                  "api/gigs-events/schemas/com.gigs.usageThreshold.exceeded",
+                  "api/gigs-events/schemas/com.gigs.user.address.created",
+                  "api/gigs-events/schemas/com.gigs.user.address.deleted",
+                  "api/gigs-events/schemas/com.gigs.user.blocked",
+                  "api/gigs-events/schemas/com.gigs.user.created",
+                  "api/gigs-events/schemas/com.gigs.user.deleted",
+                  "api/gigs-events/schemas/com.gigs.user.updated",
+                  "api/gigs-events/schemas/com.gigs.user.verified",
+                  "api/gigs-events/schemas/com.gigs.virtualNumber.activated",
+                  "api/gigs-events/schemas/com.gigs.virtualNumber.canceled",
+                  "api/gigs-events/schemas/com.gigs.virtualNumber.created",
+                  "api/gigs-events/schemas/com.gigs.virtualNumber.ended",
+                  "api/gigs-events/schemas/com.gigs.virtualNumber.updated",
+                  "api/gigs-events/schemas/com.gigs.voucher.created",
+                  "api/gigs-events/schemas/com.gigs.voucher.retired",
+                  "api/gigs-events/schemas/com.gigs.voucher.updated"
                 ]
               }
             ]
@@ -266,7 +448,12 @@
       {
         "tab": "Guides",
         "groups": [
-          { "group": "Subcription", "pages": ["guides/create-subscription"] },
+          {
+            "group": "Subcription",
+            "pages": [
+              "guides/create-subscription"
+            ]
+          },
           {
             "group": "Billing",
             "pages": [
